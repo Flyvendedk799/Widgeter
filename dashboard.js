@@ -78,6 +78,25 @@ function renderWidgets() {
         toggleLabel.appendChild(toggleInput);
         toggleLabel.appendChild(slider);
         
+        const stickyLabel = document.createElement('label');
+        stickyLabel.style.display = 'flex';
+        stickyLabel.style.alignItems = 'center';
+        stickyLabel.style.gap = '5px';
+        stickyLabel.style.cursor = 'pointer';
+        stickyLabel.style.fontSize = '0.9em';
+        stickyLabel.style.color = '#a6adc8';
+        
+        const stickyInput = document.createElement('input');
+        stickyInput.type = 'checkbox';
+        stickyInput.checked = widget.sticky;
+        stickyInput.onchange = (e) => {
+            ipcRenderer.send('set-widget-sticky', widget.id, e.target.checked);
+        };
+        
+        stickyLabel.appendChild(stickyInput);
+        stickyLabel.appendChild(document.createTextNode('Sticky'));
+
+        actions.appendChild(stickyLabel);
         actions.appendChild(settingsBtn);
         actions.appendChild(toggleLabel);
         

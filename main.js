@@ -84,15 +84,18 @@ function sendDashboardData() {
     for (const file of files) {
       const wState = state.widgets[file] || { enabled: true, config: {} };
       let name = file;
+      let defaultSticky = false;
       try {
         const conf = JSON.parse(fs.readFileSync(path.join(WIDGETS_DIR, file), 'utf-8'));
         if (conf.name) name = conf.name;
+        if (conf.alwaysOnTop) defaultSticky = true;
       } catch(e) {}
       
       widgetsList.push({
         id: file,
         name: name,
         enabled: wState.enabled,
+        sticky: wState.sticky !== undefined ? wState.sticky : defaultSticky,
         config: wState.config
       });
     }
@@ -114,6 +117,14 @@ ipcMain.on('toggle-widget', (event, widgetId, enabled) => {
     if (activeWidgets[widgetId]) {
       activeWidgets[widgetId].close();
     }
+  }
+  sendDashboardData();
+});
+
+ipcMain.on('set-widget-sticky', (event, widgetId, sticky) => {
+  updateWidgetState(widgetId, { sticky });
+  if (activeWidgets[widgetId]) {
+    activeWidgets[widgetId].setAlwaysOnTop(sticky);
   }
   sendDashboardData();
 });
@@ -198,6 +209,7 @@ function launchWidget(widgetId, config, filePath = null) {
   // Use saved coordinates if they exist, fallback to config x,y, fallback to undefined
   const finalX = wState.x !== undefined ? wState.x : config.x;
   const finalY = wState.y !== undefined ? wState.y : config.y;
+  const finalAlwaysOnTop = wState.sticky !== undefined ? wState.sticky : alwaysOnTop;
 
   const win = new BrowserWindow({
     width,
@@ -207,7 +219,7 @@ function launchWidget(widgetId, config, filePath = null) {
     frame: false,
     transparent: transparent,
     backgroundColor: backgroundColor,
-    alwaysOnTop: alwaysOnTop,
+    alwaysOnTop: finalAlwaysOnTop,
     skipTaskbar: true,
     webPreferences: {
       nodeIntegration: true,
