@@ -1,0 +1,15 @@
+{
+  "name": "widgeter",
+  "version": "1.0.0",
+  "description": "A desktop widget engine that runs custom .widget files.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": ["widget", "desktop", "electron"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^44.4.5"
+  }
+}
