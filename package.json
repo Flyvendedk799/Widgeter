@@ -4,12 +4,39 @@
   "description": "A desktop widget engine that runs custom .widget files.",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-builder",
+    "dist": "electron-builder --win"
   },
-  "keywords": ["widget", "desktop", "electron"],
+  "build": {
+    "appId": "com.widgeter.app",
+    "productName": "Widgeter",
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "dashboard.html",
+      "dashboard.js",
+      "package.json"
+    ]
+  },
+  "keywords": [
+    "widget",
+    "desktop",
+    "electron"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^44.4.5"
+    "electron": "^44.4.5",
+    "electron-builder": "^26.15.3"
   }
 }
