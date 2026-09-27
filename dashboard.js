@@ -105,8 +105,8 @@ function renderWidgets() {
         stickyLabel.appendChild(stickyInput);
         stickyLabel.appendChild(document.createTextNode('Sticky'));
 
-        // Setup button - only for widgets that need setup
-        const needsSetup = widget.id.includes('github-prs');
+        // Setup button - available for all widgets
+        const needsSetup = true;
         let setupBtn = null;
         if (needsSetup) {
             setupBtn = document.createElement('button');
@@ -190,136 +190,68 @@ function renderWidgets() {
             setupPanel.className = 'setup-panel';
             setupPanel.innerHTML = buildSetupPanel(widget);
             card.appendChild(setupPanel);
+            
+            if (widget.setupJs) {
+                setTimeout(() => {
+                    try {
+                        new Function('widget', 'ipcRenderer', widget.setupJs)(widget, ipcRenderer);
+                    } catch (e) {
+                        console.error('Error in setupJs for widget ' + widget.id, e);
+                    }
+                }, 0);
+            }
         }
         
         widgetListEl.appendChild(card);
     });
 }
 
-// Widget-specific setup panel builders
 function buildSetupPanel(widget) {
-    if (widget.id.includes('github-prs')) {
-        return buildGitHubSetupPanel(widget);
+    if (widget.setupHtml) {
+        return widget.setupHtml;
+    } else if (widget.id.includes('serverhoster')) {
+        return buildServerHosterSetupPanel(widget);
     }
-    return '<p style="color: #a6adc8;">No setup needed for this widget.</p>';
+    return buildGenericSetupPanel(widget);
 }
 
-function buildGitHubSetupPanel(widget) {
-    const token = widget.config?.github_token || '';
-    const repo = widget.config?.github_repo || '';
-    
+function buildServerHosterSetupPanel(widget) {
+    const sshKey = widget.config?.ssh_key || 'C:/Users/tobia/.ssh/serverhoster_key';
+    const vpsUser = widget.config?.vps_user || 'administrator@85.190.100.23';
     return `
-        <h4>🔑 GitHub Connection</h4>
-        <p class="setup-description">Connect your GitHub account to view and manage pull requests directly from this widget.</p>
+        <h4>🖥️ ServerHoster Connection</h4>
+        <p class="setup-description">Configure the SSH connection for ServerHoster.</p>
         <div class="form-group">
-            <label>Personal Access Token</label>
-            <input type="password" id="setup-token-${widget.id}" value="${token}" placeholder="ghp_xxxxxxxxxxxx" />
-            <div class="hint">Requires <strong>repo</strong> scope. <a href="https://github.com/settings/tokens/new?scopes=repo&description=Widgeter" onclick="require('electron').shell.openExternal(this.href); return false;">Create token →</a></div>
+            <label>SSH Key Path</label>
+            <input type="text" id="setup-ssh-key-${widget.id}" value="${sshKey}" placeholder="C:/Users/tobia/.ssh/id_rsa" />
         </div>
         <div class="form-group">
-            <label>Repository</label>
-            <input type="text" id="setup-repo-${widget.id}" value="${repo}" placeholder="owner/repo (e.g. facebook/react)" />
+            <label>VPS User & Host</label>
+            <input type="text" id="setup-vps-user-${widget.id}" value="${vpsUser}" placeholder="user@1.2.3.4" />
         </div>
-        <div id="setup-result-${widget.id}"></div>
         <div class="setup-actions">
-            <button class="btn" style="background-color: #45475a; color: #cdd6f4;" onclick="testGitHubConnection('${widget.id}')">Test Connection</button>
-            <button class="btn" onclick="saveGitHubSetup('${widget.id}')">💾 Save</button>
-            ${token ? '<button class="btn" style="background-color: #f38ba8;" onclick="clearGitHubSetup(\'' + widget.id + '\')">Disconnect</button>' : ''}
+            <button class="btn" onclick="saveServerHosterSetup('${widget.id}')">💾 Save</button>
         </div>
     `;
 }
 
-function testGitHubConnection(widgetId) {
-    const https = require('https');
-    const token = document.getElementById(`setup-token-${widgetId}`).value.trim();
-    const repo = document.getElementById(`setup-repo-${widgetId}`).value.trim();
-    const resultEl = document.getElementById(`setup-result-${widgetId}`);
-    
-    if (!token || !repo) {
-        resultEl.className = 'test-result error';
-        resultEl.innerText = 'Both token and repository are required.';
-        return;
-    }
-    
-    resultEl.className = 'test-result';
-    resultEl.style.color = '#f9e2af';
-    resultEl.innerText = 'Testing connection...';
-    
-    const options = {
-        hostname: 'api.github.com',
-        path: `/repos/${repo}`,
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/vnd.github+json',
-            'User-Agent': 'Widgeter',
-            'X-GitHub-Api-Version': '2022-11-28'
-        }
-    };
-    
-    const req = https.request(options, (res) => {
-        let data = '';
-        res.on('data', (chunk) => data += chunk);
-        res.on('end', () => {
-            if (res.statusCode === 200) {
-                try {
-                    const repoData = JSON.parse(data);
-                    resultEl.className = 'test-result success';
-                    resultEl.innerText = `✓ Connected to ${repoData.full_name} (${repoData.open_issues_count} open issues)`;
-                } catch {
-                    resultEl.className = 'test-result success';
-                    resultEl.innerText = '✓ Connection successful';
-                }
-            } else {
-                try {
-                    const errData = JSON.parse(data);
-                    resultEl.className = 'test-result error';
-                    resultEl.innerText = `✗ ${errData.message || 'HTTP ' + res.statusCode}`;
-                } catch {
-                    resultEl.className = 'test-result error';
-                    resultEl.innerText = `✗ HTTP ${res.statusCode}`;
-                }
-            }
-        });
-    });
-    req.on('error', (err) => {
-        resultEl.className = 'test-result error';
-        resultEl.innerText = `✗ ${err.message}`;
-    });
-    req.end();
+function saveServerHosterSetup(widgetId) {
+    const sshKey = document.getElementById(`setup-ssh-key-${widgetId}`).value.trim();
+    const vpsUser = document.getElementById(`setup-vps-user-${widgetId}`).value.trim();
+    const widget = widgetsData.find(w => w.id === widgetId);
+    const newConfig = { ...(widget?.config || {}), ssh_key: sshKey, vps_user: vpsUser };
+    require('electron').ipcRenderer.send('update-widget-config', widgetId, newConfig);
+    alert('ServerHoster configuration saved!');
 }
 
-function saveGitHubSetup(widgetId) {
-    const token = document.getElementById(`setup-token-${widgetId}`).value.trim();
-    const repo = document.getElementById(`setup-repo-${widgetId}`).value.trim();
-    
-    if (!token || !repo) {
-        alert('Both token and repository are required.');
-        return;
-    }
-    
-    const widget = widgetsData.find(w => w.id === widgetId);
-    const newConfig = { ...(widget?.config || {}), github_token: token, github_repo: repo };
-    ipcRenderer.send('update-widget-config', widgetId, newConfig);
-    
-    const resultEl = document.getElementById(`setup-result-${widgetId}`);
-    resultEl.className = 'test-result success';
-    resultEl.innerText = '✓ Saved! The widget will reload automatically.';
+function buildGenericSetupPanel(widget) {
+    return `
+        <h4>⚙ Basic Setup</h4>
+        <p class="setup-description">This widget does not require specific setup. Use the Settings button for advanced JSON configuration.</p>
+    `;
 }
 
-function clearGitHubSetup(widgetId) {
-    const widget = widgetsData.find(w => w.id === widgetId);
-    const newConfig = { ...(widget?.config || {}) };
-    delete newConfig.github_token;
-    delete newConfig.github_repo;
-    ipcRenderer.send('update-widget-config', widgetId, newConfig);
-    
-    document.getElementById(`setup-token-${widgetId}`).value = '';
-    document.getElementById(`setup-repo-${widgetId}`).value = '';
-    const resultEl = document.getElementById(`setup-result-${widgetId}`);
-    resultEl.className = 'test-result success';
-    resultEl.innerText = '✓ Disconnected. Widget will show setup prompt.';
-}
+
 
 // Receive data from Main
 ipcRenderer.on('dashboard-data', (event, data) => {

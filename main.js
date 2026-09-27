@@ -96,7 +96,9 @@ function sendDashboardData() {
         name: name,
         enabled: wState.enabled,
         sticky: wState.sticky !== undefined ? wState.sticky : defaultSticky,
-        config: wState.config
+        config: wState.config,
+        setupHtml: conf.setupHtml,
+        setupJs: conf.setupJs
       });
     }
   }
