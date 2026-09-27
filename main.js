@@ -15,26 +15,40 @@ if (!fs.existsSync(WIDGETS_DIR)) {
 }
 
 // State Management
+let appState = null;
+let saveStateTimeout = null;
+
 function getState() {
-  if (fs.existsSync(STATE_FILE)) {
-    try {
-      return JSON.parse(fs.readFileSync(STATE_FILE, 'utf-8'));
-    } catch (e) {
-      console.error('Error reading state:', e);
+  if (!appState) {
+    if (fs.existsSync(STATE_FILE)) {
+      try {
+        appState = JSON.parse(fs.readFileSync(STATE_FILE, 'utf-8'));
+      } catch (e) {
+        console.error('Error reading state:', e);
+      }
+    }
+    if (!appState) {
+      appState = { widgets: {}, runOnBoot: false };
     }
   }
-  return { widgets: {}, runOnBoot: false };
+  return appState;
 }
 
-function saveState(state) {
-  fs.writeFileSync(STATE_FILE, JSON.stringify(state, null, 2));
+function saveState() {
+  if (saveStateTimeout) {
+    clearTimeout(saveStateTimeout);
+  }
+  saveStateTimeout = setTimeout(() => {
+    fs.writeFileSync(STATE_FILE, JSON.stringify(appState, null, 2));
+    saveStateTimeout = null;
+  }, 500); // 500ms debounce
 }
 
 function getWidgetState(widgetId) {
   const state = getState();
   if (!state.widgets[widgetId]) {
     state.widgets[widgetId] = { enabled: true, x: undefined, y: undefined, config: {} };
-    saveState(state);
+    saveState();
   }
   return state.widgets[widgetId];
 }
@@ -45,7 +59,7 @@ function updateWidgetState(widgetId, updates) {
     state.widgets[widgetId] = { enabled: true, x: undefined, y: undefined, config: {} };
   }
   state.widgets[widgetId] = { ...state.widgets[widgetId], ...updates };
-  saveState(state);
+  saveState();
 }
 
 // Dashboard Window
@@ -189,7 +203,7 @@ ipcMain.on('delete-widget', (event, widgetId) => {
     const state = getState();
     if (state.widgets[widgetId]) {
       delete state.widgets[widgetId];
-      saveState(state);
+      saveState();
     }
     
     updateTrayMenu();
@@ -202,7 +216,7 @@ ipcMain.on('delete-widget', (event, widgetId) => {
 ipcMain.on('set-launch-on-boot', (event, launch) => {
   const state = getState();
   state.runOnBoot = launch;
-  saveState(state);
+  saveState();
   
   app.setLoginItemSettings({
     openAtLogin: launch,
@@ -355,7 +369,7 @@ ipcMain.handle('widgeter:setConfig', (event, key, value) => {
   if (!state.widgets[widgetId]) state.widgets[widgetId] = { enabled: true, config: {} };
   if (!state.widgets[widgetId].config) state.widgets[widgetId].config = {};
   state.widgets[widgetId].config[key] = value;
-  saveState(state);
+  saveState();
   
   sendDashboardData(); // Update dashboard if open
   return true;
