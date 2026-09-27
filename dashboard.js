@@ -98,8 +98,22 @@ function renderWidgets() {
         stickyLabel.appendChild(stickyInput);
         stickyLabel.appendChild(document.createTextNode('Sticky'));
 
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'btn';
+        deleteBtn.style.backgroundColor = '#f38ba8';
+        deleteBtn.style.color = '#1e1e2e';
+        deleteBtn.style.marginLeft = '5px';
+        deleteBtn.style.marginRight = '5px';
+        deleteBtn.innerText = 'Delete';
+        deleteBtn.onclick = () => {
+            if (confirm(`Are you sure you want to delete ${widget.name}?`)) {
+                ipcRenderer.send('delete-widget', widget.id);
+            }
+        };
+
         actions.appendChild(stickyLabel);
         actions.appendChild(settingsBtn);
+        actions.appendChild(deleteBtn);
         actions.appendChild(toggleLabel);
         
         cardContent.appendChild(info);

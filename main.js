@@ -154,6 +154,32 @@ ipcMain.on('install-widget', (event, filePath) => {
   }
 });
 
+ipcMain.on('delete-widget', (event, widgetId) => {
+  try {
+    if (activeWidgets[widgetId]) {
+      activeWidgets[widgetId].removeAllListeners('closed');
+      activeWidgets[widgetId].close();
+      delete activeWidgets[widgetId];
+    }
+    
+    const widgetPath = path.join(WIDGETS_DIR, widgetId);
+    if (fs.existsSync(widgetPath)) {
+      fs.unlinkSync(widgetPath);
+    }
+    
+    const state = getState();
+    if (state.widgets[widgetId]) {
+      delete state.widgets[widgetId];
+      saveState(state);
+    }
+    
+    updateTrayMenu();
+    sendDashboardData();
+  } catch (e) {
+    dialog.showErrorBox('Delete Error', e.message);
+  }
+});
+
 ipcMain.on('set-launch-on-boot', (event, launch) => {
   const state = getState();
   state.runOnBoot = launch;
