@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, Menu, ipcMain, dialog, shell } = require('electron');
+const { app, BrowserWindow, Tray, Menu, ipcMain, dialog, shell, globalShortcut } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
@@ -47,7 +47,7 @@ function saveState() {
 function getWidgetState(widgetId) {
   const state = getState();
   if (!state.widgets[widgetId]) {
-    state.widgets[widgetId] = { enabled: true, x: undefined, y: undefined, config: {} };
+    state.widgets[widgetId] = { enabled: true, x: undefined, y: undefined, width: undefined, height: undefined, autoResize: true, opacity: 1.0, clickThrough: false, config: {} };
     saveState();
   }
   return state.widgets[widgetId];
@@ -56,7 +56,7 @@ function getWidgetState(widgetId) {
 function updateWidgetState(widgetId, updates) {
   const state = getState();
   if (!state.widgets[widgetId]) {
-    state.widgets[widgetId] = { enabled: true, x: undefined, y: undefined, config: {} };
+    state.widgets[widgetId] = { enabled: true, x: undefined, y: undefined, width: undefined, height: undefined, autoResize: true, opacity: 1.0, clickThrough: false, config: {} };
   }
   state.widgets[widgetId] = { ...state.widgets[widgetId], ...updates };
   saveState();
@@ -244,6 +244,21 @@ function loadWidgetFile(filePath) {
   }
 }
 
+function setWidgetOpacity(widgetId, opacity) {
+  updateWidgetState(widgetId, { opacity });
+  if (activeWidgets[widgetId]) {
+    activeWidgets[widgetId].setOpacity(opacity);
+  }
+}
+
+function setWidgetClickThrough(widgetId, clickThrough) {
+  updateWidgetState(widgetId, { clickThrough });
+  if (activeWidgets[widgetId]) {
+    activeWidgets[widgetId].setIgnoreMouseEvents(clickThrough);
+  }
+  updateTrayMenu(); // Update tray to show disabled state
+}
+
 function launchWidget(widgetId, config, filePath = null) {
   if (activeWidgets[widgetId]) {
     activeWidgets[widgetId].removeAllListeners('closed'); // prevent tray update conflict temporarily
@@ -265,14 +280,18 @@ function launchWidget(widgetId, config, filePath = null) {
     backgroundColor = '#00000000'
   } = config;
 
-  // Use saved coordinates if they exist, fallback to config x,y, fallback to undefined
+  // Use saved coordinates/size if they exist
   const finalX = wState.x !== undefined ? wState.x : config.x;
   const finalY = wState.y !== undefined ? wState.y : config.y;
+  const finalWidth = wState.width !== undefined ? wState.width : width;
+  const finalHeight = wState.height !== undefined ? wState.height : height;
   const finalAlwaysOnTop = wState.sticky !== undefined ? wState.sticky : alwaysOnTop;
+  const finalOpacity = wState.opacity !== undefined ? wState.opacity : 1.0;
+  const finalClickThrough = wState.clickThrough !== undefined ? wState.clickThrough : false;
 
   const win = new BrowserWindow({
-    width,
-    height,
+    width: finalWidth,
+    height: finalHeight,
     x: finalX,
     y: finalY,
     frame: false,
@@ -280,12 +299,17 @@ function launchWidget(widgetId, config, filePath = null) {
     backgroundColor: backgroundColor,
     alwaysOnTop: finalAlwaysOnTop,
     skipTaskbar: true,
+    opacity: finalOpacity,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false, // Node integration kept as before
       preload: path.join(__dirname, 'preload.js')
     }
   });
+  
+  if (finalClickThrough) {
+    win.setIgnoreMouseEvents(true);
+  }
 
   // Construct the HTML document
   const fullHtml = `
@@ -317,16 +341,53 @@ function launchWidget(widgetId, config, filePath = null) {
 
   win.loadURL(`data:text/html;charset=utf-8,${encodeURIComponent(fullHtml)}`);
 
-  // Position tracking
+  // Position and Size tracking
   win.on('moved', () => {
     const [nx, ny] = win.getPosition();
     updateWidgetState(widgetId, { x: nx, y: ny });
+  });
+
+  win.on('resized', () => {
+    const [nw, nh] = win.getSize();
+    updateWidgetState(widgetId, { width: nw, height: nh, autoResize: false });
   });
 
   win.on('closed', () => {
     delete activeWidgets[widgetId];
     if (win.watcher) win.watcher.close();
     updateTrayMenu();
+  });
+  
+  // Context Menu for QoL
+  win.webContents.on('context-menu', (e, params) => {
+      // Do not show menu if in click-through mode (though events are ignored anyway)
+      if (getWidgetState(widgetId).clickThrough) return;
+      
+      const menuTemplate = [
+          { label: 'Reload Widget', click: () => loadWidgetFile(filePath || path.join(WIDGETS_DIR, widgetId)) },
+          { type: 'separator' },
+          { label: 'Reset to Auto-Size', click: () => {
+              updateWidgetState(widgetId, { autoResize: true, width: undefined, height: undefined });
+              loadWidgetFile(filePath || path.join(WIDGETS_DIR, widgetId));
+          }},
+          { type: 'separator' },
+          { label: 'Opacity', submenu: [
+              { label: '100%', click: () => setWidgetOpacity(widgetId, 1.0) },
+              { label: '75%', click: () => setWidgetOpacity(widgetId, 0.75) },
+              { label: '50%', click: () => setWidgetOpacity(widgetId, 0.5) },
+              { label: '25%', click: () => setWidgetOpacity(widgetId, 0.25) }
+          ]},
+          { label: 'Enable Click-Through Mode', click: () => setWidgetClickThrough(widgetId, true) },
+          { type: 'separator' },
+          { label: 'Open Dashboard', click: () => openDashboard() },
+          { label: 'Close Widget', click: () => {
+              updateWidgetState(widgetId, { enabled: false });
+              win.close();
+              sendDashboardData();
+          }}
+      ];
+      const menu = Menu.buildFromTemplate(menuTemplate);
+      menu.popup();
   });
 
   // Optional: Auto-reload if file changes
@@ -375,6 +436,27 @@ ipcMain.handle('widgeter:setConfig', (event, key, value) => {
   return true;
 });
 
+// Auto-resize IPC
+ipcMain.on('widgeter:auto-resize', (event, { width, height }) => {
+    const widgetId = getWidgetIdFromWebContents(event.sender);
+    if (!widgetId) return;
+    
+    const wState = getWidgetState(widgetId);
+    // Only auto-resize if the user hasn't manually overridden the size
+    if (wState.autoResize !== false) {
+        const win = activeWidgets[widgetId];
+        if (win && !win.isDestroyed()) {
+            const bounds = win.getBounds();
+            // Optional limits for auto-size
+            const newWidth = Math.min(Math.max(Math.ceil(width), 100), 1000);
+            const newHeight = Math.min(Math.max(Math.ceil(height), 100), 1200);
+            if (bounds.width !== newWidth || bounds.height !== newHeight) {
+                win.setBounds({ x: bounds.x, y: bounds.y, width: newWidth, height: newHeight });
+            }
+        }
+    }
+});
+
 
 // System Tray
 function updateTrayMenu() {
@@ -390,13 +472,19 @@ function updateTrayMenu() {
   ];
 
   for (const [id, win] of Object.entries(activeWidgets)) {
+    const wState = getWidgetState(id);
     menuTemplate.push({
-      label: `Close ${id}`,
-      click: () => {
-        updateWidgetState(id, { enabled: false });
-        if (win && !win.isDestroyed()) win.close();
-        sendDashboardData();
-      }
+      label: id,
+      submenu: [
+          { label: wState.clickThrough ? 'Disable Click-Through' : 'Enable Click-Through', click: () => setWidgetClickThrough(id, !wState.clickThrough) },
+          { label: 'Reset Size', click: () => { updateWidgetState(id, { autoResize: true, width: undefined, height: undefined }); loadWidgetFile(path.join(WIDGETS_DIR, id)); } },
+          { type: 'separator' },
+          { label: 'Close Widget', click: () => {
+              updateWidgetState(id, { enabled: false });
+              if (win && !win.isDestroyed()) win.close();
+              sendDashboardData();
+          }}
+      ]
     });
   }
 
@@ -449,6 +537,28 @@ if (!gotTheLock) {
     
     updateTrayMenu();
     
+    // Global Shortcut to toggle all widgets
+    globalShortcut.register('CommandOrControl+Shift+W', () => {
+        const wins = Object.values(activeWidgets);
+        if (wins.length === 0) return;
+        // Check visibility of the first active widget
+        const isVisible = wins[0].isVisible();
+        wins.forEach(win => {
+            if (win && !win.isDestroyed()) {
+                if (isVisible) {
+                    win.hide();
+                } else {
+                    win.show();
+                    // Restore click-through mode if it was enabled (hide/show resets it on some platforms)
+                    const widgetId = getWidgetIdFromWebContents(win.webContents);
+                    if (widgetId && getWidgetState(widgetId).clickThrough) {
+                        win.setIgnoreMouseEvents(true);
+                    }
+                }
+            }
+        });
+    });
+    
     // Create a default widget if none exist to show it works
     const sampleWidgetPath = path.join(WIDGETS_DIR, 'service-health.widget');
     if (!fs.existsSync(sampleWidgetPath)) {
@@ -469,6 +579,10 @@ if (!gotTheLock) {
     if (!isHidden) {
       openDashboard();
     }
+  });
+
+  app.on('will-quit', () => {
+    globalShortcut.unregisterAll();
   });
 
   app.on('window-all-closed', () => {
