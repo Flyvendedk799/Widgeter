@@ -29,6 +29,16 @@ Here is the JSON schema of a `.widget` file:
 }
 ```
 
+## Smart resize
+
+Widgeter measures each widget and, when Smart resize is on, fits the window height to that content. You do not need to call anything for this to work.
+
+- Turn it on from the widget's Setup panel, or from the widget's right-click menu.
+- The corner grip sets the width while Smart resize is on, and sets both width and height in Fixed mode.
+- Dragging a window edge switches that widget back to Fixed.
+- `window.widgeter.autoResize(width, height)` still exists if a widget must report an exact size. Pass the content size, not `document.documentElement.scrollWidth` / `scrollHeight` — those match the window and fight Smart resize.
+- Avoid `min-height: 100vh` and `min-height: 100%` on the widget root. They pin the widget to the window and stop it from shrinking.
+
 ## Important Notes for AI Agents
 
 1. **Self-Contained**: The `.widget` file should be entirely self-contained. All styling must go in the `css` property, all markup in `html`, and all logic in `js`.

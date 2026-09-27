@@ -37,6 +37,7 @@ Widgets have access to a persistent configuration API exposed via `window.widget
 
 - **`await window.widgeter.getConfig(key)`**: Fetches a value from the user's `state.json`.
 - **`await window.widgeter.setConfig(key, value)`**: Saves a value to the user's `state.json`.
+- **Smart resize** is built into the engine. When the user turns it on, Widgeter fits the widget's height to its content. Do not call `autoResize` with `scrollWidth` / `scrollHeight`; that reports the window size and fights the engine. Do not set `min-height: 100vh` on the widget root.
 
 **Example Usage in a Widget:**
 ```javascript
