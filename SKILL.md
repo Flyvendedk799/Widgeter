@@ -58,16 +58,16 @@ If you (the agent) are asked to install a widget for the user:
 3. The Widgeter engine watches this folder and will automatically pick it up, or the user can toggle it from their Dashboard.
 
 ## Publishing to the Marketplace
-The user has a self-hosted Widgeter Marketplace running at `https://widgeter.mast3kmedia.dk`.
+The user has a self-hosted Widgeter Marketplace running at `http://85.190.100.23:3055`.
 If you are asked to upload/publish a widget to the marketplace:
 1. Create a `FormData` payload containing the widget file (or pass `json_content`, `name`, `author`, `description`).
-2. Make a `POST` request to `https://widgeter.mast3kmedia.dk/widgets`.
+2. Make a `POST` request to `http://85.190.100.23:3055/widgets`.
 3. Use the authorization header `Bearer tobias-secret` (as the user is currently the only one allowed to upload).
 
 Example Node.js request:
 ```javascript
 const fetch = require('node-fetch');
-await fetch('https://widgeter.mast3kmedia.dk/widgets', {
+await fetch('http://85.190.100.23:3055/widgets', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
