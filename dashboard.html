@@ -218,6 +218,9 @@
             <div class="nav-item" data-tab="tab-creator">
                 <span>🛠️</span> Widget Creator
             </div>
+            <div class="nav-item" data-tab="tab-layouts">
+                <span>📐</span> Layouts
+            </div>
             <div class="nav-item" data-tab="tab-settings">
                 <span>⚙️</span> Settings
             </div>
@@ -270,6 +273,26 @@
 }</textarea>
                 </div>
                 <button id="create-save-btn" class="btn btn-success">Save & Install Widget</button>
+            </div>
+        </div>
+
+        <!-- Layouts Tab -->
+        <div id="tab-layouts" class="tab-pane">
+            <h2>Widget Layouts</h2>
+            <p style="color: #a6adc8; margin-bottom: 25px;">Arrange your widgets on the desktop using templates or save your own custom layouts.</p>
+            
+            <h3 style="color: #f5c2e7; margin-bottom: 15px;">📋 Templates</h3>
+            <div class="marketplace-grid" id="layout-templates"></div>
+            
+            <div style="margin-top: 35px; border-top: 1px solid #313244; padding-top: 25px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 style="color: #f5c2e7; margin: 0;">💾 My Saved Layouts</h3>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="text" id="layout-save-name" placeholder="Layout name..." style="padding: 8px 12px; border-radius: 6px; border: 1px solid #45475a; background: #1e1e2e; color: #cdd6f4; width: 200px;">
+                        <button class="btn btn-success" id="btn-save-layout">📸 Save Current</button>
+                    </div>
+                </div>
+                <div id="saved-layouts-list" class="widget-list"></div>
             </div>
         </div>
 

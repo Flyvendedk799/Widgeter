@@ -18,6 +18,9 @@ navItems.forEach(item => {
         if (targetId === 'tab-marketplace') {
             loadMarketplaceWidgets();
         }
+        if (targetId === 'tab-layouts') {
+            loadLayoutsTab();
+        }
     });
 });
 
@@ -202,7 +205,7 @@ function buildSetupPanel(widget) {
     
     // Universal Display Settings — every widget gets this automatically
     const config = widget.config || {};
-    const autoResize = config._autoResize !== false; // default true
+    const autoResize = config._autoResize === true; // default false — user opts in
     const maxHeight = config.maxHeight || 900;
     const maxWidth = config.maxWidth || 800;
     const opacity = config._opacity !== undefined ? config._opacity : 1.0;
@@ -450,4 +453,200 @@ document.getElementById('create-save-btn').addEventListener('click', () => {
     } catch (e) {
         alert("Invalid JSON: " + e.message);
     }
+});
+
+// --- Layouts Logic ---
+const LAYOUT_TEMPLATES = [
+    {
+        name: 'Sidebar Right',
+        icon: '▐',
+        description: 'Stack all widgets vertically along the right edge of your screen.',
+        generate: (widgetIds) => {
+            const count = widgetIds.length;
+            const heightPer = Math.floor(100 / count);
+            return widgetIds.map((id, i) => ({
+                widgetId: id,
+                x: 75, y: i * heightPer,
+                width: 25, height: heightPer
+            }));
+        }
+    },
+    {
+        name: 'Sidebar Left',
+        icon: '▌',
+        description: 'Stack all widgets vertically along the left edge of your screen.',
+        generate: (widgetIds) => {
+            const count = widgetIds.length;
+            const heightPer = Math.floor(100 / count);
+            return widgetIds.map((id, i) => ({
+                widgetId: id,
+                x: 0, y: i * heightPer,
+                width: 25, height: heightPer
+            }));
+        }
+    },
+    {
+        name: 'Top Bar',
+        icon: '▀',
+        description: 'Spread all widgets horizontally across the top of your screen.',
+        generate: (widgetIds) => {
+            const count = widgetIds.length;
+            const widthPer = Math.floor(100 / count);
+            return widgetIds.map((id, i) => ({
+                widgetId: id,
+                x: i * widthPer, y: 0,
+                width: widthPer, height: 30
+            }));
+        }
+    },
+    {
+        name: 'Bottom Bar',
+        icon: '▄',
+        description: 'Spread all widgets horizontally across the bottom of your screen.',
+        generate: (widgetIds) => {
+            const count = widgetIds.length;
+            const widthPer = Math.floor(100 / count);
+            return widgetIds.map((id, i) => ({
+                widgetId: id,
+                x: i * widthPer, y: 70,
+                width: widthPer, height: 30
+            }));
+        }
+    },
+    {
+        name: 'Grid',
+        icon: '⊞',
+        description: 'Arrange widgets in an even grid layout across the screen.',
+        generate: (widgetIds) => {
+            const count = widgetIds.length;
+            const cols = Math.ceil(Math.sqrt(count));
+            const rows = Math.ceil(count / cols);
+            const cellW = Math.floor(100 / cols);
+            const cellH = Math.floor(100 / rows);
+            return widgetIds.map((id, i) => ({
+                widgetId: id,
+                x: (i % cols) * cellW, y: Math.floor(i / cols) * cellH,
+                width: cellW, height: cellH
+            }));
+        }
+    },
+    {
+        name: 'Corners',
+        icon: '⊡',
+        description: 'Place up to 4 widgets in each corner. Extra widgets fill the right side.',
+        generate: (widgetIds) => {
+            const corners = [
+                { x: 0, y: 0 },   // top-left
+                { x: 75, y: 0 },  // top-right
+                { x: 0, y: 70 },  // bottom-left
+                { x: 75, y: 70 }  // bottom-right
+            ];
+            return widgetIds.map((id, i) => {
+                const c = corners[i] || { x: 75, y: Math.min(i * 15, 85) };
+                return { widgetId: id, x: c.x, y: c.y, width: 25, height: 30 };
+            });
+        }
+    },
+    {
+        name: 'Center Stack',
+        icon: '◫',
+        description: 'Stack all widgets vertically in the center of the screen.',
+        generate: (widgetIds) => {
+            const count = widgetIds.length;
+            const heightPer = Math.min(Math.floor(80 / count), 25);
+            const startY = Math.max(0, Math.floor((100 - count * heightPer) / 2));
+            return widgetIds.map((id, i) => ({
+                widgetId: id,
+                x: 30, y: startY + i * heightPer,
+                width: 40, height: heightPer
+            }));
+        }
+    }
+];
+
+async function loadLayoutsTab() {
+    const templatesGrid = document.getElementById('layout-templates');
+    const activeIds = await ipcRenderer.invoke('get-active-widget-ids');
+    
+    // Render templates
+    templatesGrid.innerHTML = '';
+    LAYOUT_TEMPLATES.forEach((tmpl, idx) => {
+        const card = document.createElement('div');
+        card.className = 'market-card';
+        card.style.cursor = 'pointer';
+        const disabled = activeIds.length === 0;
+        card.innerHTML = `
+            <div style="font-size: 36px; margin-bottom: 10px; text-align: center; color: #89b4fa;">${tmpl.icon}</div>
+            <h3 style="color: #cba6f7;">${tmpl.name}</h3>
+            <p>${tmpl.description}</p>
+            <button class="btn" ${disabled ? 'disabled style="opacity:0.4"' : ''} onclick="applyTemplate(${idx})">
+                ${disabled ? 'No active widgets' : '✨ Apply Layout'}
+            </button>
+        `;
+        templatesGrid.appendChild(card);
+    });
+    
+    // Render saved layouts
+    const layoutData = await ipcRenderer.invoke('get-layouts');
+    const savedList = document.getElementById('saved-layouts-list');
+    savedList.innerHTML = '';
+    
+    if (layoutData.saved.length === 0) {
+        savedList.innerHTML = '<div style="text-align: center; color: #6c7086; padding: 20px;">No saved layouts yet. Arrange your widgets, then click "Save Current" above.</div>';
+    } else {
+        layoutData.saved.forEach((layout, idx) => {
+            const card = document.createElement('div');
+            card.className = 'widget-card';
+            card.innerHTML = `
+                <div class="widget-info">
+                    <h3>${layout.name}</h3>
+                    <p>${layout.positions.length} widget(s) · Saved ${new Date(layout.createdAt).toLocaleDateString()}</p>
+                </div>
+                <div class="widget-actions">
+                    <button class="btn" onclick="applySavedLayout(${idx})">✨ Apply</button>
+                    <button class="btn btn-danger" onclick="deleteSavedLayout(${idx})">Delete</button>
+                </div>
+            `;
+            savedList.appendChild(card);
+        });
+    }
+}
+
+window.applyTemplate = async function(templateIdx) {
+    const activeIds = await ipcRenderer.invoke('get-active-widget-ids');
+    if (activeIds.length === 0) { alert('No active widgets to arrange.'); return; }
+    
+    const tmpl = LAYOUT_TEMPLATES[templateIdx];
+    const positions = tmpl.generate(activeIds);
+    ipcRenderer.send('apply-layout', positions);
+    
+    // Brief visual feedback
+    alert('Layout "' + tmpl.name + '" applied to ' + activeIds.length + ' widget(s)!');
+};
+
+window.applySavedLayout = async function(index) {
+    const layoutData = await ipcRenderer.invoke('get-layouts');
+    const layout = layoutData.saved[index];
+    if (!layout) return;
+    ipcRenderer.send('apply-layout', layout.positions);
+    alert('Layout "' + layout.name + '" restored!');
+};
+
+window.deleteSavedLayout = async function(index) {
+    if (!confirm('Delete this saved layout?')) return;
+    ipcRenderer.send('delete-custom-layout', index);
+    setTimeout(loadLayoutsTab, 200);
+};
+
+// Save current layout button
+document.getElementById('btn-save-layout').addEventListener('click', () => {
+    const name = document.getElementById('layout-save-name').value.trim();
+    if (!name) { alert('Please enter a name for the layout.'); return; }
+    ipcRenderer.send('save-custom-layout', name);
+    document.getElementById('layout-save-name').value = '';
+});
+
+ipcRenderer.on('layout-saved', (event, name) => {
+    alert('Layout "' + name + '" saved!');
+    loadLayoutsTab();
 });

@@ -47,7 +47,7 @@ function saveState() {
 function getWidgetState(widgetId) {
   const state = getState();
   if (!state.widgets[widgetId]) {
-    state.widgets[widgetId] = { enabled: true, x: undefined, y: undefined, width: undefined, height: undefined, autoResize: true, opacity: 1.0, clickThrough: false, config: {} };
+    state.widgets[widgetId] = { enabled: true, x: undefined, y: undefined, width: undefined, height: undefined, autoResize: false, opacity: 1.0, clickThrough: false, config: {} };
     saveState();
   }
   return state.widgets[widgetId];
@@ -56,7 +56,7 @@ function getWidgetState(widgetId) {
 function updateWidgetState(widgetId, updates) {
   const state = getState();
   if (!state.widgets[widgetId]) {
-    state.widgets[widgetId] = { enabled: true, x: undefined, y: undefined, width: undefined, height: undefined, autoResize: true, opacity: 1.0, clickThrough: false, config: {} };
+    state.widgets[widgetId] = { enabled: true, x: undefined, y: undefined, width: undefined, height: undefined, autoResize: false, opacity: 1.0, clickThrough: false, config: {} };
   }
   state.widgets[widgetId] = { ...state.widgets[widgetId], ...updates };
   saveState();
@@ -243,6 +243,83 @@ ipcMain.on('apply-display-settings', (event, widgetId, settings) => {
                 updateWidgetState(widgetId, { width: w, height: h });
             }
         }
+    }
+});
+
+// --- Layout System ---
+const LAYOUTS_FILE = path.join(app.getPath('userData'), 'layouts.json');
+
+function getLayouts() {
+    if (fs.existsSync(LAYOUTS_FILE)) {
+        try { return JSON.parse(fs.readFileSync(LAYOUTS_FILE, 'utf-8')); } catch(e) {}
+    }
+    return { saved: [] };
+}
+
+function saveLayouts(data) {
+    fs.writeFileSync(LAYOUTS_FILE, JSON.stringify(data, null, 2));
+}
+
+ipcMain.handle('get-layouts', () => {
+    return getLayouts();
+});
+
+ipcMain.handle('get-active-widget-ids', () => {
+    return Object.keys(activeWidgets);
+});
+
+ipcMain.on('apply-layout', (event, positions) => {
+    // positions is an array of { widgetId, x, y, width, height }
+    const { screen } = require('electron');
+    const primary = screen.getPrimaryDisplay().workArea;
+    
+    for (const pos of positions) {
+        const win = activeWidgets[pos.widgetId];
+        if (win && !win.isDestroyed()) {
+            // Scale percentage-based positions to actual screen size
+            const x = Math.round(primary.x + (pos.x / 100) * primary.width);
+            const y = Math.round(primary.y + (pos.y / 100) * primary.height);
+            const w = Math.round((pos.width / 100) * primary.width);
+            const h = Math.round((pos.height / 100) * primary.height);
+            
+            win.setBounds({ x, y, width: Math.max(w, 100), height: Math.max(h, 100) });
+            updateWidgetState(pos.widgetId, { x, y, width: Math.max(w, 100), height: Math.max(h, 100), autoResize: false });
+        }
+    }
+});
+
+ipcMain.on('save-custom-layout', (event, name) => {
+    const layoutData = getLayouts();
+    const positions = [];
+    
+    for (const [id, win] of Object.entries(activeWidgets)) {
+        if (win && !win.isDestroyed()) {
+            const { screen } = require('electron');
+            const primary = screen.getPrimaryDisplay().workArea;
+            const bounds = win.getBounds();
+            
+            // Store as percentages of screen for portability
+            positions.push({
+                widgetId: id,
+                x: Math.round(((bounds.x - primary.x) / primary.width) * 100),
+                y: Math.round(((bounds.y - primary.y) / primary.height) * 100),
+                width: Math.round((bounds.width / primary.width) * 100),
+                height: Math.round((bounds.height / primary.height) * 100)
+            });
+        }
+    }
+    
+    layoutData.saved.push({ name, positions, createdAt: new Date().toISOString() });
+    saveLayouts(layoutData);
+    
+    event.sender.send('layout-saved', name);
+});
+
+ipcMain.on('delete-custom-layout', (event, index) => {
+    const layoutData = getLayouts();
+    if (index >= 0 && index < layoutData.saved.length) {
+        layoutData.saved.splice(index, 1);
+        saveLayouts(layoutData);
     }
 });
 
