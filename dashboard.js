@@ -20,9 +20,11 @@ dropZone.addEventListener('drop', (e) => {
     e.preventDefault();
     dropZone.classList.remove('dragover');
     
+    const { webUtils } = require('electron');
     for (const f of e.dataTransfer.files) {
         if (f.name.endsWith('.widget') || f.name.endsWith('.json')) {
-            ipcRenderer.send('install-widget', f.path);
+            const pathValue = webUtils && webUtils.getPathForFile ? webUtils.getPathForFile(f) : f.path;
+            ipcRenderer.send('install-widget', pathValue);
         }
     }
 });
