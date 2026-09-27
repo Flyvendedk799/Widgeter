@@ -343,8 +343,19 @@ function launchWidget(widgetId, config, filePath = null) {
       <style>
         body {
           margin: 0;
-          overflow: hidden;
+          overflow: auto;
           ${draggable_body ? '-webkit-app-region: drag;' : ''}
+        }
+        body::-webkit-scrollbar {
+          width: 6px;
+          height: 6px;
+        }
+        body::-webkit-scrollbar-thumb {
+          background-color: rgba(166, 173, 200, 0.3);
+          border-radius: 4px;
+        }
+        body::-webkit-scrollbar-track {
+          background: transparent;
         }
         button, a, input, textarea, select, .no-drag {
           -webkit-app-region: no-drag;
@@ -464,14 +475,20 @@ ipcMain.on('widgeter:auto-resize', (event, { width, height }) => {
     if (!widgetId) return;
     
     const wState = getWidgetState(widgetId);
-    // Only auto-resize if the user hasn't manually overridden the size
     if (wState.autoResize !== false) {
         const win = activeWidgets[widgetId];
         if (win && !win.isDestroyed()) {
             const bounds = win.getBounds();
-            // Optional limits for auto-size
-            const newWidth = Math.min(Math.max(Math.ceil(width), 100), 1000);
-            const newHeight = Math.min(Math.max(Math.ceil(height), 100), 1200);
+            
+            // Allow override via JSON config
+            const minW = wState.config.minWidth || 100;
+            const maxW = wState.config.maxWidth || 800;
+            const minH = wState.config.minHeight || 100;
+            const maxH = wState.config.maxHeight || 900;
+            
+            const newWidth = Math.min(Math.max(Math.ceil(width), minW), maxW);
+            const newHeight = Math.min(Math.max(Math.ceil(height), minH), maxH);
+            
             if (bounds.width !== newWidth || bounds.height !== newHeight) {
                 win.setBounds({ x: bounds.x, y: bounds.y, width: newWidth, height: newHeight });
             }
