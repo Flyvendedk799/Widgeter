@@ -227,6 +227,25 @@ ipcMain.on('set-launch-on-boot', (event, launch) => {
   sendDashboardData();
 });
 
+// Apply display settings live to a running widget
+ipcMain.on('apply-display-settings', (event, widgetId, settings) => {
+    const win = activeWidgets[widgetId];
+    if (win && !win.isDestroyed()) {
+        if (settings.opacity !== undefined) {
+            win.setOpacity(settings.opacity);
+            updateWidgetState(widgetId, { opacity: settings.opacity });
+        }
+        if (settings.autoResize !== undefined) {
+            updateWidgetState(widgetId, { autoResize: settings.autoResize });
+            // If switching to fixed, freeze current size
+            if (!settings.autoResize) {
+                const [w, h] = win.getSize();
+                updateWidgetState(widgetId, { width: w, height: h });
+            }
+        }
+    }
+});
+
 
 // Widget Loading and Lifecycle
 function loadWidgetFile(filePath) {

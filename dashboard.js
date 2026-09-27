@@ -192,47 +192,136 @@ function renderWidgets() {
 }
 
 function buildSetupPanel(widget) {
+    let html = '';
+    
+    // Widget-specific setup (e.g. GitHub token, ServerHoster SSH) goes first
     if (widget.setupHtml) {
-        return widget.setupHtml;
-    } else if (widget.id.includes('serverhoster')) {
-        const sshKey = widget.config?.ssh_key || 'C:/Users/tobia/.ssh/serverhoster_key';
-        const vpsUser = widget.config?.vps_user || 'administrator@85.190.100.23';
-        return `
-            <h4 style="margin-top:0;color:#cba6f7;">🖥️ ServerHoster Connection</h4>
-            <div class="form-group">
-                <label>SSH Key Path</label>
-                <input type="text" id="setup-ssh-key-${widget.id}" value="${sshKey}" />
-            </div>
-            <div class="form-group">
-                <label>VPS User & Host</label>
-                <input type="text" id="setup-vps-user-${widget.id}" value="${vpsUser}" />
-            </div>
-            <button class="btn btn-success" onclick="saveServerHosterSetup('${widget.id}')">💾 Save Config</button>
-        `;
+        html += '<div class="setup-section">' + widget.setupHtml + '</div>';
+        html += '<hr style="border: none; border-top: 1px solid #313244; margin: 20px 0;">';
     }
-    return `
-        <h4 style="margin-top:0;color:#cba6f7;">⚙ JSON Config Override</h4>
-        <div class="form-group">
-            <textarea id="setup-json-${widget.id}" style="height: 100px; font-family: monospace;">${JSON.stringify(widget.config || {}, null, 2)}</textarea>
+    
+    // Universal Display Settings — every widget gets this automatically
+    const config = widget.config || {};
+    const autoResize = config._autoResize !== false; // default true
+    const maxHeight = config.maxHeight || 900;
+    const maxWidth = config.maxWidth || 800;
+    const opacity = config._opacity !== undefined ? config._opacity : 1.0;
+    
+    html += `
+        <div class="setup-section">
+            <h4 style="margin-top:0; color:#89b4fa; font-size: 15px;">📐 Display Settings</h4>
+            
+            <div class="display-setting-row">
+                <div class="display-setting-label">
+                    <span>Resize Mode</span>
+                    <span class="display-setting-hint">How this widget handles its size</span>
+                </div>
+                <select id="resize-mode-${widget.id}" class="display-select" onchange="onResizeModeChange('${widget.id}')">
+                    <option value="auto" ${autoResize ? 'selected' : ''}>Auto (fit content)</option>
+                    <option value="fixed" ${!autoResize ? 'selected' : ''}>Fixed (manual size)</option>
+                </select>
+            </div>
+            
+            <div id="auto-limits-${widget.id}" class="auto-limits-group" style="display: ${autoResize ? 'block' : 'none'};">
+                <div class="display-setting-row">
+                    <div class="display-setting-label">
+                        <span>Max Height</span>
+                        <span class="display-setting-hint">Widget won't grow taller than this</span>
+                    </div>
+                    <div class="slider-group">
+                        <input type="range" id="max-height-${widget.id}" min="150" max="1200" value="${maxHeight}" class="display-slider" oninput="updateSliderLabel('max-height-${widget.id}')">
+                        <span id="max-height-${widget.id}-label" class="slider-value">${maxHeight}px</span>
+                    </div>
+                </div>
+                
+                <div class="display-setting-row">
+                    <div class="display-setting-label">
+                        <span>Max Width</span>
+                        <span class="display-setting-hint">Widget won't grow wider than this</span>
+                    </div>
+                    <div class="slider-group">
+                        <input type="range" id="max-width-${widget.id}" min="150" max="1200" value="${maxWidth}" class="display-slider" oninput="updateSliderLabel('max-width-${widget.id}')">
+                        <span id="max-width-${widget.id}-label" class="slider-value">${maxWidth}px</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="display-setting-row">
+                <div class="display-setting-label">
+                    <span>Opacity</span>
+                    <span class="display-setting-hint">How transparent the widget appears</span>
+                </div>
+                <div class="slider-group">
+                    <input type="range" id="opacity-${widget.id}" min="10" max="100" value="${Math.round(opacity * 100)}" class="display-slider" oninput="updateSliderLabel('opacity-${widget.id}', '%')">
+                    <span id="opacity-${widget.id}-label" class="slider-value">${Math.round(opacity * 100)}%</span>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px; display: flex; gap: 10px;">
+                <button class="btn btn-success" onclick="saveDisplaySettings('${widget.id}')">💾 Save Display Settings</button>
+                <button class="btn" style="background-color: #585b70;" onclick="resetDisplaySettings('${widget.id}')">↺ Reset to Defaults</button>
+            </div>
         </div>
-        <button class="btn btn-success" onclick="saveGenericSetup('${widget.id}')">💾 Save JSON</button>
     `;
+    
+    return html;
 }
 
-window.saveGenericSetup = function(widgetId) {
-    try {
-        const val = document.getElementById(`setup-json-${widgetId}`).value;
-        const parsed = JSON.parse(val);
-        ipcRenderer.send('update-widget-config', widgetId, parsed);
-        alert('Saved!');
-    } catch(e) {
-        alert('Invalid JSON');
+window.updateSliderLabel = function(id, suffix) {
+    const slider = document.getElementById(id);
+    const label = document.getElementById(id + '-label');
+    if (slider && label) {
+        label.innerText = slider.value + (suffix || 'px');
     }
 };
 
+window.onResizeModeChange = function(widgetId) {
+    const mode = document.getElementById('resize-mode-' + widgetId).value;
+    const limitsGroup = document.getElementById('auto-limits-' + widgetId);
+    limitsGroup.style.display = mode === 'auto' ? 'block' : 'none';
+};
+
+window.saveDisplaySettings = function(widgetId) {
+    const widget = widgetsData.find(w => w.id === widgetId);
+    const mode = document.getElementById('resize-mode-' + widgetId).value;
+    const maxHeight = parseInt(document.getElementById('max-height-' + widgetId).value);
+    const maxWidth = parseInt(document.getElementById('max-width-' + widgetId).value);
+    const opacity = parseInt(document.getElementById('opacity-' + widgetId).value) / 100;
+    
+    const newConfig = { ...(widget?.config || {}) };
+    newConfig.maxHeight = maxHeight;
+    newConfig.maxWidth = maxWidth;
+    newConfig._autoResize = mode === 'auto';
+    newConfig._opacity = opacity;
+    
+    ipcRenderer.send('update-widget-config', widgetId, newConfig);
+    ipcRenderer.send('apply-display-settings', widgetId, { autoResize: mode === 'auto', opacity });
+    
+    // Show save confirmation inline
+    const btn = event.target;
+    const origText = btn.innerText;
+    btn.innerText = '✓ Saved!';
+    btn.style.backgroundColor = '#94e2d5';
+    setTimeout(() => { btn.innerText = origText; btn.style.backgroundColor = '#a6e3a1'; }, 1500);
+};
+
+window.resetDisplaySettings = function(widgetId) {
+    const widget = widgetsData.find(w => w.id === widgetId);
+    const newConfig = { ...(widget?.config || {}) };
+    delete newConfig.maxHeight;
+    delete newConfig.maxWidth;
+    delete newConfig._autoResize;
+    delete newConfig._opacity;
+    
+    ipcRenderer.send('update-widget-config', widgetId, newConfig);
+    ipcRenderer.send('apply-display-settings', widgetId, { autoResize: true, opacity: 1.0 });
+    
+    alert('Display settings reset to defaults.');
+};
+
 window.saveServerHosterSetup = function(widgetId) {
-    const sshKey = document.getElementById(`setup-ssh-key-${widgetId}`).value.trim();
-    const vpsUser = document.getElementById(`setup-vps-user-${widgetId}`).value.trim();
+    const sshKey = document.getElementById('setup-ssh-key-' + widgetId).value.trim();
+    const vpsUser = document.getElementById('setup-vps-user-' + widgetId).value.trim();
     const widget = widgetsData.find(w => w.id === widgetId);
     const newConfig = { ...(widget?.config || {}), ssh_key: sshKey, vps_user: vpsUser };
     ipcRenderer.send('update-widget-config', widgetId, newConfig);

@@ -163,6 +163,41 @@
         
         /* Editor */
         #code-editor { font-family: 'Consolas', 'Courier New', monospace; height: 400px; white-space: pre; }
+        
+        /* Display Settings UI */
+        .setup-section { margin-bottom: 5px; }
+        .display-setting-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 0; border-bottom: 1px solid #313244;
+        }
+        .display-setting-row:last-child { border-bottom: none; }
+        .display-setting-label { display: flex; flex-direction: column; gap: 2px; }
+        .display-setting-label span:first-child { font-size: 14px; color: #cdd6f4; font-weight: 500; }
+        .display-setting-hint { font-size: 11px; color: #6c7086; }
+        .display-select {
+            padding: 6px 12px; border-radius: 6px; border: 1px solid #45475a;
+            background-color: #1e1e2e; color: #cdd6f4; font-size: 13px; cursor: pointer;
+            min-width: 160px;
+        }
+        .display-select:focus { outline: none; border-color: #89b4fa; }
+        .slider-group { display: flex; align-items: center; gap: 12px; min-width: 220px; }
+        .display-slider {
+            -webkit-appearance: none; width: 150px; height: 6px;
+            background: #313244; border-radius: 3px; outline: none;
+        }
+        .display-slider::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 16px; height: 16px;
+            border-radius: 50%; background: #89b4fa; cursor: pointer;
+            border: 2px solid #1e1e2e;
+        }
+        .display-slider::-webkit-slider-thumb:hover { background: #b4befe; }
+        .slider-value {
+            font-size: 13px; color: #a6adc8; font-weight: 600;
+            min-width: 50px; text-align: right; font-variant-numeric: tabular-nums;
+        }
+        .auto-limits-group {
+            padding-left: 15px; border-left: 2px solid #313244; margin-left: 5px;
+        }
     </style>
 </head>
 <body>
