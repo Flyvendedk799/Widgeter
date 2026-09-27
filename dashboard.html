@@ -107,7 +107,35 @@
         }
         .widget-info h3 { margin: 0 0 5px 0; color: #f5c2e7; font-size: 18px; }
         .widget-info p { margin: 0; font-size: 13px; color: #a6adc8; }
-        .widget-actions { display: flex; align-items: center; gap: 10px; }
+        .widget-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+        .mode-badge {
+            display: inline-block; margin-top: 6px; font-size: 11px; font-weight: 700;
+            padding: 2px 8px; border-radius: 999px; background: #45475a; color: #a6adc8;
+        }
+        .mode-badge.smart { background: rgba(166, 227, 161, 0.18); color: #a6e3a1; }
+        .mode-badge.fixed { background: rgba(137, 180, 250, 0.15); color: #89b4fa; }
+        .mode-badge.ghost { background: rgba(249, 226, 175, 0.16); color: #f9e2af; }
+        .toast-wrap { position: fixed; right: 18px; bottom: 18px; display: flex; flex-direction: column; gap: 8px; z-index: 40; }
+        .toast {
+            background: #313244; color: #cdd6f4; border: 1px solid #45475a; border-left: 3px solid #89b4fa;
+            padding: 12px 14px; border-radius: 8px; min-width: 220px; max-width: 360px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+        }
+        .editing-banner {
+            background: rgba(137, 180, 250, 0.12); border: 1px solid #89b4fa; color: #cdd6f4;
+            padding: 10px 14px; border-radius: 8px; margin-bottom: 16px;
+        }
+        .creator-toolbar, .form-actions { display: flex; gap: 8px; align-items: center; }
+        .creator-toolbar { margin-bottom: 16px; }
+        .form-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 12px; }
+        textarea.code { font-family: Consolas, 'Courier New', monospace; font-size: 13px; min-height: 110px; white-space: pre; }
+        .market-search {
+            padding: 8px 12px; border-radius: 6px; border: 1px solid #45475a;
+            background: #1e1e2e; color: #cdd6f4; min-width: 220px;
+        }
+        .shortcut-pill { color: #a6e3a1; font-weight: 700; }
+        .shortcut-pill.off { color: #f38ba8; }
+        .btn.mode-on { outline: 2px solid #89b4fa; }
         
         /* Toggle Switch */
         .toggle-switch { position: relative; display: inline-block; width: 44px; height: 22px; }
@@ -234,17 +262,20 @@
             <h2>My Widgets</h2>
             <div id="drop-zone" class="drop-zone">
                 <span style="font-size: 24px;">📥</span><br>
-                Drag & Drop a .widget file here to install
+                Drag a .widget file here, or click to browse
             </div>
             <div id="widget-list" class="widget-list"></div>
         </div>
 
         <!-- Marketplace Tab -->
         <div id="tab-marketplace" class="tab-pane">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 25px; flex-wrap: wrap;">
                 <h2 style="margin: 0;">Marketplace</h2>
-                <button id="upload-btn" class="btn btn-success">Upload New Widget</button>
-                <input type="file" id="upload-file" style="display: none;" accept=".widget,.json" />
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <input id="market-search" class="market-search" type="search" placeholder="Search widgets">
+                    <button id="upload-btn" class="btn btn-success">Upload New Widget</button>
+                    <input type="file" id="upload-file" style="display: none;" accept=".widget,.json" />
+                </div>
             </div>
             <div id="marketplace-grid" class="marketplace-grid">
                 <div style="text-align: center; color: #a6adc8; padding: 40px; grid-column: 1 / -1;">
@@ -256,23 +287,48 @@
         <!-- Widget Creator Tab -->
         <div id="tab-creator" class="tab-pane">
             <h2>Widget Creator</h2>
-            <div class="panel" style="display: block;">
-                <div class="form-group">
-                    <label>Widget Name</label>
-                    <input type="text" id="create-name" placeholder="E.g. System Monitor">
+            <div id="creator-editing" class="editing-banner" style="display: none;"></div>
+            <div class="creator-toolbar">
+                <button type="button" id="creator-mode-form" class="btn mode-on">Form</button>
+                <button type="button" id="creator-mode-json" class="btn">JSON</button>
+                <button type="button" id="creator-cancel" class="btn" style="display: none;">Cancel edit</button>
+            </div>
+            <div class="panel" id="creator-form" style="display: block;">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" id="field-name" placeholder="System Monitor">
+                    </div>
+                    <div class="form-group">
+                        <label>Width</label>
+                        <input type="number" id="field-width" min="80" max="4000" value="300">
+                    </div>
+                    <div class="form-group">
+                        <label>Height</label>
+                        <input type="number" id="field-height" min="50" max="4000" value="300">
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label>Widget JSON Configuration</label>
-                    <textarea id="create-json" style="height: 400px; font-family: monospace; font-size: 13px;">{
-  "name": "My New Widget",
-  "width": 300,
-  "height": 300,
-  "html": "<div class='container'><h1>Hello World</h1></div>",
-  "css": "body { background: rgba(20,20,25,0.9); color: white; margin: 0; padding: 20px; font-family: sans-serif; border-radius: 12px; border: 1px solid #444; }",
-  "js": "console.log('Widget loaded!');"
-}</textarea>
+                    <label>HTML</label>
+                    <textarea id="field-html" class="code"></textarea>
                 </div>
-                <button id="create-save-btn" class="btn btn-success">Save & Install Widget</button>
+                <div class="form-group">
+                    <label>CSS</label>
+                    <textarea id="field-css" class="code"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>JavaScript</label>
+                    <textarea id="field-js" class="code"></textarea>
+                </div>
+            </div>
+            <div class="panel" id="creator-json-wrap">
+                <div class="form-group">
+                    <label>Widget JSON</label>
+                    <textarea id="create-json" class="code" style="height: 460px;"></textarea>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button id="create-save-btn" class="btn btn-success">Save &amp; Install Widget</button>
             </div>
         </div>
 
@@ -313,16 +369,32 @@
                 
                 <div class="setting-item">
                     <div class="setting-info">
-                        <h4>Global Boss Key</h4>
-                        <p>Use <strong>Ctrl + Shift + W</strong> to instantly hide or show all widgets anywhere.</p>
+                        <h4>Hide / Show Widgets</h4>
+                        <p>Press <strong>Ctrl + Shift + W</strong> anywhere to hide or show every widget.</p>
                     </div>
-                    <div style="color: #a6e3a1; font-weight: bold;">Active</div>
+                    <div id="shortcut-boss" class="shortcut-pill">Active</div>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h4>Exit Click-Through</h4>
+                        <p>Press <strong>Ctrl + Shift + X</strong> when a widget is ignoring the mouse.</p>
+                    </div>
+                    <div id="shortcut-click" class="shortcut-pill">Active</div>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h4>Widgets Folder</h4>
+                        <p>Open the folder Widgeter loads .widget files from.</p>
+                    </div>
+                    <button id="btn-open-folder" class="btn">Open Folder</button>
                 </div>
                 
                 <div class="setting-item">
                     <div class="setting-info">
                         <h4>Restart Engine</h4>
-                        <p>Fully restart the Widgeter background processes.</p>
+                        <p>Relaunch Widgeter and restore your open widgets.</p>
                     </div>
                     <button id="btn-restart-app" class="btn btn-warning" style="color: #11111b;">Restart</button>
                 </div>
@@ -330,6 +402,7 @@
         </div>
     </div>
 
+    <div id="toast-wrap" class="toast-wrap"></div>
     <script src="dashboard.js"></script>
 </body>
 </html>
