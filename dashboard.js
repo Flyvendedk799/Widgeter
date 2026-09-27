@@ -105,6 +105,19 @@ function renderWidgets() {
         stickyLabel.appendChild(stickyInput);
         stickyLabel.appendChild(document.createTextNode('Sticky'));
 
+        // Setup button - only for widgets that need setup
+        const needsSetup = widget.id.includes('github-prs');
+        let setupBtn = null;
+        if (needsSetup) {
+            setupBtn = document.createElement('button');
+            setupBtn.className = 'btn btn-setup';
+            setupBtn.innerText = '⚙ Setup';
+            setupBtn.onclick = () => {
+                const panel = document.getElementById(`setup-${widget.id}`);
+                panel.classList.toggle('active');
+            };
+        }
+
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'btn';
         deleteBtn.style.backgroundColor = '#f38ba8';
@@ -119,6 +132,7 @@ function renderWidgets() {
         };
 
         actions.appendChild(stickyLabel);
+        if (setupBtn) actions.appendChild(setupBtn);
         actions.appendChild(settingsBtn);
         actions.appendChild(deleteBtn);
         actions.appendChild(toggleLabel);
@@ -168,9 +182,143 @@ function renderWidgets() {
         settingsPanel.appendChild(formGroup);
         
         card.appendChild(settingsPanel);
+
+        // Setup panel - widget-specific setup UI
+        if (needsSetup) {
+            const setupPanel = document.createElement('div');
+            setupPanel.id = `setup-${widget.id}`;
+            setupPanel.className = 'setup-panel';
+            setupPanel.innerHTML = buildSetupPanel(widget);
+            card.appendChild(setupPanel);
+        }
         
         widgetListEl.appendChild(card);
     });
+}
+
+// Widget-specific setup panel builders
+function buildSetupPanel(widget) {
+    if (widget.id.includes('github-prs')) {
+        return buildGitHubSetupPanel(widget);
+    }
+    return '<p style="color: #a6adc8;">No setup needed for this widget.</p>';
+}
+
+function buildGitHubSetupPanel(widget) {
+    const token = widget.config?.github_token || '';
+    const repo = widget.config?.github_repo || '';
+    
+    return `
+        <h4>🔑 GitHub Connection</h4>
+        <p class="setup-description">Connect your GitHub account to view and manage pull requests directly from this widget.</p>
+        <div class="form-group">
+            <label>Personal Access Token</label>
+            <input type="password" id="setup-token-${widget.id}" value="${token}" placeholder="ghp_xxxxxxxxxxxx" />
+            <div class="hint">Requires <strong>repo</strong> scope. <a href="https://github.com/settings/tokens/new?scopes=repo&description=Widgeter" onclick="require('electron').shell.openExternal(this.href); return false;">Create token →</a></div>
+        </div>
+        <div class="form-group">
+            <label>Repository</label>
+            <input type="text" id="setup-repo-${widget.id}" value="${repo}" placeholder="owner/repo (e.g. facebook/react)" />
+        </div>
+        <div id="setup-result-${widget.id}"></div>
+        <div class="setup-actions">
+            <button class="btn" style="background-color: #45475a; color: #cdd6f4;" onclick="testGitHubConnection('${widget.id}')">Test Connection</button>
+            <button class="btn" onclick="saveGitHubSetup('${widget.id}')">💾 Save</button>
+            ${token ? '<button class="btn" style="background-color: #f38ba8;" onclick="clearGitHubSetup(\'' + widget.id + '\')">Disconnect</button>' : ''}
+        </div>
+    `;
+}
+
+function testGitHubConnection(widgetId) {
+    const https = require('https');
+    const token = document.getElementById(`setup-token-${widgetId}`).value.trim();
+    const repo = document.getElementById(`setup-repo-${widgetId}`).value.trim();
+    const resultEl = document.getElementById(`setup-result-${widgetId}`);
+    
+    if (!token || !repo) {
+        resultEl.className = 'test-result error';
+        resultEl.innerText = 'Both token and repository are required.';
+        return;
+    }
+    
+    resultEl.className = 'test-result';
+    resultEl.style.color = '#f9e2af';
+    resultEl.innerText = 'Testing connection...';
+    
+    const options = {
+        hostname: 'api.github.com',
+        path: `/repos/${repo}`,
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github+json',
+            'User-Agent': 'Widgeter',
+            'X-GitHub-Api-Version': '2022-11-28'
+        }
+    };
+    
+    const req = https.request(options, (res) => {
+        let data = '';
+        res.on('data', (chunk) => data += chunk);
+        res.on('end', () => {
+            if (res.statusCode === 200) {
+                try {
+                    const repoData = JSON.parse(data);
+                    resultEl.className = 'test-result success';
+                    resultEl.innerText = `✓ Connected to ${repoData.full_name} (${repoData.open_issues_count} open issues)`;
+                } catch {
+                    resultEl.className = 'test-result success';
+                    resultEl.innerText = '✓ Connection successful';
+                }
+            } else {
+                try {
+                    const errData = JSON.parse(data);
+                    resultEl.className = 'test-result error';
+                    resultEl.innerText = `✗ ${errData.message || 'HTTP ' + res.statusCode}`;
+                } catch {
+                    resultEl.className = 'test-result error';
+                    resultEl.innerText = `✗ HTTP ${res.statusCode}`;
+                }
+            }
+        });
+    });
+    req.on('error', (err) => {
+        resultEl.className = 'test-result error';
+        resultEl.innerText = `✗ ${err.message}`;
+    });
+    req.end();
+}
+
+function saveGitHubSetup(widgetId) {
+    const token = document.getElementById(`setup-token-${widgetId}`).value.trim();
+    const repo = document.getElementById(`setup-repo-${widgetId}`).value.trim();
+    
+    if (!token || !repo) {
+        alert('Both token and repository are required.');
+        return;
+    }
+    
+    const widget = widgetsData.find(w => w.id === widgetId);
+    const newConfig = { ...(widget?.config || {}), github_token: token, github_repo: repo };
+    ipcRenderer.send('update-widget-config', widgetId, newConfig);
+    
+    const resultEl = document.getElementById(`setup-result-${widgetId}`);
+    resultEl.className = 'test-result success';
+    resultEl.innerText = '✓ Saved! The widget will reload automatically.';
+}
+
+function clearGitHubSetup(widgetId) {
+    const widget = widgetsData.find(w => w.id === widgetId);
+    const newConfig = { ...(widget?.config || {}) };
+    delete newConfig.github_token;
+    delete newConfig.github_repo;
+    ipcRenderer.send('update-widget-config', widgetId, newConfig);
+    
+    document.getElementById(`setup-token-${widgetId}`).value = '';
+    document.getElementById(`setup-repo-${widgetId}`).value = '';
+    const resultEl = document.getElementById(`setup-result-${widgetId}`);
+    resultEl.className = 'test-result success';
+    resultEl.innerText = '✓ Disconnected. Widget will show setup prompt.';
 }
 
 // Receive data from Main
