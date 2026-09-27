@@ -1,6 +1,6 @@
 const { ipcRenderer } = require('electron');
 
-const API_URL = 'https://widgeter.flyvende.dk';
+const API_URL = 'https://widgeter.mast3kmedia.dk';
 const listEl = document.getElementById('widget-list');
 const uploadBtn = document.getElementById('upload-btn');
 const uploadFile = document.getElementById('upload-file');
