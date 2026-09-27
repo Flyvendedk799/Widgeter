@@ -280,11 +280,33 @@ function launchWidget(widgetId, config, filePath = null) {
     backgroundColor = '#00000000'
   } = config;
 
+  const { screen } = require('electron');
+  const displays = screen.getAllDisplays();
+  
   // Use saved coordinates/size if they exist
-  const finalX = wState.x !== undefined ? wState.x : config.x;
-  const finalY = wState.y !== undefined ? wState.y : config.y;
+  let finalX = wState.x !== undefined ? wState.x : config.x;
+  let finalY = wState.y !== undefined ? wState.y : config.y;
   const finalWidth = wState.width !== undefined ? wState.width : width;
   const finalHeight = wState.height !== undefined ? wState.height : height;
+  
+  // Off-screen protection
+  if (finalX !== undefined && finalY !== undefined) {
+      let isVisible = false;
+      for (const display of displays) {
+          const { x, y, width: dw, height: dh } = display.bounds;
+          if (finalX >= x && finalX < x + dw && finalY >= y && finalY < y + dh) {
+              isVisible = true;
+              break;
+          }
+      }
+      if (!isVisible) {
+          // Reset to primary display center
+          const primary = screen.getPrimaryDisplay().workArea;
+          finalX = primary.x + (primary.width / 2) - (finalWidth / 2);
+          finalY = primary.y + (primary.height / 2) - (finalHeight / 2);
+      }
+  }
+
   const finalAlwaysOnTop = wState.sticky !== undefined ? wState.sticky : alwaysOnTop;
   const finalOpacity = wState.opacity !== undefined ? wState.opacity : 1.0;
   const finalClickThrough = wState.clickThrough !== undefined ? wState.clickThrough : false;
