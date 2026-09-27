@@ -154,6 +154,19 @@ ipcMain.on('install-widget', (event, filePath) => {
   }
 });
 
+ipcMain.on('install-widget-content', (event, { name, content }) => {
+  try {
+    const fileName = name.replace(/[^a-z0-9]/gi, '_').toLowerCase() + '.widget';
+    const destPath = path.join(WIDGETS_DIR, fileName);
+    fs.writeFileSync(destPath, content);
+    updateWidgetState(fileName, { enabled: true });
+    loadWidgetFile(destPath);
+    sendDashboardData();
+  } catch (e) {
+    dialog.showErrorBox('Installation Error', e.message);
+  }
+});
+
 ipcMain.on('delete-widget', (event, widgetId) => {
   try {
     if (activeWidgets[widgetId]) {

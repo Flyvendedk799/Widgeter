@@ -12,6 +12,13 @@ dropZone.addEventListener('dragover', (e) => {
     dropZone.classList.add('dragover');
 });
 
+const marketplaceBtn = document.getElementById('marketplace-btn');
+if (marketplaceBtn) {
+    marketplaceBtn.addEventListener('click', () => {
+        window.location.href = 'marketplace.html';
+    });
+}
+
 dropZone.addEventListener('dragleave', () => {
     dropZone.classList.remove('dragover');
 });

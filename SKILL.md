@@ -57,6 +57,31 @@ If you (the agent) are asked to install a widget for the user:
 2. Save it directly to the user's Widgeter data directory: `%APPDATA%/widgeter/widgets/`
 3. The Widgeter engine watches this folder and will automatically pick it up, or the user can toggle it from their Dashboard.
 
+## Publishing to the Marketplace
+The user has a self-hosted Widgeter Marketplace running at `https://widgeter.flyvende.dk`.
+If you are asked to upload/publish a widget to the marketplace:
+1. Create a `FormData` payload containing the widget file (or pass `json_content`, `name`, `author`, `description`).
+2. Make a `POST` request to `https://widgeter.flyvende.dk/widgets`.
+3. Use the authorization header `Bearer tobias-secret` (as the user is currently the only one allowed to upload).
+
+Example Node.js request:
+```javascript
+const fetch = require('node-fetch');
+await fetch('https://widgeter.flyvende.dk/widgets', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer tobias-secret'
+  },
+  body: JSON.stringify({
+    name: 'My Cool Widget',
+    author: 'AI Assistant',
+    description: 'A very cool widget',
+    json_content: JSON.stringify(widgetConfigObject)
+  })
+});
+```
+
 ## Architecture & Codebase
 - **`main.js`**: The Electron main process. Handles IPC, State (`state.json`), and launching widgets.
 - **`dashboard.html` / `dashboard.js`**: The management UI where users toggle widgets and edit widget configs.
