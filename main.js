@@ -85,10 +85,14 @@ function sendDashboardData() {
       const wState = state.widgets[file] || { enabled: true, config: {} };
       let name = file;
       let defaultSticky = false;
+      let setupHtml = null;
+      let setupJs = null;
       try {
         const conf = JSON.parse(fs.readFileSync(path.join(WIDGETS_DIR, file), 'utf-8'));
         if (conf.name) name = conf.name;
         if (conf.alwaysOnTop) defaultSticky = true;
+        setupHtml = conf.setupHtml;
+        setupJs = conf.setupJs;
       } catch(e) {}
       
       widgetsList.push({
@@ -97,8 +101,8 @@ function sendDashboardData() {
         enabled: wState.enabled,
         sticky: wState.sticky !== undefined ? wState.sticky : defaultSticky,
         config: wState.config,
-        setupHtml: conf.setupHtml,
-        setupJs: conf.setupJs
+        setupHtml: setupHtml,
+        setupJs: setupJs
       });
     }
   }
