@@ -1,0 +1,3856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Widgeter Showcase — 52 Purposeful Desktop Widgets</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- AMBIENT BACKGROUND GLOW -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+
+  <!-- TOP HEADER -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-badge">
+          <span class="brand-pulse"></span>
+          <span>WIDGETER ENGINE</span>
+        </div>
+        <h1 class="brand-title">Desktop Widget <span class="gradient-text">Studio</span></h1>
+        <p class="brand-desc">77 purposeful desktop widgets and 36 modular restyling blocks with real-time 60FPS animations, glassmorphism, and responsive physics.</p>
+      </div>
+
+      <!-- MAIN MODE SWITCHER: WIDGETS vs BLOCKS -->
+      <div class="library-mode-nav">
+        <button id="mode-widgets" class="mode-pill active" data-mode="widgets">
+          <span class="m-icon">⚡</span>
+          <span class="m-name">Full Widgets</span>
+          <span class="m-badge">77</span>
+        </button>
+        <button id="mode-blocks" class="mode-pill" data-mode="blocks">
+          <span class="m-icon">🧱</span>
+          <span class="m-name">Block Library (Restyling Kit)</span>
+          <span class="m-badge">36</span>
+        </button>
+      </div>
+
+      <!-- CONTROLS BAR -->
+      <div class="global-controls">
+        <div class="control-group search-group">
+          <span class="control-icon">🔍</span>
+          <input type="text" id="widget-search" placeholder="Search 77 widgets & 36 blocks (e.g. button, slider, dropdown, radar)..." autocomplete="off">
+          <button id="clear-search" class="clear-btn" title="Clear search">✕</button>
+        </div>
+
+        <div class="control-group">
+          <button id="toggle-sim-btn" class="pill-btn active">
+            <span class="status-indicator"></span>
+            <span class="btn-text">Live Ticker: Active</span>
+          </button>
+          <button id="burst-data-btn" class="pill-btn action-btn">
+            <span class="icon">⚡</span>
+            <span>Simulate Spike</span>
+          </button>
+          <div class="view-toggles">
+            <button class="view-btn active" data-grid="normal" title="Standard Grid">Standard</button>
+            <button class="view-btn" data-grid="compact" title="Compact Grid">Compact</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- WIDGET CATEGORY NAV PILLS -->
+      <nav class="category-nav" id="widget-nav">
+        <button class="nav-pill active" data-cat="all">All Widgets <span class="pill-count">77</span></button>
+        <button class="nav-pill" data-cat="scifi">🛸 Sci-Fi & Quantum <span class="pill-count">7</span></button>
+        <button class="nav-pill" data-cat="system">🖥️ System & Hardware <span class="pill-count">11</span></button>
+        <button class="nav-pill" data-cat="media">🎵 Audio & Media <span class="pill-count">8</span></button>
+        <button class="nav-pill" data-cat="weather">🌦️ Weather & Earth <span class="pill-count">10</span></button>
+        <button class="nav-pill" data-cat="crypto">📈 Crypto & Markets <span class="pill-count">10</span></button>
+        <button class="nav-pill" data-cat="devops">⚡ DevOps & Cloud <span class="pill-count">9</span></button>
+        <button class="nav-pill" data-cat="time">⏰ Time & Mechanical <span class="pill-count">7</span></button>
+        <button class="nav-pill" data-cat="gaming">🎮 Gaming & Esports <span class="pill-count">2</span></button>
+        <button class="nav-pill" data-cat="smarthome">🏠 Smart Home & EV <span class="pill-count">7</span></button>
+        <button class="nav-pill" data-cat="productivity">🎯 Productivity <span class="pill-count">6</span></button>
+      </nav>
+
+      <!-- BLOCK CATEGORY NAV PILLS -->
+      <nav class="category-nav" id="block-nav" style="display: none;">
+        <button class="nav-pill active" data-bcat="all">All Blocks <span class="pill-count">36</span></button>
+        <button class="nav-pill" data-bcat="buttons">🕹️ Buttons & Controls <span class="pill-count">8</span></button>
+        <button class="nav-pill" data-bcat="boxes">📦 Boxes, Cards & Badges <span class="pill-count">8</span></button>
+        <button class="nav-pill" data-bcat="rows">📐 Rows & Layouts <span class="pill-count">6</span></button>
+        <button class="nav-pill" data-bcat="graphs">📊 Micro-Graphs & Gauges <span class="pill-count">8</span></button>
+        <button class="nav-pill" data-bcat="fx">✨ Animation FX & Utility <span class="pill-count">6</span></button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN SHOWCASE GRID -->
+  <main class="showcase-container">
+    <div class="widget-grid" id="main-grid">
+
+      <!-- ========================================================
+           CATEGORY 1: SYSTEM & HARDWARE (8 WIDGETS)
+           ======================================================== -->
+
+      <!-- 1. CPU Multi-Core Heartbeat -->
+      <article class="widget-card" data-cat="system" data-id="cpu-heartbeat">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🧠</span>
+              <div>
+                <h3 class="w-title">CPU Multi-Core</h3>
+                <span class="w-sub">16-Core Live Thread Load</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag live-tag">60 FPS</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-cpu-heartbeat">
+            <div class="cpu-stat-bar">
+              <div class="stat-box">
+                <span class="stat-num" id="cpu-total-pct">47%</span>
+                <span class="stat-lbl">Utilization</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-num" id="cpu-temp">62°C</span>
+                <span class="stat-lbl">Package Temp</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-num" id="cpu-clock">4.82 GHz</span>
+                <span class="stat-lbl">Clock Boost</span>
+              </div>
+            </div>
+            <div class="canvas-wrap">
+              <canvas id="canvas-cpu-wave" height="90"></canvas>
+            </div>
+            <div class="core-grid" id="cpu-core-grid">
+              <!-- 8 core bars populated by JS -->
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2. RAM Fluid Tank -->
+      <article class="widget-card" data-cat="system" data-id="ram-fluid">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">💧</span>
+              <div>
+                <h3 class="w-title">Memory Allocation</h3>
+                <span class="w-sub">32GB LPDDR5X Fluid Pool</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag live-tag">LIVE</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-ram-fluid">
+            <div class="tank-container">
+              <div class="fluid-tank" id="ram-tank">
+                <div class="wave wave-back"></div>
+                <div class="wave wave-front"></div>
+                <div class="tank-label">
+                  <span class="tank-pct" id="ram-pct">68.4%</span>
+                  <span class="tank-sub">21.9 / 32 GB Used</span>
+                </div>
+              </div>
+            </div>
+            <div class="mem-breakdown">
+              <div class="mem-chunk"><span class="chunk-dot c-app"></span><span>Apps: 14.2 GB</span></div>
+              <div class="mem-chunk"><span class="chunk-dot c-cached"></span><span>Cache: 7.7 GB</span></div>
+              <div class="mem-chunk"><span class="chunk-dot c-free"></span><span>Free: 10.1 GB</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3. GPU Matrix & Speedometer -->
+      <article class="widget-card" data-cat="system" data-id="gpu-matrix">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">⚡</span>
+              <div>
+                <h3 class="w-title">GPU Performance</h3>
+                <span class="w-sub">RTX 4090 D-Shader Core</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">DUAL DIAL</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-gpu-matrix">
+            <div class="dials-row">
+              <div class="dial-wrap">
+                <svg class="dial-svg" viewBox="0 0 100 100">
+                  <circle class="dial-bg" cx="50" cy="50" r="40"/>
+                  <circle class="dial-fill" id="gpu-load-arc" cx="50" cy="50" r="40"/>
+                </svg>
+                <div class="dial-val">
+                  <span class="dial-num" id="gpu-load-num">84%</span>
+                  <span class="dial-tag">Load</span>
+                </div>
+              </div>
+              <div class="fan-chamber">
+                <div class="fan-blade" id="gpu-fan">
+                  <div class="blade b1"></div>
+                  <div class="blade b2"></div>
+                  <div class="blade b3"></div>
+                  <div class="blade b4"></div>
+                  <div class="fan-center"></div>
+                </div>
+                <span class="fan-rpm" id="gpu-rpm">2,140 RPM</span>
+              </div>
+              <div class="dial-wrap">
+                <svg class="dial-svg" viewBox="0 0 100 100">
+                  <circle class="dial-bg" cx="50" cy="50" r="40"/>
+                  <circle class="dial-fill coral-arc" id="gpu-vram-arc" cx="50" cy="50" r="40"/>
+                </svg>
+                <div class="dial-val">
+                  <span class="dial-num" id="gpu-vram-num">18.2</span>
+                  <span class="dial-tag">VRAM GB</span>
+                </div>
+              </div>
+            </div>
+            <div class="gpu-bar-strip">
+              <span class="bar-lbl">Core Clock: 2,745 MHz</span>
+              <span class="bar-lbl temp-hot">71°C Hotspot</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4. Network Radar Sweep -->
+      <article class="widget-card" data-cat="system" data-id="network-radar">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">📡</span>
+              <div>
+                <h3 class="w-title">Network Radar</h3>
+                <span class="w-sub">Gigabit Fiber Stream & Ping</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag live-tag">SWEEP</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-network-radar">
+            <div class="radar-chamber">
+              <div class="radar-sweep-beam"></div>
+              <div class="radar-ring r-1"></div>
+              <div class="radar-ring r-2"></div>
+              <div class="radar-ring r-3"></div>
+              <div class="radar-cross-h"></div>
+              <div class="radar-cross-v"></div>
+              <div class="radar-blip blip-1"></div>
+              <div class="radar-blip blip-2"></div>
+              <div class="radar-blip blip-3"></div>
+            </div>
+            <div class="net-throughput">
+              <div class="tp-box">
+                <span class="tp-dir">↓ DOWNLOAD</span>
+                <span class="tp-speed" id="net-down">842.6 <small>Mbps</small></span>
+              </div>
+              <div class="tp-box">
+                <span class="tp-dir">↑ UPLOAD</span>
+                <span class="tp-speed" id="net-up">114.8 <small>Mbps</small></span>
+              </div>
+              <div class="tp-box">
+                <span class="tp-dir">PING</span>
+                <span class="tp-speed tp-good" id="net-ping">4 <small>ms</small></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 5. Fast-Charging Battery Cell -->
+      <article class="widget-card" data-cat="system" data-id="battery-charge">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🔋</span>
+              <div>
+                <h3 class="w-title">Power & Battery</h3>
+                <span class="w-sub">100W GaN SuperCharge</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag green-tag">⚡ CHARGING</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-battery-charge">
+            <div class="batt-row">
+              <div class="battery-cylinder">
+                <div class="cylinder-cap"></div>
+                <div class="cylinder-core">
+                  <div class="cell-level" id="batt-fill-bar" style="width: 82%;">
+                    <div class="plasma-shine"></div>
+                  </div>
+                  <div class="lightning-strike">⚡</div>
+                </div>
+              </div>
+              <div class="batt-readout">
+                <div class="readout-big" id="batt-pct-text">82%</div>
+                <div class="readout-sub">98.4W Input Flow</div>
+              </div>
+            </div>
+            <div class="batt-metrics">
+              <div class="bm-item"><span>Cycle Count</span><strong>142</strong></div>
+              <div class="bm-item"><span>Health</span><strong class="good-health">98.5%</strong></div>
+              <div class="bm-item"><span>Est. Full</span><strong>18 mins</strong></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 6. Disk I/O Orbital Rings -->
+      <article class="widget-card" data-cat="system" data-id="disk-io">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">💽</span>
+              <div>
+                <h3 class="w-title">NVMe Disk I/O</h3>
+                <span class="w-sub">PCIe Gen 5.0 SSD Activity</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">ORBITAL</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-disk-io">
+            <div class="orbit-visual">
+              <div class="orbit-center-core">
+                <span class="core-icon">💾</span>
+                <span class="core-speed" id="disk-speed-val">4.2 GB/s</span>
+              </div>
+              <div class="orbit-track track-read">
+                <div class="particle-runner p-read"></div>
+              </div>
+              <div class="orbit-track track-write">
+                <div class="particle-runner p-write"></div>
+              </div>
+            </div>
+            <div class="iops-legend">
+              <div class="iops-item"><span class="dot read-dot"></span><span>Read: 642k IOPS</span></div>
+              <div class="iops-item"><span class="dot write-dot"></span><span>Write: 388k IOPS</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 7. Thermal Heatmap Matrix -->
+      <article class="widget-card" data-cat="system" data-id="thermal-profile">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🌡️</span>
+              <div>
+                <h3 class="w-title">Thermal Dissipation</h3>
+                <span class="w-sub">Chassis Hotspot Grid</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">SURFACE</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-thermal-profile">
+            <div class="thermal-matrix" id="thermal-grid">
+              <!-- 24 thermal cells generated by JS -->
+            </div>
+            <div class="thermal-footer">
+              <div class="t-scale">
+                <span>Cool 30°</span>
+                <div class="t-bar"></div>
+                <span>Peak 85°</span>
+              </div>
+              <span class="fan-exhaust">Exhaust: <strong>Normal</strong></span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 8. Server SLA Reliability Grid -->
+      <article class="widget-card" data-cat="system" data-id="server-uptime">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🛡️</span>
+              <div>
+                <h3 class="w-title">SLA Reliability</h3>
+                <span class="w-sub">90-Day Rolling Uptime</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag green-tag">99.98%</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-server-uptime">
+            <div class="uptime-strip" id="uptime-strip">
+              <!-- 45 status ticks generated by JS -->
+            </div>
+            <div class="uptime-meta">
+              <span>90 days ago</span>
+              <span class="green-text">● Operational</span>
+              <span>Today</span>
+            </div>
+            <div class="service-micro-list">
+              <div class="micro-row"><span class="m-dot live"></span><span>Primary Edge Proxy</span><span class="m-ms">12ms</span></div>
+              <div class="micro-row"><span class="m-dot live"></span><span>PostgreSQL Cluster</span><span class="m-ms">4ms</span></div>
+              <div class="micro-row"><span class="m-dot live"></span><span>Redis Cache Layer</span><span class="m-ms">1ms</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+
+      <!-- ========================================================
+           CATEGORY 2: AUDIO & MEDIA (6 WIDGETS)
+           ======================================================== -->
+
+      <!-- 9. Spinning Vinyl Record Player -->
+      <article class="widget-card" data-cat="media" data-id="vinyl-player">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🎧</span>
+              <div>
+                <h3 class="w-title">Now Playing</h3>
+                <span class="w-sub">Vinyl High-Fidelity Audio</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag live-tag">SPINNING</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-vinyl-player">
+            <div class="vinyl-deck">
+              <div class="vinyl-disc spinning" id="vinyl-disc">
+                <div class="grooves"></div>
+                <div class="vinyl-label">
+                  <div class="label-art">🌌</div>
+                </div>
+              </div>
+              <div class="tonearm tracking">
+                <div class="pivot"></div>
+                <div class="arm-rod"></div>
+                <div class="cartridge"></div>
+              </div>
+            </div>
+            <div class="track-info">
+              <div class="song-title">Midnight Hyperdrive</div>
+              <div class="artist-name">Kavinsky & The Midnight</div>
+              <div class="audio-progress-bar">
+                <div class="progress-fill" style="width: 58%;"></div>
+              </div>
+              <div class="time-stamps"><span>2:14</span><span>3:48</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 10. 24-Band Live Audio Equalizer -->
+      <article class="widget-card" data-cat="media" data-id="audio-spectrum">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🎚️</span>
+              <div>
+                <h3 class="w-title">Audio Spectrum</h3>
+                <span class="w-sub">24-Band FFT Frequency Bars</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">REALTIME</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-audio-spectrum">
+            <div class="spectrum-bars" id="spectrum-bars-container">
+              <!-- 24 bars with peak caps generated by JS -->
+            </div>
+            <div class="spectrum-footer">
+              <span>20 Hz</span>
+              <span>Bass</span>
+              <span>Mids</span>
+              <span>Treble</span>
+              <span>20 kHz</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 11. Karaoke Lyric Teleprompter -->
+      <article class="widget-card" data-cat="media" data-id="lyric-stream">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🎙️</span>
+              <div>
+                <h3 class="w-title">Lyric Synchronizer</h3>
+                <span class="w-sub">Word-by-Word Live Teleprompter</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag live-tag">SYNC</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-lyric-stream">
+            <div class="lyrics-viewport">
+              <div class="lyric-line past">Neon lights reflecting on the rainy street</div>
+              <div class="lyric-line active"><span class="highlight-sweep">Speeding through the shadows to the rhythm beat</span></div>
+              <div class="lyric-line future">There's a fire burning in the engine core</div>
+              <div class="lyric-line future">We won't look behind us anymore</div>
+            </div>
+            <div class="bpm-indicator">
+              <span class="pulse-heart">❤️</span>
+              <span>128 BPM · Stereo Mastered</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 12. Stereo Oscilloscope Waveform -->
+      <article class="widget-card" data-cat="media" data-id="audio-waveform">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">〰️</span>
+              <div>
+                <h3 class="w-title">Stereo Oscilloscope</h3>
+                <span class="w-sub">Phase & Waveform Analyzer</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">60 FPS</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-audio-waveform">
+            <div class="scope-screen">
+              <canvas id="canvas-oscilloscope" height="110"></canvas>
+              <div class="scope-grid-lines"></div>
+            </div>
+            <div class="scope-channels">
+              <div class="ch"><span class="ch-led l-ch"></span>Left: +1.4 dB</div>
+              <div class="ch"><span class="ch-led r-ch"></span>Right: +1.2 dB</div>
+              <div class="ch phase">Phase: 98% In-Phase</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 13. Cyber Cassette Player -->
+      <article class="widget-card" data-cat="media" data-id="cassette-tape">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">📼</span>
+              <div>
+                <h3 class="w-title">Retro Cassette</h3>
+                <span class="w-sub">Dual Spool Magnetic Ribbon</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">ANALOG</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-cassette-tape">
+            <div class="cassette-body">
+              <div class="tape-window">
+                <div class="spool spool-left spinning-spool">
+                  <div class="spool-teeth"></div>
+                </div>
+                <div class="tape-ribbon"></div>
+                <div class="spool spool-right spinning-spool">
+                  <div class="spool-teeth"></div>
+                </div>
+              </div>
+              <div class="cassette-label-strip">
+                <span>SIDE A · RETROWAVE MIX VOL. IV</span>
+                <span class="counter-display">0482</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 14. Radial Audio Jog-Wheel -->
+      <article class="widget-card" data-cat="media" data-id="podcast-scrubber">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🎛️</span>
+              <div>
+                <h3 class="w-title">DJ Jog Wheel</h3>
+                <span class="w-sub">Rotary Audio Scrubber</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">SCRUB</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-podcast-scrubber">
+            <div class="jog-chamber">
+              <div class="jog-wheel" id="jog-wheel">
+                <div class="jog-inner-plate">
+                  <div class="jog-notch"></div>
+                  <div class="jog-time">1:42:19</div>
+                </div>
+              </div>
+            </div>
+            <div class="jog-controls">
+              <button class="jog-btn">⏪ -15s</button>
+              <button class="jog-btn primary">❚❚ PAUSE</button>
+              <button class="jog-btn">⏩ +30s</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+
+      <!-- ========================================================
+           CATEGORY 3: WEATHER & NATURE (7 WIDGETS)
+           ======================================================== -->
+
+      <!-- 15. Realistic Rain on Frosted Glass -->
+      <article class="widget-card" data-cat="weather" data-id="rain-glass">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🌧️</span>
+              <div>
+                <h3 class="w-title">Atmospheric Glass</h3>
+                <span class="w-sub">Hydrophobic Droplets & Thunder</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag live-tag">CANVAS</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-rain-glass">
+            <div class="glass-chamber">
+              <canvas id="canvas-rain-glass" height="130"></canvas>
+              <div class="rain-overlay-info">
+                <div class="rain-temp">14°C</div>
+                <div class="rain-desc">Precipitation: 8.4 mm/h</div>
+              </div>
+            </div>
+            <div class="storm-bar">
+              <span>⚡ Thunder Proximity: 4.2 km</span>
+              <span>Barometer: 994 hPa</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 16. Atmospheric Wind Streamlines -->
+      <article class="widget-card" data-cat="weather" data-id="wind-stream">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">💨</span>
+              <div>
+                <h3 class="w-title">Wind Isobars</h3>
+                <span class="w-sub">Curved Aerodynamic Streamlines</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">FLUID</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-wind-stream">
+            <div class="canvas-wrap">
+              <canvas id="canvas-wind-stream" height="110"></canvas>
+            </div>
+            <div class="wind-info-row">
+              <div class="wind-metric">
+                <span class="wm-val">28 <small>knots</small></span>
+                <span class="wm-lbl">Speed (NW)</span>
+              </div>
+              <div class="wind-metric">
+                <span class="wm-val">42 <small>km/h</small></span>
+                <span class="wm-lbl">Gust Peak</span>
+              </div>
+              <div class="wind-compass">
+                <div class="compass-needle" style="transform: rotate(315deg);"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 17. Solar Celestial Arc -->
+      <article class="widget-card" data-cat="weather" data-id="solar-tracker">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">☀️</span>
+              <div>
+                <h3 class="w-title">Solar Celestial Arc</h3>
+                <span class="w-sub">Real-Time Daylight Trajectory</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">ASTRONOMY</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-solar-tracker">
+            <div class="solar-arc-svg-wrap">
+              <svg viewBox="0 0 240 100" class="solar-svg">
+                <defs>
+                  <linearGradient id="sunGlow" x1="0" y1="1" x2="0" y2="0">
+                    <stop offset="0%" stop-color="#ffb703" stop-opacity="0.2"/>
+                    <stop offset="100%" stop-color="#ffb703" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M 20,85 Q 120,5 220,85" class="arc-baseline"/>
+                <path d="M 20,85 Q 120,5 220,85" class="arc-fill-path"/>
+                <line x1="10" y1="85" x2="230" y2="85" class="horizon-line"/>
+                <circle cx="145" cy="28" r="9" class="sun-orb" id="solar-sun-orb"/>
+              </svg>
+            </div>
+            <div class="solar-times">
+              <div class="time-pt"><span>🌅 Sunrise</span><strong>06:24 AM</strong></div>
+              <div class="time-pt solar-noon"><span>☀️ Solar Noon</span><strong>12:58 PM</strong></div>
+              <div class="time-pt"><span>🌇 Sunset</span><strong>07:32 PM</strong></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 18. Air Quality Particulate Chamber -->
+      <article class="widget-card" data-cat="weather" data-id="air-quality">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🍃</span>
+              <div>
+                <h3 class="w-title">Air Quality Index</h3>
+                <span class="w-sub">PM2.5 Microscopic Sensor</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag green-tag">AQI 28 (GOOD)</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-air-quality">
+            <div class="aqi-display">
+              <div class="aqi-ring-box">
+                <svg viewBox="0 0 100 100" class="aqi-ring-svg">
+                  <circle cx="50" cy="50" r="38" class="aqi-bg"/>
+                  <circle cx="50" cy="50" r="38" class="aqi-val-arc"/>
+                </svg>
+                <div class="aqi-center">
+                  <span class="aqi-num">28</span>
+                  <span class="aqi-quality">Clean</span>
+                </div>
+              </div>
+              <div class="aqi-breakdown">
+                <div class="pollutant"><span class="p-name">PM 2.5</span><span class="p-val">6.2 µg/m³</span></div>
+                <div class="pollutant"><span class="p-name">PM 10</span><span class="p-val">12.8 µg/m³</span></div>
+                <div class="pollutant"><span class="p-name">CO₂</span><span class="p-val">412 ppm</span></div>
+                <div class="pollutant"><span class="p-name">O₃ Ozone</span><span class="p-val">0.021 ppm</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 19. Northern Lights Aurora -->
+      <article class="widget-card" data-cat="weather" data-id="aurora-sky">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🌌</span>
+              <div>
+                <h3 class="w-title">Aurora Borealis</h3>
+                <span class="w-sub">Geomagnetic Kp Index 6.8</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">ACTIVE</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-aurora-sky">
+            <div class="aurora-stage">
+              <div class="aurora-curtain ac-1"></div>
+              <div class="aurora-curtain ac-2"></div>
+              <div class="aurora-curtain ac-3"></div>
+              <div class="star-field" id="aurora-stars"></div>
+              <div class="aurora-overlay">
+                <span class="kp-badge">Kp 6.8 G2 Storm</span>
+                <span class="aurora-loc">Tromsø, Norway (69.6° N)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 20. Ocean Tide & Buoy Swell -->
+      <article class="widget-card" data-cat="weather" data-id="tide-wave">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🌊</span>
+              <div>
+                <h3 class="w-title">Ocean Tide & Swell</h3>
+                <span class="w-sub">Buoy 44025 Offshore Hydro</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">TIDE</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-tide-wave">
+            <div class="tide-tank">
+              <div class="tide-wave-layer wave-layer-1"></div>
+              <div class="tide-wave-layer wave-layer-2"></div>
+              <div class="floating-buoy">
+                <div class="buoy-light"></div>
+                <div class="buoy-body">🔔</div>
+              </div>
+            </div>
+            <div class="tide-meta">
+              <div class="t-col"><span>Next High Tide</span><strong>+2.4m · 04:18 PM</strong></div>
+              <div class="t-col"><span>Water Temp</span><strong>17.2°C</strong></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 21. UV Solar Corona -->
+      <article class="widget-card" data-cat="weather" data-id="uv-radiation">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">☀️</span>
+              <div>
+                <h3 class="w-title">UV Index Exposure</h3>
+                <span class="w-sub">Ultraviolet Radiation Corona</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag coral-tag">VERY HIGH</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-uv-radiation">
+            <div class="uv-ring-wrap">
+              <div class="uv-sun-corona">
+                <div class="uv-burst-ring"></div>
+                <div class="uv-core">
+                  <span class="uv-val">8.4</span>
+                  <span class="uv-sub">UV Index</span>
+                </div>
+              </div>
+            </div>
+            <div class="uv-advisory">
+              <span>🛡️ SPF 50+ recommended · Safe exposure: 15 min</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+
+      <!-- ========================================================
+           CATEGORY 4: CRYPTO & FINANCE (7 WIDGETS)
+           ======================================================== -->
+
+      <!-- 22. Real-time Crypto Price Flasher -->
+      <article class="widget-card" data-cat="crypto" data-id="live-ticker-flash">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">₿</span>
+              <div>
+                <h3 class="w-title">Bitcoin Live Ticker</h3>
+                <span class="w-sub">Binance WebSocket Feed</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag live-tag">WEBSOCKET</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-live-ticker-flash">
+            <div class="crypto-header-box">
+              <div class="crypto-price-pill" id="btc-price-pill">
+                <span class="currency-symbol">$</span>
+                <span class="price-val" id="btc-live-price">68,420.50</span>
+              </div>
+              <div class="crypto-delta up" id="btc-delta">+3.84% (24h)</div>
+            </div>
+            <div class="canvas-wrap">
+              <canvas id="canvas-btc-tick" height="75"></canvas>
+            </div>
+            <div class="micro-stats">
+              <div><span>24h High:</span> <strong>$69,120</strong></div>
+              <div><span>24h Low:</span> <strong>$66,890</strong></div>
+              <div><span>Volume:</span> <strong>$3.2B</strong></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 23. Live Order Book & Depth -->
+      <article class="widget-card" data-cat="crypto" data-id="order-book-depth">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">📊</span>
+              <div>
+                <h3 class="w-title">Order Book Depth</h3>
+                <span class="w-sub">ETH/USDT Real-Time Bids & Asks</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">ORDER FLOW</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-order-book-depth">
+            <div class="book-split">
+              <!-- Bids Side -->
+              <div class="book-side bids" id="book-bids">
+                <div class="side-title">BIDS (BUY)</div>
+                <!-- Rows populated by JS -->
+              </div>
+              <!-- Asks Side -->
+              <div class="book-side asks" id="book-asks">
+                <div class="side-title">ASKS (SELL)</div>
+                <!-- Rows populated by JS -->
+              </div>
+            </div>
+            <div class="spread-indicator">Spread: <strong>0.05 USDT (0.001%)</strong></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 24. Dynamic Candlestick Chart -->
+      <article class="widget-card" data-cat="crypto" data-id="candlestick-spark">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🕯️</span>
+              <div>
+                <h3 class="w-title">Candlestick Matrix</h3>
+                <span class="w-sub">1-Minute OHLC Dynamic Formation</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">CHART</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-candlestick-spark">
+            <div class="canvas-wrap">
+              <canvas id="canvas-candlestick" height="110"></canvas>
+            </div>
+            <div class="candle-legend">
+              <span class="green-candle-lbl">▲ Bullish Wick</span>
+              <span class="red-candle-lbl">▼ Bearish Body</span>
+              <span class="vol-lbl">Vol: 1,420 ETH</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 25. Gas Fee Flame Meter -->
+      <article class="widget-card" data-cat="crypto" data-id="gas-tracker">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">⛽</span>
+              <div>
+                <h3 class="w-title">Ethereum Gas Meter</h3>
+                <span class="w-sub">Gwei Flame & EIP-1559 Burn</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag green-tag">LOW GWEI</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-gas-tracker">
+            <div class="flame-chamber">
+              <div class="fire-base">
+                <div class="flame fl-1"></div>
+                <div class="flame fl-2"></div>
+                <div class="flame fl-3"></div>
+              </div>
+              <div class="gas-readout">
+                <span class="gwei-num" id="live-gwei-num">14</span>
+                <span class="gwei-lbl">GWEI</span>
+              </div>
+            </div>
+            <div class="gas-tiers">
+              <div class="tier-box active"><span>⚡ Instant</span><strong>16 Gwei · $0.42</strong></div>
+              <div class="tier-box"><span>Normal</span><strong>14 Gwei · $0.38</strong></div>
+              <div class="tier-box"><span>Slow</span><strong>11 Gwei · $0.31</strong></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 26. Physics Asset Allocation Bubbles -->
+      <article class="widget-card" data-cat="crypto" data-id="portfolio-bubble">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🫧</span>
+              <div>
+                <h3 class="w-title">Asset Allocation</h3>
+                <span class="w-sub">Physics-Based Token Bubbles</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">PHYSICS</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-portfolio-bubble">
+            <div class="bubble-canvas-container">
+              <canvas id="canvas-bubbles" height="120"></canvas>
+            </div>
+            <div class="bubble-legend">
+              <span class="b-dot btc"></span><span>BTC 48%</span>
+              <span class="b-dot eth"></span><span>ETH 28%</span>
+              <span class="b-dot sol"></span><span>SOL 14%</span>
+              <span class="b-dot usdc"></span><span>USDC 10%</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 27. FX Currency Matrix -->
+      <article class="widget-card" data-cat="crypto" data-id="currency-converter">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">💱</span>
+              <div>
+                <h3 class="w-title">FX Forex Pulse</h3>
+                <span class="w-sub">Interbank Exchange Matrix</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">LIVE FX</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-currency-converter">
+            <div class="fx-grid">
+              <div class="fx-card">
+                <span class="fx-pair">EUR / USD</span>
+                <span class="fx-rate" id="fx-eur">1.0842</span>
+                <span class="fx-move up">+0.12%</span>
+              </div>
+              <div class="fx-card">
+                <span class="fx-pair">GBP / USD</span>
+                <span class="fx-rate" id="fx-gbp">1.2981</span>
+                <span class="fx-move down">-0.08%</span>
+              </div>
+              <div class="fx-card">
+                <span class="fx-pair">USD / JPY</span>
+                <span class="fx-rate" id="fx-jpy">154.20</span>
+                <span class="fx-move up">+0.34%</span>
+              </div>
+              <div class="fx-card">
+                <span class="fx-pair">USD / CHF</span>
+                <span class="fx-rate" id="fx-chf">0.8914</span>
+                <span class="fx-move up">+0.05%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 28. Whale Sonar Ping -->
+      <article class="widget-card" data-cat="crypto" data-id="whale-alert">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🐋</span>
+              <div>
+                <h3 class="w-title">Whale Sonar Alert</h3>
+                <span class="w-sub">On-Chain Large Transfers (&gt;$1M)</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag live-tag">SONAR</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-whale-alert">
+            <div class="whale-feed" id="whale-feed">
+              <div class="whale-tx-row new-tx">
+                <span class="tx-badge btc">BTC</span>
+                <span class="tx-amt">2,400 BTC ($164.2M)</span>
+                <span class="tx-route">Unknown ➔ Coinbase</span>
+              </div>
+              <div class="whale-tx-row">
+                <span class="tx-badge usdt">USDT</span>
+                <span class="tx-amt">50,000,000 USDT</span>
+                <span class="tx-route">Tether Treasury ➔ Binance</span>
+              </div>
+              <div class="whale-tx-row">
+                <span class="tx-badge eth">ETH</span>
+                <span class="tx-amt">18,500 ETH ($64.8M)</span>
+                <span class="tx-route">Kraken ➔ Cold Storage</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+
+      <!-- ========================================================
+           CATEGORY 5: DEVOPS & DEVELOPER (7 WIDGETS)
+           ======================================================== -->
+
+      <!-- 29. CI/CD Pipeline Pulse -->
+      <article class="widget-card" data-cat="devops" data-id="cicd-pipeline">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🚀</span>
+              <div>
+                <h3 class="w-title">CI/CD Deploy Pipeline</h3>
+                <span class="w-sub">GitLab / GitHub Action Runner</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag live-tag">DEPLOYING</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-cicd-pipeline">
+            <div class="pipeline-track">
+              <div class="pipe-node pass">
+                <div class="node-circle">✓</div>
+                <span class="node-lbl">Lint</span>
+              </div>
+              <div class="pipe-connector pass-conn"></div>
+              <div class="pipe-node pass">
+                <div class="node-circle">✓</div>
+                <span class="node-lbl">Test</span>
+              </div>
+              <div class="pipe-connector pass-conn"></div>
+              <div class="pipe-node active-node">
+                <div class="node-circle pulse-circle">⚙️</div>
+                <span class="node-lbl">Build</span>
+              </div>
+              <div class="pipe-connector pending-conn"></div>
+              <div class="pipe-node pending">
+                <div class="node-circle">📦</div>
+                <span class="node-lbl">Deploy</span>
+              </div>
+              <div class="pipe-connector pending-conn"></div>
+              <div class="pipe-node pending">
+                <div class="node-circle">🌐</div>
+                <span class="node-lbl">Live</span>
+              </div>
+            </div>
+            <div class="pipe-log-line">
+              <span class="runner-id">runner-#8491:</span>
+              <span class="runner-msg">Compiling assets with esbuild... (48%)</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 30. Kubernetes Hex Pod Cluster -->
+      <article class="widget-card" data-cat="devops" data-id="k8s-pod-cluster">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">☸️</span>
+              <div>
+                <h3 class="w-title">Kubernetes Cluster</h3>
+                <span class="w-sub">18 Pod Mesh · us-east-1</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag green-tag">18/18 HEALTHY</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-k8s-pod-cluster">
+            <div class="pod-hex-mesh" id="k8s-pod-mesh">
+              <!-- 18 hex pods populated by JS with live pulsing states -->
+            </div>
+            <div class="k8s-status-row">
+              <div class="status-chip"><span class="chip-color c-healthy"></span><span>17 Ready</span></div>
+              <div class="status-chip"><span class="chip-color c-healing"></span><span>1 Scaling</span></div>
+              <div class="status-chip"><span class="chip-color c-restarts"></span><span>0 Crash</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 31. Cyber Terminal Log Stream -->
+      <article class="widget-card" data-cat="devops" data-id="terminal-matrix">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">💻</span>
+              <div>
+                <h3 class="w-title">Server Log Stream</h3>
+                <span class="w-sub">stdout / stderr Real-Time TTY</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag live-tag">TAIL -F</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-terminal-matrix">
+            <div class="terminal-box" id="term-box">
+              <div class="term-line"><span class="term-ts">[21:10:04]</span> <span class="term-info">INFO</span> Connected to cluster socket://85.190.100.23</div>
+              <div class="term-line"><span class="term-ts">[21:10:07]</span> <span class="term-info">INFO</span> Healthcheck OK: 200 (latency: 14ms)</div>
+              <div class="term-line"><span class="term-ts">[21:10:11]</span> <span class="term-succ">SUCCESS</span> TLS handshake renewed for *.widgeter.dev</div>
+              <div class="term-line"><span class="term-ts">[21:10:14]</span> <span class="term-warn">WARN</span> High I/O burst on partition /dev/nvme0n1p2</div>
+              <div class="term-line active-line"><span class="term-ts">[21:10:19]</span> <span class="term-info">INFO</span> Streaming worker thread pool <span class="term-cursor">▌</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 32. Branching Git Commit Graph -->
+      <article class="widget-card" data-cat="devops" data-id="git-commit-graph">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🌿</span>
+              <div>
+                <h3 class="w-title">Git Branch Tree</h3>
+                <span class="w-sub">main ⟵ feature/widgets-v2</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">MERGE</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-git-commit-graph">
+            <svg viewBox="0 0 280 90" class="git-tree-svg">
+              <!-- Main Branch Line -->
+              <path d="M 20,30 L 260,30" class="git-branch-main"/>
+              <!-- Feature Branch Curve -->
+              <path d="M 60,30 C 90,30 90,65 130,65 L 200,65 C 230,65 230,30 250,30" class="git-branch-feature"/>
+              <!-- Commit Nodes -->
+              <circle cx="40" cy="30" r="5" class="c-node main-node"/>
+              <circle cx="60" cy="30" r="5" class="c-node main-node"/>
+              <circle cx="120" cy="65" r="5" class="c-node feat-node"/>
+              <circle cx="160" cy="65" r="5" class="c-node feat-node"/>
+              <circle cx="200" cy="65" r="5" class="c-node feat-node pulse-node"/>
+              <circle cx="250" cy="30" r="6" class="c-node merge-node"/>
+            </svg>
+            <div class="git-hash-row">
+              <span class="gh-tag">b399216</span>
+              <span class="gh-msg">feat: animated desktop widget layout</span>
+              <span class="gh-time">2m ago</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 33. Network Ping & Latency Jitter -->
+      <article class="widget-card" data-cat="devops" data-id="api-latency-jitter">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">⚡</span>
+              <div>
+                <h3 class="w-title">API P99 Latency</h3>
+                <span class="w-sub">Global Gateway Jitter</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag live-tag">JITTER</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-api-latency-jitter">
+            <div class="canvas-wrap">
+              <canvas id="canvas-latency-jitter" height="80"></canvas>
+            </div>
+            <div class="latency-metrics">
+              <div class="lm-box"><span>P50</span><strong>12 ms</strong></div>
+              <div class="lm-box"><span>P95</span><strong>28 ms</strong></div>
+              <div class="lm-box"><span>P99</span><strong class="warn-text">54 ms</strong></div>
+              <div class="lm-box"><span>Error Rate</span><strong>0.001%</strong></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 34. Database Query Throughput -->
+      <article class="widget-card" data-cat="devops" data-id="database-queries">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🗄️</span>
+              <div>
+                <h3 class="w-title">Database QPS</h3>
+                <span class="w-sub">PostgreSQL Connection Pool</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">4,820 QPS</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-database-queries">
+            <div class="qps-visual">
+              <div class="qps-cylinder">
+                <div class="cyl-liquid qps-selects" style="height: 72%;"></div>
+                <span class="cyl-lbl">SELECT 72%</span>
+              </div>
+              <div class="qps-cylinder">
+                <div class="cyl-liquid qps-inserts" style="height: 48%;"></div>
+                <span class="cyl-lbl">INSERT 18%</span>
+              </div>
+              <div class="qps-cylinder">
+                <div class="cyl-liquid qps-updates" style="height: 32%;"></div>
+                <span class="cyl-lbl">UPDATE 10%</span>
+              </div>
+            </div>
+            <div class="pool-stats">
+              <span>Pool: 84 / 100 Active</span>
+              <span>Wait Queue: 0</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 35. Global DNS Node Tracer -->
+      <article class="widget-card" data-cat="devops" data-id="dns-propagation">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🌐</span>
+              <div>
+                <h3 class="w-title">Global DNS Mesh</h3>
+                <span class="w-sub">Anycast Node Propagation</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag green-tag">ALL GREEN</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-dns-propagation">
+            <div class="world-node-matrix">
+              <div class="node-point np-us"><span class="ping-circle"></span><span class="np-label">US-East 11ms</span></div>
+              <div class="node-point np-eu"><span class="ping-circle"></span><span class="np-label">Frankfurt 4ms</span></div>
+              <div class="node-point np-sg"><span class="ping-circle"></span><span class="np-label">Singapore 62ms</span></div>
+              <div class="node-point np-jp"><span class="ping-circle"></span><span class="np-label">Tokyo 78ms</span></div>
+              <div class="node-point np-au"><span class="ping-circle"></span><span class="np-label">Sydney 120ms</span></div>
+            </div>
+            <div class="dns-status-footer">
+              <span>DNSSEC: Validated</span>
+              <span>TTL: 300s</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+
+      <!-- ========================================================
+           CATEGORY 6: TIME, ASTRONOMY & WORLD (6 WIDGETS)
+           ======================================================== -->
+
+      <!-- 36. Skeleton Tourbillon Chronometer -->
+      <article class="widget-card" data-cat="time" data-id="mechanical-tourbillon">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">⚙️</span>
+              <div>
+                <h3 class="w-title">Mechanical Tourbillon</h3>
+                <span class="w-sub">Precision Skeleton Escapement</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">60 FPS SWEEP</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-mechanical-tourbillon">
+            <div class="watch-case">
+              <div class="gear gear-large"></div>
+              <div class="gear gear-medium"></div>
+              <div class="gear gear-escapement"></div>
+              <div class="balance-wheel"></div>
+              <div class="watch-hands">
+                <div class="hand hand-hour" id="tourb-hour"></div>
+                <div class="hand hand-min" id="tourb-min"></div>
+                <div class="hand hand-sec" id="tourb-sec"></div>
+                <div class="pin"></div>
+              </div>
+            </div>
+            <div class="tourb-time-readout" id="tourb-digital">10:42:18</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 37. 24h World Timezone Ring -->
+      <article class="widget-card" data-cat="time" data-id="world-timezone-ring">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🌍</span>
+              <div>
+                <h3 class="w-title">World Time Dial</h3>
+                <span class="w-sub">Simultaneous 24h Polar Ring</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">UTC SYNC</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-world-timezone-ring">
+            <div class="tz-grid">
+              <div class="tz-card active-day">
+                <span class="tz-city">London</span>
+                <span class="tz-time" id="tz-lon">--:--</span>
+                <span class="tz-sub">GMT+0 · Day</span>
+              </div>
+              <div class="tz-card active-night">
+                <span class="tz-city">Tokyo</span>
+                <span class="tz-time" id="tz-tok">--:--</span>
+                <span class="tz-sub">JST+9 · Night</span>
+              </div>
+              <div class="tz-card active-day">
+                <span class="tz-city">New York</span>
+                <span class="tz-time" id="tz-nyc">--:--</span>
+                <span class="tz-sub">EST-5 · Day</span>
+              </div>
+              <div class="tz-card active-night">
+                <span class="tz-city">Sydney</span>
+                <span class="tz-time" id="tz-syd">--:--</span>
+                <span class="tz-sub">AEST+10 · Night</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 38. Split-Flap Airport Flip Clock -->
+      <article class="widget-card" data-cat="time" data-id="split-flip-clock">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">⏱️</span>
+              <div>
+                <h3 class="w-title">Mechanical Split-Flap</h3>
+                <span class="w-sub">Retro Train Station Digits</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">FLIP</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-split-flip-clock">
+            <div class="flip-board">
+              <div class="flip-tile-pair">
+                <div class="flip-tile" id="flip-h1"><span class="f-top">2</span><span class="f-bot">2</span></div>
+                <div class="flip-tile" id="flip-h2"><span class="f-top">1</span><span class="f-bot">1</span></div>
+              </div>
+              <span class="flip-separator">:</span>
+              <div class="flip-tile-pair">
+                <div class="flip-tile" id="flip-m1"><span class="f-top">1</span><span class="f-bot">1</span></div>
+                <div class="flip-tile" id="flip-m2"><span class="f-top">4</span><span class="f-bot">4</span></div>
+              </div>
+              <span class="flip-separator">:</span>
+              <div class="flip-tile-pair">
+                <div class="flip-tile" id="flip-s1"><span class="f-top">0</span><span class="f-bot">0</span></div>
+                <div class="flip-tile" id="flip-s2"><span class="f-top">8</span><span class="f-bot">8</span></div>
+              </div>
+            </div>
+            <div class="flip-caption">Copenhagen Local Time (CET)</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 39. 3D Moon Phase & Libration -->
+      <article class="widget-card" data-cat="time" data-id="lunar-phase">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🌙</span>
+              <div>
+                <h3 class="w-title">Lunar Phase</h3>
+                <span class="w-sub">Waxing Gibbous · 82% Illuminated</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">3D MOON</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-lunar-phase">
+            <div class="moon-stage">
+              <div class="moon-sphere">
+                <div class="moon-craters"></div>
+                <div class="moon-terminator"></div>
+              </div>
+            </div>
+            <div class="lunar-details">
+              <span>Next Full Moon: <strong>in 3 days</strong></span>
+              <span>Moonrise: <strong>05:42 PM</strong></span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 40. Zen Meditation Breathing Ring -->
+      <article class="widget-card" data-cat="time" data-id="pomodoro-breathing">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🧘</span>
+              <div>
+                <h3 class="w-title">Focus & Respiration</h3>
+                <span class="w-sub">4-7-8 Breathing Harmonic Pulse</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag green-tag">BREATHE</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-pomodoro-breathing">
+            <div class="zen-ring-container">
+              <div class="zen-halo halo-3"></div>
+              <div class="zen-halo halo-2"></div>
+              <div class="zen-halo halo-1"></div>
+              <div class="zen-center">
+                <span class="zen-state-text" id="zen-instruction">Inhale...</span>
+                <span class="zen-timer-sub">Focus Session · 25:00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 41. ISS Satellite Ground Track -->
+      <article class="widget-card" data-cat="time" data-id="iss-satellite-orbit">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🛰️</span>
+              <div>
+                <h3 class="w-title">ISS Orbital Tracker</h3>
+                <span class="w-sub">Altitude: 418 km · 27,600 km/h</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag live-tag">ORBITING</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-iss-satellite-orbit">
+            <div class="orbit-path-box">
+              <svg viewBox="0 0 280 80" class="iss-orbit-svg">
+                <path d="M 10,60 Q 70,10 140,40 T 270,30" class="orbit-ground-path"/>
+                <circle cx="160" cy="38" r="6" class="iss-dot" id="iss-dot-marker"/>
+                <circle cx="160" cy="38" r="14" class="iss-ping-ring"/>
+              </svg>
+            </div>
+            <div class="iss-stats">
+              <span>Lat: <strong>51.2° N</strong></span>
+              <span>Lon: <strong>14.8° E</strong></span>
+              <span>Pass in: <strong>48m</strong></span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+
+      <!-- ========================================================
+           CATEGORY 7: SMART HOME & IOT (6 WIDGETS)
+           ======================================================== -->
+
+      <!-- 42. Smart Thermostat Climate Dial -->
+      <article class="widget-card" data-cat="smarthome" data-id="smart-thermostat">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🌡️</span>
+              <div>
+                <h3 class="w-title">Living Room Climate</h3>
+                <span class="w-sub">Smart Heating & Humidity</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag coral-tag">HEAT ACTIVE</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-smart-thermostat">
+            <div class="thermo-rotary">
+              <svg viewBox="0 0 160 160" class="thermo-svg">
+                <circle cx="80" cy="80" r="65" class="t-track"/>
+                <circle cx="80" cy="80" r="65" class="t-arc"/>
+              </svg>
+              <div class="thermo-center">
+                <span class="temp-big" id="thermo-temp-display">21.5°</span>
+                <span class="temp-target">Target 22.0°</span>
+              </div>
+            </div>
+            <div class="thermo-quick-row">
+              <button class="t-btn eco">🌱 Eco Mode</button>
+              <button class="t-btn active">🔥 Heating</button>
+              <button class="t-btn">❄️ Cool</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 43. Fluid Ambient Lighting Orb -->
+      <article class="widget-card" data-cat="smarthome" data-id="ambient-light-orb">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">💡</span>
+              <div>
+                <h3 class="w-title">RGB Ambient Light</h3>
+                <span class="w-sub">Philips Hue Dynamic Scene</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">AURORA SCENE</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-ambient-light-orb">
+            <div class="light-orb-chamber">
+              <div class="glowing-orb" id="ambient-orb"></div>
+            </div>
+            <div class="hue-presets">
+              <span class="hue-dot d-cyber" data-hue="cyber" title="Cyber Cyan"></span>
+              <span class="hue-dot d-sunset" data-hue="sunset" title="Sunset Gold"></span>
+              <span class="hue-dot d-neon" data-hue="neon" title="Neon Magenta"></span>
+              <span class="hue-dot d-nature" data-hue="nature" title="Emerald Nature"></span>
+              <span class="hue-dot d-calm" data-hue="calm" title="Calm Lavender"></span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 44. Solar Power Grid Balance -->
+      <article class="widget-card" data-cat="smarthome" data-id="power-grid-meter">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">⚡</span>
+              <div>
+                <h3 class="w-title">Solar Energy Flow</h3>
+                <span class="w-sub">Rooftop Photovoltaic Array</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag green-tag">+4.8 kW EXPORT</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-power-grid-meter">
+            <div class="energy-triangle">
+              <div class="node-energy node-solar">
+                <span class="n-icon">☀️</span>
+                <span class="n-val">6.2 kW</span>
+                <span class="n-lbl">Solar</span>
+              </div>
+              <div class="flow-beam fb-solar-home"></div>
+              <div class="node-energy node-home">
+                <span class="n-icon">🏠</span>
+                <span class="n-val">1.4 kW</span>
+                <span class="n-lbl">Home</span>
+              </div>
+              <div class="flow-beam fb-home-grid"></div>
+              <div class="node-energy node-grid">
+                <span class="n-icon">🏭</span>
+                <span class="n-val">4.8 kW</span>
+                <span class="n-lbl">Grid (Sell)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 45. Biometric Smart Lock -->
+      <article class="widget-card" data-cat="smarthome" data-id="smart-lock">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🔒</span>
+              <div>
+                <h3 class="w-title">Smart Entry Lock</h3>
+                <span class="w-sub">Biometric NFC Deadbolt</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag green-tag">SECURE</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-smart-lock">
+            <div class="fingerprint-scan-chamber">
+              <div class="fp-scanner">
+                <div class="fp-lines"></div>
+                <div class="scan-laser-beam"></div>
+              </div>
+            </div>
+            <div class="lock-status-row">
+              <span class="lock-icon-stat">🔒 Locked</span>
+              <span class="lock-batt">Battery 94%</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 46. Surveillance Security HUD -->
+      <article class="widget-card" data-cat="smarthome" data-id="camera-security">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">📹</span>
+              <div>
+                <h3 class="w-title">Driveway Security</h3>
+                <span class="w-sub">4K AI Object Detection HUD</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag red-tag">● REC</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-camera-security">
+            <div class="camera-viewport">
+              <div class="cam-scanline"></div>
+              <div class="cam-corners"></div>
+              <div class="cam-bbox ai-box">
+                <span class="bbox-tag">PERSON (98%)</span>
+              </div>
+              <div class="cam-osd">
+                <span>CAM 02 · 1080P/60</span>
+                <span id="cam-timestamp">21:14:38</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 47. Acoustic Decibel VU Needle -->
+      <article class="widget-card" data-cat="smarthome" data-id="sound-level-meter">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🔊</span>
+              <div>
+                <h3 class="w-title">Acoustic SPL Meter</h3>
+                <span class="w-sub">Analog VU Ballistics & Decibels</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">ANALOG VU</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-sound-level-meter">
+            <div class="vu-dial-case">
+              <div class="vu-meter-face">
+                <div class="vu-scale-ticks"></div>
+                <div class="vu-needle" id="vu-needle"></div>
+              </div>
+              <div class="vu-leds">
+                <span class="vled green on"></span>
+                <span class="vled green on"></span>
+                <span class="vled yellow on"></span>
+                <span class="vled red" id="vu-red-led"></span>
+              </div>
+            </div>
+            <div class="spl-readout">
+              <span class="spl-big" id="spl-db-val">58 dB</span>
+              <span class="spl-sub">Moderate Ambient Room</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+
+      <!-- ========================================================
+           CATEGORY 8: PRODUCTIVITY & SOCIAL (5 WIDGETS)
+           ======================================================== -->
+
+      <!-- 48. Sprint Velocity & Burndown -->
+      <article class="widget-card" data-cat="productivity" data-id="task-velocity">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🎯</span>
+              <div>
+                <h3 class="w-title">Sprint Velocity</h3>
+                <span class="w-sub">Sprint 24 · 3 Days Remaining</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">84% ON TRACK</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-task-velocity">
+            <div class="velocity-bar-track">
+              <div class="velocity-fill" style="width: 84%;">
+                <div class="spark-head"></div>
+              </div>
+            </div>
+            <div class="interactive-tasks" id="task-list">
+              <label class="task-row done">
+                <input type="checkbox" checked>
+                <span class="custom-check">✓</span>
+                <span class="t-title">Refactor Widgeter window bounds</span>
+              </label>
+              <label class="task-row done">
+                <input type="checkbox" checked>
+                <span class="custom-check">✓</span>
+                <span class="t-title">Implement 60fps canvas loop</span>
+              </label>
+              <label class="task-row">
+                <input type="checkbox">
+                <span class="custom-check"></span>
+                <span class="t-title">Package .widget release bundles</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 49. Burning Habit Streak Flame -->
+      <article class="widget-card" data-cat="productivity" data-id="habit-streak-flame">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🔥</span>
+              <div>
+                <h3 class="w-title">Habit Momentum</h3>
+                <span class="w-sub">42-Day Daily Code Streak</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag coral-tag">🔥 ON FIRE</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-habit-streak-flame">
+            <div class="streak-center">
+              <div class="fire-icon-wrap">
+                <span class="flame-glyph">🔥</span>
+                <div class="flame-glow-pulse"></div>
+              </div>
+              <div class="streak-count">42</div>
+              <span class="streak-sub">Days In A Row</span>
+            </div>
+            <div class="week-pills">
+              <span class="wp done">M</span>
+              <span class="wp done">T</span>
+              <span class="wp done">W</span>
+              <span class="wp done">T</span>
+              <span class="wp done">F</span>
+              <span class="wp done">S</span>
+              <span class="wp today">S</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 50. Multi-Stream Download Hub -->
+      <article class="widget-card" data-cat="productivity" data-id="download-hub">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">⬇️</span>
+              <div>
+                <h3 class="w-title">Transfer Hub</h3>
+                <span class="w-sub">Multi-Part Parallel Downloads</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag live-tag">78 MB/s</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-download-hub">
+            <div class="download-stream">
+              <div class="ds-meta">
+                <span class="ds-name">electron-v32.0.0-win.zip</span>
+                <span class="ds-pct">82%</span>
+              </div>
+              <div class="ds-track"><div class="ds-bar" style="width: 82%;"></div></div>
+            </div>
+            <div class="download-stream">
+              <div class="ds-meta">
+                <span class="ds-name">weights-llama-3-8b.bin</span>
+                <span class="ds-pct">45%</span>
+              </div>
+              <div class="ds-track"><div class="ds-bar secondary" style="width: 45%;"></div></div>
+            </div>
+            <div class="ds-summary">
+              <span>2 Files Active · 1.4 GB / 2.1 GB</span>
+              <span>ETA: 12s</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 51. Milestone Follower Pulse -->
+      <article class="widget-card" data-cat="productivity" data-id="social-follower-pulse">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">👥</span>
+              <div>
+                <h3 class="w-title">Community Growth</h3>
+                <span class="w-sub">GitHub Stars & Followers</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag green-tag">+12 TODAY</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-social-follower-pulse">
+            <div class="counter-odometer">
+              <span class="odo-icon">⭐</span>
+              <span class="odo-number" id="odo-stars">4,829</span>
+            </div>
+            <div class="social-activity-stream" id="social-stream">
+              <div class="soc-item"><span class="soc-user">@alex_dev</span> starred <span class="soc-repo">Flyvendedk799/Widgeter</span></div>
+              <div class="soc-item"><span class="soc-user">@sarah_c</span> forked master</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 52. AI LLM Token Velocity Stream -->
+      <article class="widget-card" data-cat="productivity" data-id="ai-token-stream">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">✨</span>
+              <div>
+                <h3 class="w-title">AI Token Streamer</h3>
+                <span class="w-sub">Gemini 1.5 Pro Generation Rate</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag live-tag">STREAMING</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-ai-token-stream">
+            <div class="token-velocity-gauge">
+              <span class="tok-num" id="live-tps-val">84.2</span>
+              <span class="tok-unit">Tokens / Second</span>
+            </div>
+            <div class="canvas-wrap">
+              <canvas id="canvas-token-speed" height="70"></canvas>
+            </div>
+            <div class="ctx-buffer">
+              <div class="ctx-bar-track">
+                <div class="ctx-bar-fill" style="width: 38%;"></div>
+              </div>
+              <div class="ctx-meta">
+                <span>Context: 388k / 1.0M</span>
+                <span>Latency: 280ms TTFT</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ========================================================
+           CATEGORY 9 & 10 + EXPANSIONS (25 NEXT-LEVEL WIDGETS)
+           ======================================================== -->
+
+      <!-- 53. Holographic 3D Quantum Wireframe Tesseract -->
+      <article class="widget-card" data-cat="scifi" data-id="quantum-tesseract">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">💠</span>
+              <div>
+                <h3 class="w-title">Quantum Tesseract</h3>
+                <span class="w-sub">4D Hypercube Projection & Flux</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag live-tag">3D CANVAS</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-quantum-tesseract">
+            <div class="canvas-wrap">
+              <canvas id="canvas-tesseract" height="130"></canvas>
+            </div>
+            <div class="tesseract-telemetry">
+              <div class="telemetry-item"><span>Coherence</span><strong id="q-coherence">99.98%</strong></div>
+              <div class="telemetry-item"><span>Flux Phase</span><strong id="q-phase">1.414 π</strong></div>
+              <div class="telemetry-item"><span>Entanglement</span><strong class="green-text">Active</strong></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 54. Deep-Space JWST Star Spectrometer -->
+      <article class="widget-card" data-cat="scifi" data-id="jwst-spectrometer">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🔭</span>
+              <div>
+                <h3 class="w-title">JWST Spectrometer</h3>
+                <span class="w-sub">Infrared Deep Field Exoplanet Scan</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">NIRCam</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-jwst-spectrometer">
+            <div class="jwst-scanner-box">
+              <canvas id="canvas-jwst-field" height="100"></canvas>
+              <div class="crosshair-reticle"></div>
+              <div class="spectral-lines">
+                <span class="spec-band band-h2o" title="H2O Water Vapor">H₂O</span>
+                <span class="spec-band band-ch4" title="CH4 Methane">CH₄</span>
+                <span class="spec-band band-co2" title="CO2 Carbon Dioxide">CO₂</span>
+              </div>
+            </div>
+            <div class="jwst-footer">
+              <span>Target: <strong>WASP-96b</strong></span>
+              <span>Distance: <strong>1,150 ly</strong></span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 55. AI Synaptic Neural Network Firing -->
+      <article class="widget-card" data-cat="scifi" data-id="neural-synapse">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">⚡</span>
+              <div>
+                <h3 class="w-title">Neural Synapse Mesh</h3>
+                <span class="w-sub">Transformer Attention Matrix Pulse</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag live-tag">FIRING</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-neural-synapse">
+            <div class="canvas-wrap">
+              <canvas id="canvas-neural-mesh" height="110"></canvas>
+            </div>
+            <div class="synapse-stats">
+              <div class="syn-box"><span>Weights Active</span><strong>175 Billion</strong></div>
+              <div class="syn-box"><span>Loss Rate</span><strong class="green-text">0.0142</strong></div>
+              <div class="syn-box"><span>Attention Heads</span><strong>96</strong></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 56. Submarine Waterfall Sonogram -->
+      <article class="widget-card" data-cat="scifi" data-id="sonar-waterfall">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">⚓</span>
+              <div>
+                <h3 class="w-title">Acoustic Sonogram</h3>
+                <span class="w-sub">Hydrophone Waterfall Spectrogram</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">PASSIVE</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-sonar-waterfall">
+            <div class="waterfall-canvas-box">
+              <canvas id="canvas-sonar-waterfall" height="110"></canvas>
+              <div class="bearing-cursor" style="left: 64%;"></div>
+            </div>
+            <div class="sonar-targets">
+              <span>Bearing: <strong>214° SW</strong></span>
+              <span>Contact: <strong class="coral-text">Submerged Signature</strong></span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 57. Nuclear Fusion Tokamak Chamber -->
+      <article class="widget-card" data-cat="scifi" data-id="fusion-tokamak">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">⚛️</span>
+              <div>
+                <h3 class="w-title">Tokamak Fusion Core</h3>
+                <span class="w-sub">ITER Toroidal Magnetic Confinement</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag red-tag">100M °C</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-fusion-tokamak">
+            <div class="tokamak-stage">
+              <div class="torus-ring">
+                <div class="plasma-stream ps-1"></div>
+                <div class="plasma-stream ps-2"></div>
+                <div class="magnetic-field-lines"></div>
+              </div>
+              <div class="tokamak-center-readout">
+                <span class="q-factor">Q = 10.4</span>
+                <span class="plasma-state">Net Energy Gain</span>
+              </div>
+            </div>
+            <div class="tokamak-metrics">
+              <span>Toroidal Field: <strong>11.8 T</strong></span>
+              <span>Plasma Current: <strong>15 MA</strong></span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 58. Black Hole Gravitational Accretion Disk -->
+      <article class="widget-card" data-cat="scifi" data-id="blackhole-lens">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🕳️</span>
+              <div>
+                <h3 class="w-title">Singularity Accretion</h3>
+                <span class="w-sub">Relativistic Gravitational Lensing</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">RELATIVISTIC</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-blackhole-lens">
+            <div class="canvas-wrap">
+              <canvas id="canvas-blackhole" height="120"></canvas>
+            </div>
+            <div class="blackhole-stats">
+              <span>Schwarzschild Radius: <strong>3.2 AU</strong></span>
+              <span>Time Dilation: <strong>∞ at r_s</strong></span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 59. LIGO Gravitational Wave Chirp -->
+      <article class="widget-card" data-cat="scifi" data-id="ligo-chirp">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">〰️</span>
+              <div>
+                <h3 class="w-title">LIGO Spacetime Chirp</h3>
+                <span class="w-sub">Binary Black Hole Coalescence GW150914</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag live-tag">STRAIN h</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-ligo-chirp">
+            <div class="canvas-wrap">
+              <canvas id="canvas-chirp-wave" height="90"></canvas>
+            </div>
+            <div class="chirp-footer">
+              <span class="strain-tag">h ≈ 1.0 × 10⁻²¹</span>
+              <span>Chirp Peak: <strong>250 Hz</strong></span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 60. Vintage Nixie Tube Vacuum Clock -->
+      <article class="widget-card" data-cat="time" data-id="nixie-clock">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">💡</span>
+              <div>
+                <h3 class="w-title">IN-14 Nixie Clock</h3>
+                <span class="w-sub">Neon Gas Discharge Vacuum Glass</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">170V DC</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-nixie-clock">
+            <div class="nixie-bank">
+              <div class="nixie-tube" id="nx-h1"><span class="nx-filament">2</span><div class="nx-mesh"></div></div>
+              <div class="nixie-tube" id="nx-h2"><span class="nx-filament">1</span><div class="nx-mesh"></div></div>
+              <span class="nx-colon">:</span>
+              <div class="nixie-tube" id="nx-m1"><span class="nx-filament">3</span><div class="nx-mesh"></div></div>
+              <div class="nixie-tube" id="nx-m2"><span class="nx-filament">8</span><div class="nx-mesh"></div></div>
+              <span class="nx-colon">:</span>
+              <div class="nixie-tube" id="nx-s1"><span class="nx-filament">4</span><div class="nx-mesh"></div></div>
+              <div class="nixie-tube" id="nx-s2"><span class="nx-filament">5</span><div class="nx-mesh"></div></div>
+            </div>
+            <div class="nixie-legend">Soviet Era Cathode Filaments (Orange 589nm)</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 61. Analog Reel-to-Reel Studio Deck -->
+      <article class="widget-card" data-cat="media" data-id="reelto-reel">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🎚️</span>
+              <div>
+                <h3 class="w-title">Master Tape Deck</h3>
+                <span class="w-sub">15 IPS Aluminum Reel Flanges</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">ANALOG 15 IPS</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-reelto-reel">
+            <div class="reel-chassis">
+              <div class="reel-wheel reel-left spinning-reel">
+                <div class="spoke sp1"></div>
+                <div class="spoke sp2"></div>
+                <div class="spoke sp3"></div>
+                <div class="hub-center"></div>
+              </div>
+              <div class="tension-arm-box">
+                <div class="tension-roller"></div>
+                <div class="tape-path-line"></div>
+              </div>
+              <div class="reel-wheel reel-right spinning-reel">
+                <div class="spoke sp1"></div>
+                <div class="spoke sp2"></div>
+                <div class="spoke sp3"></div>
+                <div class="hub-center"></div>
+              </div>
+            </div>
+            <div class="tape-meter-row">
+              <span>Peak: <strong>+3.2 dB (Warm Saturation)</strong></span>
+              <span class="tape-counter-readout">03:42:19</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 62. Chladni Cymatics Acoustic Resonance Plate -->
+      <article class="widget-card" data-cat="media" data-id="cymatics-plate">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🎼</span>
+              <div>
+                <h3 class="w-title">Chladni Cymatics</h3>
+                <span class="w-sub">Acoustic Nodal Sand Resonance</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag live-tag">RESONANCE</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-cymatics-plate">
+            <div class="canvas-wrap">
+              <canvas id="canvas-cymatics" height="120"></canvas>
+            </div>
+            <div class="cymatics-control-row">
+              <span class="freq-tag" id="cym-freq-val">432 Hz Pure Sine</span>
+              <span>Harmonic Mode: <strong>(3, 4)</strong></span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 63. Cryogenic Liquid Nitrogen Sub-Zero Cooler -->
+      <article class="widget-card" data-cat="system" data-id="cryo-cooler">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">❄️</span>
+              <div>
+                <h3 class="w-title">LN2 Cryo Cooler</h3>
+                <span class="w-sub">Sub-Zero Phase-Change Thermal Pot</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag live-tag">-196°C</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-cryo-cooler">
+            <div class="cryo-meter-box">
+              <div class="frost-crystal-bezel"></div>
+              <div class="cryo-temp-display">
+                <span class="cryo-degrees" id="cryo-degrees">-195.8°C</span>
+                <span class="cryo-sub">Liquid Nitrogen Equilibrium</span>
+              </div>
+            </div>
+            <div class="cryo-details">
+              <span>Pot Flow: <strong>1.4 L/min</strong></span>
+              <span class="green-text">No Condensation</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 64. Wi-Fi 7 Multi-Link Spectral Waterfall -->
+      <article class="widget-card" data-cat="system" data-id="wifi7-spectrum">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">📶</span>
+              <div>
+                <h3 class="w-title">Wi-Fi 7 6GHz MLO</h3>
+                <span class="w-sub">Multi-Link Operation 320MHz Spectrum</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag green-tag">4096-QAM</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-wifi7-spectrum">
+            <div class="canvas-wrap">
+              <canvas id="canvas-wifi-spectrum" height="90"></canvas>
+            </div>
+            <div class="mlo-bands">
+              <div class="band-chip active"><span>2.4 GHz</span><strong>40 MHz</strong></div>
+              <div class="band-chip active"><span>5.0 GHz</span><strong>160 MHz</strong></div>
+              <div class="band-chip active prime"><span>6.0 GHz</span><strong>320 MHz</strong></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 65. USB-C 240W EPR Power Negotiator -->
+      <article class="widget-card" data-cat="system" data-id="usbc-power">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🔌</span>
+              <div>
+                <h3 class="w-title">USB-C EPR Power</h3>
+                <span class="w-sub">USB PD 3.1 Extended Power Profile</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag coral-tag">48V / 5A</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-usbc-power">
+            <div class="power-meter-row">
+              <div class="pm-box">
+                <span class="pm-title">Voltage</span>
+                <span class="pm-val" id="pd-volts">47.88 <small>V</small></span>
+              </div>
+              <div class="pm-box">
+                <span class="pm-title">Current</span>
+                <span class="pm-val" id="pd-amps">4.92 <small>A</small></span>
+              </div>
+              <div class="pm-box prime">
+                <span class="pm-title">Wattage</span>
+                <span class="pm-val" id="pd-watts">235.6 <small>W</small></span>
+              </div>
+            </div>
+            <div class="pd-status-pill">
+              <span>Negotiated: <strong>EPR Mode (240W Max) · Cable E-Marker Verified</strong></span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 66. Doppler Meteorology Radar Velocity Scan -->
+      <article class="widget-card" data-cat="weather" data-id="doppler-radar">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🌪️</span>
+              <div>
+                <h3 class="w-title">Doppler PPI Radar</h3>
+                <span class="w-sub">Base Velocity & Mesocyclone Rotation</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag red-tag">ROTATION</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-doppler-radar">
+            <div class="doppler-scope-box">
+              <canvas id="canvas-doppler" height="120"></canvas>
+              <div class="radar-crosshairs"></div>
+            </div>
+            <div class="doppler-scale">
+              <span>-65 kt (Inbound)</span>
+              <div class="dbz-spectrum-bar"></div>
+              <span>+65 kt (Outbound)</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 67. Seismograph Richter Wave Drum -->
+      <article class="widget-card" data-cat="weather" data-id="seismograph-drum">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">📉</span>
+              <div>
+                <h3 class="w-title">Seismograph Drum</h3>
+                <span class="w-sub">Broadband Triaxial Seismometer</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag green-tag">QUIET</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-seismograph-drum">
+            <div class="drum-canvas-wrap">
+              <canvas id="canvas-seismograph" height="85"></canvas>
+            </div>
+            <div class="seismo-details">
+              <span>Last Tremor: <strong>M 1.4 · 12 km depth</strong></span>
+              <span>Baseline: <strong>0.02 gal</strong></span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 68. Tornado Rotational Vorticity Cone -->
+      <article class="widget-card" data-cat="weather" data-id="tornado-vortex">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🌪️</span>
+              <div>
+                <h3 class="w-title">Vorticity Cone</h3>
+                <span class="w-sub">Supercell Atmospheric Funnel</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag coral-tag">EF-3 DETECT</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-tornado-vortex">
+            <div class="vortex-stage">
+              <div class="funnel-cloud" id="funnel-cloud"></div>
+              <div class="debris-ring"></div>
+            </div>
+            <div class="vortex-stats">
+              <span>Core Winds: <strong>235 km/h</strong></span>
+              <span>Pressure Drop: <strong>-42 hPa</strong></span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 69. Options Volatility Surface Smile -->
+      <article class="widget-card" data-cat="crypto" data-id="options-surface">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">📈</span>
+              <div>
+                <h3 class="w-title">Implied Volatility Smile</h3>
+                <span class="w-sub">Deribit BTC Options 30-Day Skew</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">IV 58.4%</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-options-surface">
+            <div class="canvas-wrap">
+              <canvas id="canvas-iv-smile" height="90"></canvas>
+            </div>
+            <div class="greeks-row">
+              <div><span>Delta (Δ)</span><strong>0.51</strong></div>
+              <div><span>Gamma (Γ)</span><strong>0.0028</strong></div>
+              <div><span>Vega (ν)</span><strong>124.5</strong></div>
+              <div><span>Theta (θ)</span><strong class="coral-text">-48.2</strong></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 70. Bitcoin Mempool Transaction Weight -->
+      <article class="widget-card" data-cat="crypto" data-id="mempool-weight">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">📦</span>
+              <div>
+                <h3 class="w-title">Mempool Block Queue</h3>
+                <span class="w-sub">Pending Transaction Congestion</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag live-tag">18 BLOCKS</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-mempool-weight">
+            <div class="mempool-blocks-row">
+              <div class="m-block b-hot"><span class="mb-fee">42 sat/vB</span><span class="mb-tag">Next</span></div>
+              <div class="m-block b-med"><span class="mb-fee">36 sat/vB</span><span class="mb-tag">+1</span></div>
+              <div class="m-block b-med"><span class="mb-fee">28 sat/vB</span><span class="mb-tag">+2</span></div>
+              <div class="m-block b-low"><span class="mb-fee">18 sat/vB</span><span class="mb-tag">+3</span></div>
+            </div>
+            <div class="mempool-meta">
+              <span>Unconfirmed Txs: <strong>142,850</strong></span>
+              <span>Memory Size: <strong>285 MB</strong></span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 71. Global Commodities Spot Ticker -->
+      <article class="widget-card" data-cat="crypto" data-id="commodities-ticker">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🪙</span>
+              <div>
+                <h3 class="w-title">Commodities Spot</h3>
+                <span class="w-sub">Gold, Crude Oil, Lithium Futures</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">REALTIME</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-commodities-ticker">
+            <div class="comm-list">
+              <div class="comm-row">
+                <span class="comm-name">Gold (XAU/USD)</span>
+                <span class="comm-price" id="comm-gold">$2,384.40</span>
+                <span class="comm-chg up">+0.85%</span>
+              </div>
+              <div class="comm-row">
+                <span class="comm-name">Brent Crude Oil</span>
+                <span class="comm-price" id="comm-oil">$84.20</span>
+                <span class="comm-chg down">-1.12%</span>
+              </div>
+              <div class="comm-row">
+                <span class="comm-name">Silver (XAG/USD)</span>
+                <span class="comm-price" id="comm-silver">$28.90</span>
+                <span class="comm-chg up">+1.45%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 72. Docker Microservices Network Topology -->
+      <article class="widget-card" data-cat="devops" data-id="docker-topology">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🐳</span>
+              <div>
+                <h3 class="w-title">Microservices Mesh</h3>
+                <span class="w-sub">Docker Swarm Internal Traffic</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag live-tag">TOPOLOGY</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-docker-topology">
+            <div class="canvas-wrap">
+              <canvas id="canvas-docker-topology" height="110"></canvas>
+            </div>
+            <div class="topo-summary">
+              <span>Mesh Ingress: <strong>14.2k req/s</strong></span>
+              <span>Zero-Loss Routing</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 73. Hex Dump Memory Inspector -->
+      <article class="widget-card" data-cat="devops" data-id="hex-dump">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🧩</span>
+              <div>
+                <h3 class="w-title">Hex Memory Dump</h3>
+                <span class="w-sub">Kernel Virtual Address Space</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">0x7FFE...</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-hex-dump">
+            <div class="hex-table" id="hex-table">
+              <!-- Live hex lines populated by JS -->
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 74. Mechanical Keyboard Tactile Switch Curve -->
+      <article class="widget-card" data-cat="gaming" data-id="keyboard-switch">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">⌨️</span>
+              <div>
+                <h3 class="w-title">Switch Actuation</h3>
+                <span class="w-sub">Holy Panda Tactile Bump Curve</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag live-tag">APM 342</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-keyboard-switch">
+            <div class="canvas-wrap">
+              <canvas id="canvas-switch-curve" height="90"></canvas>
+            </div>
+            <div class="switch-metrics">
+              <span>Actuation: <strong>2.0mm @ 55g</strong></span>
+              <span>Bottom-Out: <strong>67g</strong></span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 75. Retro Cyber CRT Phosphor Screen -->
+      <article class="widget-card" data-cat="gaming" data-id="retro-crt">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🕹️</span>
+              <div>
+                <h3 class="w-title">PVM Phosphor CRT</h3>
+                <span class="w-sub">Curved Trinitron Aperture Grille</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">240p SCANLINES</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-retro-crt">
+            <div class="crt-chassis">
+              <div class="crt-screen">
+                <div class="crt-scanline-layer"></div>
+                <div class="crt-pixel-hero"></div>
+                <span class="crt-osd-txt">1-UP 048200 · STAGE 04</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 76. EV Hypercar Digital Instrument Cluster -->
+      <article class="widget-card" data-cat="smarthome" data-id="ev-cluster">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🏎️</span>
+              <div>
+                <h3 class="w-title">EV Cockpit Cluster</h3>
+                <span class="w-sub">Dual-Motor 1,020 hp Telemetry</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag live-tag">SPORT+</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-ev-cluster">
+            <div class="ev-dash-row">
+              <div class="ev-torque-gauge">
+                <span class="ev-speed-num" id="ev-speed-val">128</span>
+                <span class="ev-speed-unit">KM/H</span>
+              </div>
+              <div class="ev-power-meter">
+                <div class="ev-power-bar" id="ev-power-bar" style="width: 68%;"></div>
+                <div class="ev-power-lbl">Power: <strong>480 kW</strong></div>
+              </div>
+            </div>
+            <div class="ev-status-bar">
+              <span>🔋 74% (390 km)</span>
+              <span>Tire: <strong>2.4 bar</strong></span>
+              <span>G-Force: <strong>0.84 G</strong></span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 77. Interactive 3D Rubik's Cube Solver -->
+      <article class="widget-card" data-cat="productivity" data-id="rubiks-cube">
+        <div class="widget-shell">
+          <header class="widget-header">
+            <div class="w-meta">
+              <span class="w-icon">🎲</span>
+              <div>
+                <h3 class="w-title">3D Cube Solver</h3>
+                <span class="w-sub">Kociemba 2-Phase Algorithm</span>
+              </div>
+            </div>
+            <div class="w-actions">
+              <span class="tag">CFOP</span>
+              <button class="code-btn" title="Inspect Widget Code">&lt;/&gt;</button>
+            </div>
+          </header>
+          <div class="widget-content w-rubiks-cube">
+            <div class="cube-iso-stage">
+              <div class="isometric-cube" id="iso-cube">
+                <div class="cube-face-3d face-top"></div>
+                <div class="cube-face-3d face-left"></div>
+                <div class="cube-face-3d face-right"></div>
+              </div>
+            </div>
+            <div class="algorithm-notation">
+              <span>Alg: <strong class="cyan-text">R U R' U' R' F R2 U' R'</strong></span>
+              <span>Step: 18/21</span>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- ========================================================
+         MODULAR BLOCK LIBRARY (36 RESTYLING BLOCKS)
+         ======================================================== -->
+    <div class="block-grid" id="block-grid" style="display: none;">
+
+      <!-- 1. Cyber Glass Buttons -->
+      <article class="block-card" data-bcat="buttons" data-id="wb-glow-btn">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">🕹️</span>
+              <div>
+                <h4 class="b-title">Cyber Glass Buttons</h4>
+                <span class="b-class">.wb-btn · .wb-btn-primary</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-btn-row">
+              <button class="wb-btn wb-btn-primary"><span class="wb-btn-icon">⚡</span><span>Deploy Now</span></button>
+              <button class="wb-btn wb-btn-secondary"><span class="wb-btn-icon">⚙️</span><span>Configure</span></button>
+              <button class="wb-btn wb-btn-danger"><span class="wb-btn-icon">🛑</span><span>Halt</span></button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2. Segmented Timeframe Switcher -->
+      <article class="block-card" data-bcat="buttons" data-id="wb-segmented-tabs">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">🎚️</span>
+              <div>
+                <h4 class="b-title">Segmented Timeframe Tabs</h4>
+                <span class="b-class">.wb-segmented · .wb-seg-btn</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-segmented" id="demo-segmented">
+              <button class="wb-seg-btn active" data-val="1h">1H</button>
+              <button class="wb-seg-btn" data-val="24h">24H</button>
+              <button class="wb-seg-btn" data-val="7d">7D</button>
+              <button class="wb-seg-btn" data-val="all">ALL</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3. iOS/macOS Acrylic Toggle -->
+      <article class="block-card" data-bcat="buttons" data-id="wb-toggle-switch">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">🔘</span>
+              <div>
+                <h4 class="b-title">Illuminated Glass Toggle</h4>
+                <span class="b-class">.wb-toggle · .wb-toggle-track</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-toggle-stack">
+              <label class="wb-toggle">
+                <input type="checkbox" checked>
+                <span class="wb-toggle-track"><span class="wb-toggle-thumb"></span></span>
+                <span class="wb-toggle-lbl">Smart Resizing Auto-Fit</span>
+              </label>
+              <label class="wb-toggle">
+                <input type="checkbox">
+                <span class="wb-toggle-track"><span class="wb-toggle-thumb"></span></span>
+                <span class="wb-toggle-lbl">Transparent Background</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4. Glass Floating Select Dropdown -->
+      <article class="block-card" data-bcat="buttons" data-id="wb-floating-dropdown">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">📂</span>
+              <div>
+                <h4 class="b-title">Floating Glass Dropdown</h4>
+                <span class="b-class">.wb-dropdown · .wb-dropdown-menu</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-dropdown" id="demo-dropdown">
+              <button class="wb-dropdown-trigger">
+                <span class="wb-dd-val"><span class="wb-live-dot-green"></span> Binance (BTC/USDT)</span>
+                <span class="wb-dd-arrow">▾</span>
+              </button>
+              <div class="wb-dropdown-menu">
+                <div class="wb-dd-opt active" data-val="binance"><span class="wb-live-dot-green"></span> Binance (BTC/USDT)</div>
+                <div class="wb-dd-opt" data-val="coinbase">Coinbase Pro (BTC/USD)</div>
+                <div class="wb-dd-opt" data-val="kraken">Kraken (BTC/EUR)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 5. Cyber Glow Range Slider -->
+      <article class="block-card" data-bcat="buttons" data-id="wb-glowing-slider">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">🎚️</span>
+              <div>
+                <h4 class="b-title">Glow Precision Slider</h4>
+                <span class="b-class">.wb-slider · .wb-slider-group</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-slider-group">
+              <div class="wb-slider-header">
+                <span>Fan Duty Cycle</span>
+                <strong id="slider-readout">75%</strong>
+              </div>
+              <input type="range" class="wb-slider" min="0" max="100" value="75" id="demo-slider">
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 6. Micro Action Bar -->
+      <article class="block-card" data-bcat="buttons" data-id="wb-micro-actions">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">🛠️</span>
+              <div>
+                <h4 class="b-title">Micro Action Icon Bar</h4>
+                <span class="b-class">.wb-action-bar · .wb-icon-btn</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-action-bar">
+              <button class="wb-icon-btn active" title="Pin Always on Top"><span class="wb-ic wb-pin-pulse">📌</span></button>
+              <button class="wb-icon-btn" title="Refresh Telemetry"><span class="wb-ic wb-spin-icon">🔄</span></button>
+              <button class="wb-icon-btn" title="Configure Widget"><span class="wb-ic">⚙️</span></button>
+              <button class="wb-icon-btn danger" title="Close"><span class="wb-ic">✕</span></button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 7. Stepper Value Counter -->
+      <article class="block-card" data-bcat="buttons" data-id="wb-stepper-counter">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">🔢</span>
+              <div>
+                <h4 class="b-title">Stepper Counter Control</h4>
+                <span class="b-class">.wb-stepper · .wb-step-btn</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-stepper">
+              <button class="wb-step-btn minus" id="step-minus">-</button>
+              <span class="wb-step-val" id="step-val">4</span>
+              <button class="wb-step-btn plus" id="step-plus">+</button>
+              <span class="wb-step-unit">Workers</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 8. Draggable Rotary Gain Dial -->
+      <article class="block-card" data-bcat="buttons" data-id="wb-rotary-knob">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">🎛️</span>
+              <div>
+                <h4 class="b-title">Rotary Parameter Knob</h4>
+                <span class="b-class">.wb-knob · .wb-knob-notch</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-knob-wrap">
+              <div class="wb-knob" id="demo-knob">
+                <div class="wb-knob-notch"></div>
+              </div>
+              <div class="wb-knob-meta">
+                <span class="wb-knob-val" id="knob-val-txt">68 dB</span>
+                <span class="wb-knob-lbl">Gain Output</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 9. Inset Dark Glass Well -->
+      <article class="block-card" data-bcat="boxes" data-id="wb-glass-well">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">📦</span>
+              <div>
+                <h4 class="b-title">Inset Dark Glass Well</h4>
+                <span class="b-class">.wb-well · .wb-well-title</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-well">
+              <div class="wb-well-top">
+                <span class="wb-well-title">SYSTEM MEMORY POOL</span>
+                <span class="wb-live-dot-pulse"></span>
+              </div>
+              <div class="wb-well-content">
+                <span>Active swap partition: <strong id="wb-swap-val">8,192 MB</strong></span>
+                <div class="wb-well-meter"><div class="wb-well-bar" id="wb-swap-bar" style="width: 64%;"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 10. Metric KPI Callout Card -->
+      <article class="block-card" data-bcat="boxes" data-id="wb-kpi-block">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">📊</span>
+              <div>
+                <h4 class="b-title">Metric KPI Stat Box</h4>
+                <span class="b-class">.wb-kpi-card · .wb-kpi-trend</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-kpi-card">
+              <span class="wb-kpi-label">Node Hashrate</span>
+              <div class="wb-kpi-num"><span id="wb-kpi-val">142.8</span> <small>TH/s</small></div>
+              <div class="wb-kpi-trend up"><span class="wb-arrow-bounce">↑</span> <span id="wb-kpi-pct">8.4%</span> vs last block</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 11. Live Status Radar Beacon Pills -->
+      <article class="block-card" data-bcat="boxes" data-id="wb-status-badges">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">🚨</span>
+              <div>
+                <h4 class="b-title">Status Beacon Pills</h4>
+                <span class="b-class">.wb-status-badge · .wb-radar-dot</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-badge-row">
+              <span class="wb-status-badge online"><span class="wb-radar-dot"></span>ONLINE</span>
+              <span class="wb-status-badge deploy"><span class="wb-radar-dot"></span>BUILDING</span>
+              <span class="wb-status-badge warning"><span class="wb-radar-dot"></span>THROTTLED</span>
+              <span class="wb-status-badge offline"><span class="wb-radar-dot"></span>OFFLINE</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 12. Frameless Window Titlebar -->
+      <article class="block-card" data-bcat="boxes" data-id="wb-window-titlebar">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">🪟</span>
+              <div>
+                <h4 class="b-title">Widget Window Titlebar</h4>
+                <span class="b-class">.wb-titlebar · .wb-mac-dots</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-titlebar">
+              <div class="wb-mac-dots">
+                <span class="wb-dot d-close"></span>
+                <span class="wb-dot d-min"></span>
+                <span class="wb-dot d-max"></span>
+              </div>
+              <div class="wb-title-center">
+                <span class="wb-win-icon">🧠</span>
+                <span class="wb-win-title">SysMonitor.widget</span>
+                <span class="wb-live-dot-cyan"></span>
+              </div>
+              <span class="wb-drag-handle" title="Draggable Body">⠿</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 13. Interactive Tag & Pill Chips -->
+      <article class="block-card" data-bcat="boxes" data-id="wb-tag-chips">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">🏷️</span>
+              <div>
+                <h4 class="b-title">Tag & Pill Chips</h4>
+                <span class="b-class">.wb-chip-cloud · .wb-chip</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-chip-cloud" id="demo-chips">
+              <span class="wb-chip active">Node.js <small>✕</small></span>
+              <span class="wb-chip active">Electron <small>✕</small></span>
+              <span class="wb-chip">WebSockets</span>
+              <span class="wb-chip">Canvas 2D</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 14. Smart Resize Corner Grip -->
+      <article class="block-card" data-bcat="boxes" data-id="wb-smart-resize-corner">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">📐</span>
+              <div>
+                <h4 class="b-title">Smart Resize Corner Grip</h4>
+                <span class="b-class">.wb-resize-box · .wb-resize-handle</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-resize-box">
+              <div class="wb-resize-ghost-frame"></div>
+              <span class="wb-resize-tip">Widgeter Smart Resize Handle</span>
+              <div class="wb-resize-handle" title="Corner grip sets width / height">
+                <svg viewBox="0 0 16 16" width="16" height="16"><path d="M14 14H10M14 10H6M14 6H2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 15. User Avatar & Online Status -->
+      <article class="block-card" data-bcat="boxes" data-id="wb-user-snippet">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">👤</span>
+              <div>
+                <h4 class="b-title">User Avatar & Status</h4>
+                <span class="b-class">.wb-user-pill · .wb-avatar-wrap</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-user-pill">
+              <div class="wb-avatar-wrap">
+                <span class="wb-avatar-text">TF</span>
+                <span class="wb-user-online-dot"></span>
+              </div>
+              <div class="wb-user-info">
+                <span class="wb-user-name">Tobias Friedel</span>
+                <span class="wb-user-role">Widgeter Admin</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 16. Key-Value Spec Sheet -->
+      <article class="block-card" data-bcat="boxes" data-id="wb-key-value-list">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">📋</span>
+              <div>
+                <h4 class="b-title">Monospace Key-Value List</h4>
+                <span class="b-class">.wb-kv-list · .wb-kv-item</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-kv-list">
+              <div class="wb-kv-item"><span class="wb-k">Kernel</span><span class="wb-v">6.8.0-45-generic</span></div>
+              <div class="wb-kv-item"><span class="wb-k">Process ID</span><span class="wb-v" id="wb-kv-pid">PID 8942</span></div>
+              <div class="wb-kv-item"><span class="wb-k">Memory Resident</span><span class="wb-v" id="wb-kv-mem">412.4 MB</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 17. Dotted Spacer Split Row -->
+      <article class="block-card" data-bcat="rows" data-id="wb-split-row">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">📏</span>
+              <div>
+                <h4 class="b-title">Dotted Spacer Split Row</h4>
+                <span class="b-class">.wb-split-item · .wb-dotted-line</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-split-item">
+              <div class="wb-si-left"><span class="wb-si-icon wb-rocket-pulse">🚀</span><span>Deploy Target</span></div>
+              <span class="wb-dotted-line"></span>
+              <span class="wb-si-val">prod-eu-west-1</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 18. Dual Stat Comparison Split -->
+      <article class="block-card" data-bcat="rows" data-id="wb-dual-stat-split">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">⚖️</span>
+              <div>
+                <h4 class="b-title">Dual Stat Split Bar</h4>
+                <span class="b-class">.wb-dual-split · .wb-ds-col</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-dual-split">
+              <div class="wb-ds-col">
+                <span class="wb-ds-label">Inbound Traffic</span>
+                <strong class="wb-ds-val cyan" id="wb-inbound-val">1.42 GB</strong>
+                <div class="wb-mini-track"><div class="wb-mini-bar cyan-bar" id="wb-inbound-bar" style="width: 68%;"></div></div>
+              </div>
+              <div class="wb-ds-divider"></div>
+              <div class="wb-ds-col">
+                <span class="wb-ds-label">Outbound Traffic</span>
+                <strong class="wb-ds-val pink" id="wb-outbound-val">480 MB</strong>
+                <div class="wb-mini-track"><div class="wb-mini-bar pink-bar" id="wb-outbound-bar" style="width: 32%;"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 19. 2x2 Dense Micro Stat Tiles -->
+      <article class="block-card" data-bcat="rows" data-id="wb-quad-tile-grid">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">⊞</span>
+              <div>
+                <h4 class="b-title">2x2 Micro Tile Grid</h4>
+                <span class="b-class">.wb-quad-grid · .wb-q-tile</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-quad-grid">
+              <div class="wb-q-tile"><span class="wb-qt-icon">👥</span><span class="wb-qt-num" id="wb-q-peers">2.4k</span><span class="wb-qt-lbl">Peers</span></div>
+              <div class="wb-q-tile"><span class="wb-qt-icon">⚡</span><span class="wb-qt-num cyan-text" id="wb-q-ping">4ms</span><span class="wb-qt-lbl">Ping</span></div>
+              <div class="wb-q-tile"><span class="wb-qt-icon">📦</span><span class="wb-qt-num" id="wb-q-cache">98%</span><span class="wb-qt-lbl">Cache</span></div>
+              <div class="wb-q-tile"><span class="wb-qt-icon">🛡️</span><span class="wb-qt-num" id="wb-q-faults">0</span><span class="wb-qt-lbl">Faults</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 20. Activity Stream Event Item -->
+      <article class="block-card" data-bcat="rows" data-id="wb-activity-feed-row">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">⚡</span>
+              <div>
+                <h4 class="b-title">Event Stream Feed Row</h4>
+                <span class="b-class">.wb-feed-item · .wb-feed-dot</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-feed-item">
+              <span class="wb-feed-dot"></span>
+              <div class="wb-feed-body">
+                <div class="wb-feed-msg"><strong>Release v2.4.0</strong> tagged in Flyvendedk799/Widgeter</div>
+                <div class="wb-feed-time">2 mins ago · GitHub Action runner-#12</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 21. Collapsible Accordion Drawer -->
+      <article class="block-card" data-bcat="rows" data-id="wb-accordion-panel">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">📂</span>
+              <div>
+                <h4 class="b-title">Collapsible Accordion Item</h4>
+                <span class="b-class">.wb-accordion · .wb-acc-header</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-accordion open" id="demo-accordion">
+              <div class="wb-acc-header">
+                <div class="wb-acc-title-wrap">
+                  <span class="wb-acc-title">Socket Handshake Details</span>
+                  <span class="wb-acc-status-pill"><span class="wb-live-dot-green"></span> CONNECTED</span>
+                </div>
+                <span class="wb-acc-arrow">▾</span>
+              </div>
+              <div class="wb-acc-body">
+                <div class="wb-acc-line">Protocol: TLS 1.3 / ChaCha20-Poly1305</div>
+                <div class="wb-acc-line">Round-Trip Latency: <strong class="cyan-text" id="wb-latency-val">12.4 ms</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 22. Inline Warning & Toast Banner -->
+      <article class="block-card" data-bcat="rows" data-id="wb-banner-alert">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">⚠️</span>
+              <div>
+                <h4 class="b-title">Inline Alert Banner</h4>
+                <span class="b-class">.wb-alert · .wb-alert-icon</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-alert warning">
+              <span class="wb-alert-icon wb-alert-pulse">⚠️</span>
+              <span class="wb-alert-txt">Memory ceiling threshold at 85% utilization</span>
+              <button class="wb-alert-close">✕</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 23. Drop-In SVG Gradient Sparkline -->
+      <article class="block-card" data-bcat="graphs" data-id="wb-sparkline-card">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">📈</span>
+              <div>
+                <h4 class="b-title">SVG Gradient Sparkline</h4>
+                <span class="b-class">.wb-spark-box · .wb-spark-svg</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-spark-box">
+              <div class="wb-spark-header"><span>Throughput</span><strong class="cyan" id="wb-spark-val">+14.2%</strong></div>
+              <div class="wb-spark-canvas-wrap">
+                <canvas id="wb-spark-canvas" width="280" height="42"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 24. Concentric Radial Progress Ring -->
+      <article class="block-card" data-bcat="graphs" data-id="wb-radial-meter-ring">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">⭕</span>
+              <div>
+                <h4 class="b-title">Concentric Radial Ring</h4>
+                <span class="b-class">.wb-radial-wrap · .wb-rad-fill</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-radial-wrap">
+              <svg viewBox="0 0 80 80" class="wb-radial-svg">
+                <circle cx="40" cy="40" r="32" class="wb-rad-bg"/>
+                <circle cx="40" cy="40" r="32" class="wb-rad-fill" id="wb-rad-fill-circle"/>
+              </svg>
+              <div class="wb-rad-center"><strong id="wb-rad-pct">74%</strong><small>LOAD</small></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 25. 10-Segment LED Level Meter -->
+      <article class="block-card" data-bcat="graphs" data-id="wb-led-meter-bar">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">🚦</span>
+              <div>
+                <h4 class="b-title">10-Segment LED Meter</h4>
+                <span class="b-class">.wb-led-ladder · .wb-led</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-led-ladder" id="wb-led-ladder">
+              <div class="wb-led on g"></div><div class="wb-led on g"></div><div class="wb-led on g"></div>
+              <div class="wb-led on g"></div><div class="wb-led on g"></div><div class="wb-led on y"></div>
+              <div class="wb-led on y"></div><div class="wb-led on y"></div><div class="wb-led r"></div><div class="wb-led r"></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 26. Segmented Dual Allocation Bar -->
+      <article class="block-card" data-bcat="graphs" data-id="wb-dual-fill-bar">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">📊</span>
+              <div>
+                <h4 class="b-title">Segmented Allocation Bar</h4>
+                <span class="b-class">.wb-dual-bar · .wb-db-track</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-dual-bar">
+              <div class="wb-db-track">
+                <div class="wb-db-fill f1" id="wb-db-f1" style="width: 55%;" title="Used"></div>
+                <div class="wb-db-fill f2" id="wb-db-f2" style="width: 25%;" title="Cached"></div>
+              </div>
+              <div class="wb-db-legend"><span id="wb-db-lbl1">Used 55%</span><span id="wb-db-lbl2">Cache 25%</span><span>Free 20%</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 27. 5-Bar Micro Candlestick Strip -->
+      <article class="block-card" data-bcat="graphs" data-id="wb-micro-candlesticks">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">🕯️</span>
+              <div>
+                <h4 class="b-title">Micro Candlestick Strip</h4>
+                <span class="b-class">.wb-candle-strip · .wb-c-bar</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-candle-strip" id="wb-candle-strip">
+              <div class="wb-c-bar up" style="height: 18px;"><div class="c-wick" style="height: 28px;"></div></div>
+              <div class="wb-c-bar up" style="height: 26px;"><div class="c-wick" style="height: 34px;"></div></div>
+              <div class="wb-c-bar down" style="height: 14px;"><div class="c-wick" style="height: 22px;"></div></div>
+              <div class="wb-c-bar up" style="height: 32px;"><div class="c-wick" style="height: 40px;"></div></div>
+              <div class="wb-c-bar up live-candle" id="wb-live-candle" style="height: 20px;"><div class="c-wick" id="wb-live-wick" style="height: 32px;"></div></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 28. 6-Band Mini Equalizer -->
+      <article class="block-card" data-bcat="graphs" data-id="wb-mini-equalizer-bars">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">🎵</span>
+              <div>
+                <h4 class="b-title">6-Band Mini Equalizer</h4>
+                <span class="b-class">.wb-mini-eq · .wb-eq-col</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-mini-eq" id="demo-mini-eq">
+              <div class="wb-eq-col"></div><div class="wb-eq-col"></div><div class="wb-eq-col"></div>
+              <div class="wb-eq-col"></div><div class="wb-eq-col"></div><div class="wb-eq-col"></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 29. 180° Tachometer Speedometer Arc -->
+      <article class="block-card" data-bcat="graphs" data-id="wb-analog-gauge-arc">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">⏱️</span>
+              <div>
+                <h4 class="b-title">180° Semi-Gauge Arc</h4>
+                <span class="b-class">.wb-semi-gauge · .wb-gauge-val</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-semi-gauge">
+              <svg viewBox="0 0 100 55">
+                <path d="M10,50 A40,40 0 0,1 90,50" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="8"/>
+                <path id="wb-gauge-path" d="M10,50 A40,40 0 0,1 90,50" fill="none" stroke="#ff006e" stroke-width="8" stroke-dasharray="125" stroke-dashoffset="40"/>
+              </svg>
+              <div class="wb-gauge-val" id="wb-gauge-num">82 km/h</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 30. 7-Day Activity Heatmap Dots -->
+      <article class="block-card" data-bcat="graphs" data-id="wb-heatmap-streak-strip">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">🟩</span>
+              <div>
+                <h4 class="b-title">7-Day Streak Heatmap Strip</h4>
+                <span class="b-class">.wb-streak-dots · .wb-sdot</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-streak-dots">
+              <span class="wb-sdot l3" title="Mon: 14 commits"></span>
+              <span class="wb-sdot l4" title="Tue: 22 commits"></span>
+              <span class="wb-sdot l2" title="Wed: 8 commits"></span>
+              <span class="wb-sdot l4" title="Thu: 31 commits"></span>
+              <span class="wb-sdot l3" title="Fri: 18 commits"></span>
+              <span class="wb-sdot l1" title="Sat: 4 commits"></span>
+              <span class="wb-sdot l0" title="Sun: 0 commits"></span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 31. Skeleton Loading Shimmer Beam -->
+      <article class="block-card" data-bcat="fx" data-id="wb-shimmer-sweep">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">✨</span>
+              <div>
+                <h4 class="b-title">Skeleton Shimmer Effect</h4>
+                <span class="b-class">.wb-shimmer</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-shimmer-sample">
+              <div class="wb-shimmer-line l1 wb-shimmer"></div>
+              <div class="wb-shimmer-line l2 wb-shimmer"></div>
+              <div class="wb-shimmer-line l3 wb-shimmer"></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 32. Breathing Ambient Glow Aura -->
+      <article class="block-card" data-bcat="fx" data-id="wb-ambient-aura">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">💡</span>
+              <div>
+                <h4 class="b-title">Breathing Ambient Aura</h4>
+                <span class="b-class">.wb-pulse-glow</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-aura-box wb-pulse-glow">
+              <span class="wb-aura-icon">🛡️</span>
+              <span>Guard Active</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 33. Retro CRT Scanline Texture -->
+      <article class="block-card" data-bcat="fx" data-id="wb-scanline-overlay">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">📺</span>
+              <div>
+                <h4 class="b-title">Retro CRT Scanlines</h4>
+                <span class="b-class">.wb-scanlines</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-scanline-box wb-scanlines">
+              <div class="wb-crt-beam"></div>
+              <span class="wb-crt-text">TTY / VIRTUAL CONSOLE 1 <span class="wb-crt-cursor">▋</span></span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 34. Animated Conic Gradient Border -->
+      <article class="block-card" data-bcat="fx" data-id="wb-conic-glow-border">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">🌀</span>
+              <div>
+                <h4 class="b-title">Rotating Conic Border</h4>
+                <span class="b-class">.wb-conic-border</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-conic-border">
+              <div class="wb-conic-inner">
+                <span>Featured Widget Shell</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 35. Physics Levitation Hover Float -->
+      <article class="block-card" data-bcat="fx" data-id="wb-floating-bob">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">🎈</span>
+              <div>
+                <h4 class="b-title">Physics Levitation Float</h4>
+                <span class="b-class">.wb-float</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-float-wrap">
+              <div class="wb-float-chip wb-float">
+                <span>🛸 Floating Desktop Entity</span>
+              </div>
+              <div class="wb-float-shadow"></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 36. Expanding Radar Ping Beacon -->
+      <article class="block-card" data-bcat="fx" data-id="wb-radar-ping-ring">
+        <div class="block-shell">
+          <header class="block-header">
+            <div class="b-meta">
+              <span class="b-icon">📡</span>
+              <div>
+                <h4 class="b-title">Expanding Radar Ping Ring</h4>
+                <span class="b-class">.wb-radar-beacon · .wb-ping-wave</span>
+              </div>
+            </div>
+            <div class="b-actions">
+              <button class="block-copy-btn" data-copy="html">HTML</button>
+              <button class="block-copy-btn" data-copy="css">CSS</button>
+            </div>
+          </header>
+          <div class="block-stage">
+            <div class="wb-beacon-wrap">
+              <div class="wb-radar-beacon">
+                <span class="wb-beacon-core"></span>
+                <span class="wb-ping-wave w1"></span>
+                <span class="wb-ping-wave w2"></span>
+                <span class="wb-ping-wave w3"></span>
+                <div class="wb-radar-sweep-arm"></div>
+              </div>
+              <span>Live Cluster Beacon</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- CODE INSPECTION MODAL -->
+  <div class="code-modal-backdrop" id="code-modal">
+    <div class="code-modal-card">
+      <header class="modal-header">
+        <div class="modal-title-area">
+          <span class="modal-icon" id="modal-icon">⚙️</span>
+          <div>
+            <h3 id="modal-title">Widget Source Code</h3>
+            <span class="modal-subtitle" id="modal-sub">Ready to embed in Widgeter .widget format</span>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button id="copy-code-btn" class="pill-btn action-btn">
+            <span class="copy-icon">📋</span>
+            <span id="copy-btn-text">Copy Code</span>
+          </button>
+          <button id="close-modal-btn" class="close-x-btn">✕</button>
+        </div>
+      </header>
+      <div class="modal-tabs">
+        <button class="m-tab active" data-tab="html">HTML</button>
+        <button class="m-tab" data-tab="css">CSS</button>
+        <button class="m-tab" data-tab="js">JavaScript</button>
+      </div>
+      <div class="modal-code-body">
+        <pre><code id="modal-code-snippet"></code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- SITE FOOTER -->
+  <footer class="app-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <strong>Widgeter Showcase Library</strong> — 77 Purposeful Desktop Widgets &amp; 36 Modular Blocks
+      </div>
+      <p>Designed for desktop performance, real-time animation fidelity, and seamless integration into <a href="https://github.com/Flyvendedk799/Widgeter" target="_blank" rel="noopener">Flyvendedk799/Widgeter</a>.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
