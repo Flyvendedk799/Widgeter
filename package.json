@@ -1,33 +1,68 @@
 {
   "name": "widgeter",
-  "version": "1.0.0",
-  "description": "A desktop widget engine that runs custom .widget files.",
+  "version": "2.0.0",
+  "description": "A desktop widget engine and marketplace: floating, themeable widgets written in plain HTML, CSS and JS.",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "test": "node test/resize-math.test.js",
-    "build": "electron-builder",
-    "dist": "electron-builder --win"
+    "test": "node --test test/engine.test.js test/resize-math.test.js registry/server.test.js",
+    "test:widgets": "node scripts/widget-cli.js validate gallery && electron test/widget-smoke.js",
+    "test:app": "electron test/app-smoke.js",
+    "validate": "node scripts/widget-cli.js validate gallery",
+    "icons": "node scripts/make-icons.js",
+    "thumbnails": "electron test/widget-smoke.js --thumbs",
+    "registry": "node registry/server.js",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --win",
+    "release": "electron-builder --win --publish always"
   },
   "build": {
     "appId": "com.widgeter.app",
     "productName": "Widgeter",
-    "win": {
-      "target": "nsis",
-      "icon": "icon.ico"
-    },
-    "nsis": {
-      "oneClick": false,
-      "perMachine": false,
-      "allowToChangeInstallationDirectory": true
+    "directories": {
+      "buildResources": "build"
     },
     "files": [
       "main.js",
       "preload.js",
-      "dashboard.html",
-      "dashboard.js",
+      "app/**/*",
+      "dashboard/**/*",
       "engine/**/*",
       "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "gallery",
+        "to": "gallery",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "build/icon.png",
+        "to": "icon.png"
+      },
+      {
+        "from": "build/tray.png",
+        "to": "tray.png"
+      }
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "shortcutName": "Widgeter"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "Flyvendedk799",
+        "repo": "Widgeter"
+      }
     ]
   },
   "keywords": [
@@ -40,5 +75,13 @@
   "devDependencies": {
     "electron": "^44.4.5",
     "electron-builder": "^26.15.3"
+  },
+  "dependencies": {
+    "codemirror": "^5.65.21",
+    "electron-updater": "^6.8.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Flyvendedk799/Widgeter.git"
   }
 }

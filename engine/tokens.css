@@ -1,0 +1,41 @@
+/* Widgeter design tokens. Always injected, so any widget (legacy or not) can use var(--wg-*). */
+:root {
+  --wg-bg: rgba(14, 16, 26, 0.94);
+  --wg-fg: #eef0fb;
+  --wg-muted: #9aa1b8;
+  --wg-faint: #646a80;
+  --wg-border: rgba(255, 255, 255, 0.09);
+  --wg-surface: rgba(255, 255, 255, 0.045);
+  --wg-surface-hover: rgba(255, 255, 255, 0.085);
+  --wg-accent: #00f5d4;
+  --wg-accent-soft: rgba(0, 245, 212, 0.14);
+  --wg-accent-2: #3a86ff;
+  --wg-good: #06d6a0;
+  --wg-bad: #ef476f;
+  --wg-warn: #ffbe0b;
+  --wg-info: #3a86ff;
+  --wg-radius: 14px;
+  --wg-radius-sm: 8px;
+  --wg-gap: 10px;
+  --wg-pad: 14px;
+  --wg-font: 'Segoe UI Variable', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --wg-mono: 'Cascadia Mono', 'Consolas', 'Courier New', monospace;
+  color-scheme: dark;
+}
+
+:root[data-theme='light'] {
+  --wg-bg: rgba(248, 249, 252, 0.96);
+  --wg-fg: #1b1f33;
+  --wg-muted: #5c6482;
+  --wg-faint: #8c93ad;
+  --wg-border: rgba(20, 26, 50, 0.12);
+  --wg-surface: rgba(20, 26, 50, 0.045);
+  --wg-surface-hover: rgba(20, 26, 50, 0.09);
+  --wg-accent: #0a7cff;
+  --wg-accent-soft: rgba(10, 124, 255, 0.12);
+  --wg-good: #079669;
+  --wg-bad: #d62b52;
+  --wg-warn: #b97d00;
+  color-scheme: light;
+}
+

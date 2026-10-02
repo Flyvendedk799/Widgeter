@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <title>Widgeter</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' file: data: https: http:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https: http:">
+  <link rel="stylesheet" href="../node_modules/codemirror/lib/codemirror.css">
+  <link rel="stylesheet" href="../node_modules/codemirror/theme/material-darker.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <nav id="sidebar">
+      <div class="brand"><span class="brand-mark"></span><span>Widgeter</span></div>
+      <div id="nav"></div>
+      <div class="sidebar-foot">
+        <div id="update-pill" class="update-pill" hidden></div>
+        <div id="account-chip" class="account-chip"></div>
+        <div id="version-label" class="version-label"></div>
+      </div>
+    </nav>
+    <main id="main"></main>
+  </div>
+  <div id="drawer-root"></div>
+  <div id="modal-root"></div>
+  <div id="drop-overlay" hidden><div>Drop a <b>.widget</b> file or widget folder to install it</div></div>
+  <div id="toast-wrap" class="toast-wrap"></div>
+  <script src="../node_modules/codemirror/lib/codemirror.js"></script>
+  <script src="../node_modules/codemirror/mode/xml/xml.js"></script>
+  <script src="../node_modules/codemirror/mode/javascript/javascript.js"></script>
+  <script src="../node_modules/codemirror/mode/css/css.js"></script>
+  <script src="../node_modules/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+  <script src="../node_modules/codemirror/addon/edit/matchbrackets.js"></script>
+  <script src="../node_modules/codemirror/addon/edit/closebrackets.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
