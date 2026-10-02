@@ -1,0 +1,18 @@
+{
+  "id": "quick-notes",
+  "name": "Quick Notes",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "A scratchpad on your desktop that saves automatically as you type and keeps your notes between sessions.",
+  "category": "productivity",
+  "tags": ["notes", "scratchpad", "text"],
+  "icon": "📝",
+  "legacyIds": [
+    "quick-notes.widget"
+  ],
+  "width": 280,
+  "height": 290,
+  "config": [
+    { "key": "qn_font_size", "label": "Text size (px)", "type": "number", "default": 13, "min": 10, "max": 22, "step": 1 }
+  ]
+}

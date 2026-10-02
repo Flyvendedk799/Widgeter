@@ -1,0 +1,45 @@
+{
+  "id": "weather-forecast",
+  "name": "Weather Forecast",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Multi-day forecast with conditions, highs and lows, and rain chance for one city, from Open-Meteo. No account or API key needed.",
+  "category": "info",
+  "tags": ["weather", "forecast", "temperature"],
+  "icon": "🌦️",
+  "legacyIds": [
+    "weather-forecast.widget"
+  ],
+  "width": 300,
+  "height": 300,
+  "config": [
+    {
+      "key": "owm_city",
+      "label": "City",
+      "type": "text",
+      "required": true,
+      "default": "Copenhagen",
+      "placeholder": "Copenhagen",
+      "help": "City name, optionally with a country to narrow it down: \"Portland, US\" or \"Paris, France\"."
+    },
+    {
+      "key": "units",
+      "label": "Units",
+      "type": "select",
+      "default": "metric",
+      "options": [
+        { "value": "metric", "label": "Metric (°C)" },
+        { "value": "imperial", "label": "Imperial (°F)" }
+      ]
+    },
+    {
+      "key": "days",
+      "label": "Days to show",
+      "type": "number",
+      "default": 5,
+      "min": 3,
+      "max": 7,
+      "step": 1
+    }
+  ]
+}

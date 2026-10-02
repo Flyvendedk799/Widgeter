@@ -1,0 +1,9 @@
+.dc { text-align: center; }
+.dc-time {
+  font-size: 46px; font-weight: 800; line-height: 1.05; letter-spacing: -0.5px;
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.dc-sec { font-size: 26px; font-weight: 700; color: var(--wg-muted); margin-left: 3px; }
+.dc-ampm { font-size: 14px; font-weight: 700; color: var(--wg-muted); margin-left: 5px; letter-spacing: 0.04em; }
+.dc-date { margin-top: 8px; font-size: 13px; font-weight: 500; color: var(--wg-muted); }
+#dc-week { margin-top: 3px; }

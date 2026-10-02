@@ -1,0 +1,7 @@
+#qn-text {
+  display: block; height: 180px; resize: none; line-height: 1.5; padding: 9px 11px;
+  font-family: var(--wg-font); overflow-y: auto;
+}
+.qn-status { margin-top: 7px; font-size: 10.5px; color: var(--wg-faint); min-height: 15px; }
+.qn-status.ok { color: var(--wg-good); }
+.qn-status.err { color: var(--wg-bad); }

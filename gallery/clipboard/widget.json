@@ -1,0 +1,21 @@
+{
+  "id": "clipboard",
+  "name": "Clipboard History",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Keeps a history of the text you copy, so you can click an old clip to copy it back.",
+  "category": "productivity",
+  "tags": ["clipboard", "history", "copy", "paste"],
+  "icon": "📋",
+  "legacyIds": [
+    "clipboard-viewer.widget"
+  ],
+  "width": 280,
+  "height": 330,
+  "config": [
+    { "key": "cb_max", "label": "Clips to keep", "type": "number", "default": 25, "min": 5, "max": 100, "step": 1,
+      "help": "Older clips are dropped once this many are stored." },
+    { "key": "cb_persist", "label": "Remember clips after restart", "type": "boolean", "default": false,
+      "help": "Off by default: clips can contain passwords, so they stay in memory only." }
+  ]
+}

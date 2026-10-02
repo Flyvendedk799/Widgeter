@@ -1,0 +1,16 @@
+.sw-time {
+  text-align: center; font-size: 38px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.1;
+  font-variant-numeric: tabular-nums; white-space: nowrap; margin: 6px 0 14px;
+}
+.sw-time.running { color: var(--wg-accent); }
+.sw-actions { display: flex; justify-content: center; gap: 8px; margin-bottom: 12px; }
+.sw-actions .wg-btn { min-width: 92px; padding: 6px 12px; font-size: 12px; }
+.sw-laps { gap: 2px; max-height: 118px; overflow-y: auto; margin-right: -4px; padding-right: 4px; }
+.sw-laps:empty { display: none; }
+.lap { display: grid; grid-template-columns: 44px 1fr auto; gap: 8px; align-items: baseline; padding: 4px 8px; border-radius: 6px; font-size: 11.5px; font-variant-numeric: tabular-nums; }
+.lap:nth-child(odd) { background: var(--wg-surface); }
+.lap-n { color: var(--wg-muted); }
+.lap-total { color: var(--wg-faint); text-align: right; }
+.lap-delta { font-family: var(--wg-mono); font-weight: 600; }
+.lap.best .lap-delta { color: var(--wg-good); }
+.lap.worst .lap-delta { color: var(--wg-bad); }

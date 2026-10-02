@@ -1,0 +1,32 @@
+{
+  "id": "github-actions",
+  "name": "GitHub Actions CI",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Latest GitHub Actions workflow runs for one repository, with pass/fail status, branch and duration, from the GitHub API.",
+  "category": "dev",
+  "tags": ["github", "ci", "actions", "builds"],
+  "icon": "⚙️",
+  "legacyIds": [
+    "github-actions.widget"
+  ],
+  "width": 300,
+  "height": 470,
+  "config": [
+    {
+      "key": "ga_repo",
+      "label": "Repository (owner/repo)",
+      "type": "text",
+      "required": true,
+      "placeholder": "octocat/hello-world",
+      "help": "The repository whose workflow runs you want to watch, e.g. facebook/react."
+    },
+    {
+      "key": "gh_token",
+      "label": "GitHub personal access token",
+      "type": "password",
+      "placeholder": "ghp_... or github_pat_...",
+      "help": "Optional for public repos (raises the rate limit from 60 to 5000 requests/hour). Required for private repos: create one at github.com/settings/tokens with the repo scope (or fine-grained: Actions read-only)."
+    }
+  ]
+}

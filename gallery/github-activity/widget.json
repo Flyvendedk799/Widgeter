@@ -1,0 +1,32 @@
+{
+  "id": "github-activity",
+  "name": "GitHub Activity",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Recent public GitHub activity for a user (pushes, pull requests, issues, stars, releases) from the GitHub events API.",
+  "category": "dev",
+  "tags": ["github", "activity", "feed", "commits"],
+  "icon": "🐙",
+  "legacyIds": [
+    "github-activity.widget"
+  ],
+  "width": 310,
+  "height": 480,
+  "config": [
+    {
+      "key": "ga2_username",
+      "label": "GitHub username",
+      "type": "text",
+      "required": true,
+      "placeholder": "octocat",
+      "help": "Whose public activity feed to show."
+    },
+    {
+      "key": "gh_token",
+      "label": "GitHub personal access token",
+      "type": "password",
+      "placeholder": "ghp_... or github_pat_...",
+      "help": "Optional. Raises the API rate limit from 60 to 5000 requests/hour. Create one at github.com/settings/tokens; no scopes are needed for public activity."
+    }
+  ]
+}

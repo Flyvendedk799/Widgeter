@@ -1,0 +1,15 @@
+.stage { position: relative; height: 96px; }
+#spec { display: block; width: 100%; height: 100%; }
+.overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 6px; }
+.overlay[hidden] { display: none; }
+.axis { position: relative; height: 14px; margin: 3px 0 10px; }
+.axis span { position: absolute; transform: translateX(-50%); font-size: 9.5px; color: var(--wg-faint); font-variant-numeric: tabular-nums; }
+.stats { gap: 8px; }
+.stat { padding: 8px 6px; text-align: center; min-width: 0; }
+.stat .wg-big-sm { font-size: 16px; font-family: var(--wg-mono); white-space: nowrap; }
+.stat .wg-caption { margin-top: 3px; font-size: 9px; }
+.meter { height: 24px; display: flex; align-items: center; }
+.meter .wg-bar { width: 100%; height: 8px; }
+.meter .wg-fill { transition: width 0.08s linear; background: var(--wg-good); }
+.meter .wg-fill.warn { background: var(--wg-warn); }
+.meter .wg-fill.bad { background: var(--wg-bad); }

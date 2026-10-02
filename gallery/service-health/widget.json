@@ -1,0 +1,50 @@
+{
+  "id": "service-health",
+  "name": "Service Health Monitor",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "A status board for the web services and endpoints you list: overall health, per-service latency and a short status history.",
+  "category": "dev",
+  "tags": ["status", "health", "monitoring", "latency"],
+  "icon": "🩺",
+  "legacyIds": [
+    "service-health.widget"
+  ],
+  "width": 330,
+  "height": 280,
+  "config": [
+    {
+      "key": "sh_services",
+      "label": "Services (one per line)",
+      "type": "textarea",
+      "required": true,
+      "default": "GitHub API | https://api.github.com\nCloudflare | https://1.1.1.1\nGoogle DNS | https://8.8.8.8",
+      "placeholder": "My site | https://example.com\nDatabase | db.example.com:5432",
+      "help": "Name | address, where the address is a web URL (checked over HTTP) or host:port (TCP connect). The name is optional. Lines starting with # are ignored."
+    },
+    {
+      "key": "sh_interval",
+      "label": "Check every (seconds)",
+      "type": "number",
+      "default": 60,
+      "min": 15,
+      "max": 3600,
+      "step": 5
+    },
+    {
+      "key": "sh_timeout",
+      "label": "Timeout (seconds)",
+      "type": "number",
+      "default": 6,
+      "min": 1,
+      "max": 30
+    },
+    {
+      "key": "sh_notify",
+      "label": "Desktop notification when a service goes down",
+      "type": "boolean",
+      "default": false,
+      "help": "Sent after two failed checks in a row, and again when it recovers."
+    }
+  ]
+}

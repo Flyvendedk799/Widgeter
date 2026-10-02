@@ -1,0 +1,24 @@
+{
+  "id": "docker-containers",
+  "name": "Docker Containers",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Running Docker containers with state, health, uptime and published ports, read live from the local docker CLI.",
+  "category": "dev",
+  "tags": ["docker", "containers", "devops"],
+  "icon": "🐳",
+  "legacyIds": [
+    "docker-containers.widget"
+  ],
+  "width": 310,
+  "height": 330,
+  "config": [
+    {
+      "key": "dk_all",
+      "label": "Show stopped containers",
+      "type": "boolean",
+      "default": false,
+      "help": "Include exited and created containers (docker ps -a), not just running ones."
+    }
+  ]
+}

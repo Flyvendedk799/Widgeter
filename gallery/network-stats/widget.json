@@ -1,0 +1,15 @@
+{
+  "id": "network-stats",
+  "name": "Network Stats",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Active network adapters with IP and MAC addresses plus live download and upload speed, read from the operating system.",
+  "category": "system",
+  "tags": ["network", "ip", "bandwidth", "adapters"],
+  "icon": "📶",
+  "legacyIds": [
+    "network-stats.widget"
+  ],
+  "width": 300,
+  "height": 265
+}

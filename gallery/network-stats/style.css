@@ -1,0 +1,12 @@
+.speed { margin-bottom: 10px; }
+.speed[hidden] { display: none; }
+.speed .wg-card { padding: 8px 10px; min-width: 0; }
+.speed .wg-big-sm { font-size: 18px; margin-top: 2px; white-space: nowrap; }
+.speed .unit { font-size: 11px; font-weight: 600; color: var(--wg-muted); margin-left: 2px; }
+#ifaces { gap: 8px; }
+.iface .head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 7px; }
+.iface .nm { font-weight: 700; font-size: 12.5px; min-width: 0; }
+.iface .wg-row { min-width: 0; }
+.iface .wg-lbl { flex: none; }
+.iface .wg-val { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; }
+.iface .rate { font-variant-numeric: tabular-nums; }

@@ -1,0 +1,32 @@
+{
+  "id": "github-profile",
+  "name": "GitHub Profile",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "A GitHub profile card with followers, repos, total stars, top languages and (with a token) the contribution graph, from the GitHub API.",
+  "category": "dev",
+  "tags": ["github", "profile", "stats", "contributions"],
+  "icon": "👤",
+  "legacyIds": [
+    "github-profile.widget"
+  ],
+  "width": 300,
+  "height": 430,
+  "config": [
+    {
+      "key": "gh_username",
+      "label": "GitHub username",
+      "type": "text",
+      "required": true,
+      "placeholder": "octocat",
+      "help": "The profile to show."
+    },
+    {
+      "key": "gh_token",
+      "label": "GitHub personal access token",
+      "type": "password",
+      "placeholder": "ghp_... or github_pat_...",
+      "help": "Optional. Needed only for the contribution graph (GitHub serves it through GraphQL, which requires sign-in) and raises the rate limit to 5000 requests/hour. Create one at github.com/settings/tokens with the read:user scope."
+    }
+  ]
+}

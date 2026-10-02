@@ -1,0 +1,15 @@
+{
+  "id": "cpu-cores",
+  "name": "CPU Cores",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Live per-core CPU usage, total load history and clock speed, read from the operating system every second.",
+  "category": "system",
+  "tags": ["cpu", "cores", "performance", "monitor"],
+  "icon": "💓",
+  "legacyIds": [
+    "cpu-heartbeat.widget"
+  ],
+  "width": 300,
+  "height": 290
+}

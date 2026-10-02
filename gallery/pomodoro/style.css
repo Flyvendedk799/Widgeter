@@ -1,0 +1,13 @@
+.pt-ring { position: relative; width: 150px; height: 150px; margin: 0 auto 10px; }
+.pt-ring svg { display: block; transform: rotate(-90deg); }
+.pt-track { stroke: var(--wg-surface-hover); }
+.pt-arc { stroke: var(--wg-accent); transition: stroke-dashoffset 0.3s linear, stroke 0.4s; }
+.pt-ring.break .pt-arc { stroke: var(--wg-good); }
+.pt-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.pt-time { font-size: 32px; font-weight: 800; line-height: 1.1; letter-spacing: -0.5px; font-variant-numeric: tabular-nums; }
+.pt-sub { margin-top: 2px; font-size: 10.5px; color: var(--wg-muted); }
+.pt-dots { display: flex; justify-content: center; gap: 6px; height: 8px; margin-bottom: 12px; }
+.pt-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--wg-surface-hover); }
+.pt-dot.on { background: var(--wg-accent); }
+.pt-actions { display: flex; justify-content: center; gap: 8px; }
+.pt-actions .wg-btn { padding: 5px 11px; }

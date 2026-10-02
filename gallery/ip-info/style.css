@@ -1,0 +1,8 @@
+.ipcard { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+.ip { font-family: var(--wg-mono); font-size: 18px; font-weight: 700; color: var(--wg-fg); letter-spacing: -0.3px; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.ip.blur { filter: blur(7px); transition: filter 0.2s; }
+.ip.blur:hover { filter: none; }
+.hint { font-size: 10px; color: var(--wg-faint); margin-top: 2px; }
+.wg-val.long { max-width: 68%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--wg-font); font-weight: 600; }
+.wg-val.link { cursor: pointer; }
+.wg-val.link:hover { color: var(--wg-accent); }

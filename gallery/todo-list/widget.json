@@ -1,0 +1,19 @@
+{
+  "id": "todo-list",
+  "name": "Todo List",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "A simple task list with a progress bar that saves automatically and keeps your tasks between sessions.",
+  "category": "productivity",
+  "tags": ["todo", "tasks", "checklist"],
+  "icon": "✅",
+  "legacyIds": [
+    "todo-list.widget"
+  ],
+  "width": 280,
+  "height": 375,
+  "config": [
+    { "key": "todo_new_on_top", "label": "Add new tasks at the top", "type": "boolean", "default": true },
+    { "key": "todo_done_last", "label": "Move finished tasks to the bottom", "type": "boolean", "default": true }
+  ]
+}

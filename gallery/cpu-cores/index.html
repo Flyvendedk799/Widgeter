@@ -1,0 +1,22 @@
+<div class="wg-header">
+  <div class="wg-header-main">
+    <span class="wg-icon">💓</span>
+    <div class="wg-grow">
+      <div class="wg-title">CPU Cores</div>
+      <div class="wg-sub wg-truncate" id="model">Reading processor…</div>
+    </div>
+  </div>
+  <span class="wg-badge accent" id="total">&mdash;</span>
+</div>
+
+<div class="wg-card chart">
+  <canvas id="cpu-canvas"></canvas>
+</div>
+
+<div class="cores" id="core-grid"></div>
+
+<div class="wg-grid-3 metrics">
+  <div class="wg-card m"><div class="wg-big-sm" id="m-clock">&mdash;</div><div class="wg-caption">Clock</div></div>
+  <div class="wg-card m"><div class="wg-big-sm" id="m-cores">&mdash;</div><div class="wg-caption">Threads</div></div>
+  <div class="wg-card m"><div class="wg-big-sm" id="m-peak">&mdash;</div><div class="wg-caption">Peak 60s</div></div>
+</div>

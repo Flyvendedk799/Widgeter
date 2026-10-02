@@ -1,0 +1,7 @@
+.cd-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
+.cd-unit { background: var(--wg-surface); border: 1px solid var(--wg-border); border-radius: 10px; padding: 9px 4px 7px; text-align: center; min-width: 0; }
+.cd-num { font-size: 26px; font-weight: 800; line-height: 1.1; margin-bottom: 3px; font-variant-numeric: tabular-nums; }
+.cd-grid.done .cd-num { color: var(--wg-good); }
+.cd-pct { margin-top: 6px; text-align: right; font-size: 10.5px; color: var(--wg-faint); font-variant-numeric: tabular-nums; }
+.cd-err { color: var(--wg-bad); font-size: 11.5px; line-height: 1.5; margin-bottom: 8px; }
+[hidden] { display: none !important; }

@@ -1,0 +1,22 @@
+{
+  "id": "pomodoro",
+  "name": "Pomodoro Timer",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Focus timer with short and long breaks, a daily session counter and notifications; survives reloads.",
+  "category": "productivity",
+  "tags": ["pomodoro", "focus", "timer", "productivity"],
+  "icon": "🍅",
+  "legacyIds": [
+    "pomodoro-timer.widget"
+  ],
+  "width": 260,
+  "height": 320,
+  "config": [
+    { "key": "pt_work", "label": "Focus (minutes)", "type": "number", "default": 25, "min": 1, "max": 180, "step": 1 },
+    { "key": "pt_short", "label": "Short break (minutes)", "type": "number", "default": 5, "min": 1, "max": 60, "step": 1 },
+    { "key": "pt_long", "label": "Long break (minutes)", "type": "number", "default": 15, "min": 1, "max": 90, "step": 1 },
+    { "key": "pt_cycles", "label": "Focus sessions before a long break", "type": "number", "default": 4, "min": 2, "max": 8, "step": 1 },
+    { "key": "pt_auto", "label": "Start the next phase automatically", "type": "boolean", "default": false }
+  ]
+}

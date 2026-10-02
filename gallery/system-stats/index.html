@@ -1,0 +1,38 @@
+<div class="wg-header">
+  <div class="wg-header-main">
+    <span class="wg-icon">📊</span>
+    <div class="wg-grow">
+      <div class="wg-title">System Stats</div>
+      <div class="wg-sub wg-truncate" id="host">Live CPU &amp; memory</div>
+    </div>
+  </div>
+  <span class="wg-dot good pulse" title="Live"></span>
+</div>
+
+<div class="wg-grid-2">
+  <div class="wg-card gauge">
+    <div class="wg-caption">CPU</div>
+    <div class="wg-big-sm" id="cpu">&mdash;</div>
+    <div class="wg-bar"><div class="wg-fill" id="cpu-bar" style="width:0"></div></div>
+    <div class="note" id="cpu-note">&nbsp;</div>
+  </div>
+  <div class="wg-card gauge">
+    <div class="wg-caption">Memory</div>
+    <div class="wg-big-sm" id="mem">&mdash;</div>
+    <div class="wg-bar"><div class="wg-fill" id="mem-bar" style="width:0"></div></div>
+    <div class="note" id="mem-note">&nbsp;</div>
+  </div>
+</div>
+
+<div class="wg-card spark">
+  <div class="wg-spread"><span class="wg-caption">CPU, last 2 min</span><span class="wg-caption" id="peak">&nbsp;</span></div>
+  <svg id="spark" viewBox="0 0 120 40" preserveAspectRatio="none">
+    <path id="spark-area" class="area" d=""/>
+    <path id="spark-line" class="line" d=""/>
+  </svg>
+</div>
+
+<div class="wg-card rows">
+  <div class="wg-row"><span class="wg-lbl">Uptime</span><span class="wg-val" id="uptime">&mdash;</span></div>
+  <div class="wg-row"><span class="wg-lbl">Free memory</span><span class="wg-val" id="free">&mdash;</span></div>
+</div>

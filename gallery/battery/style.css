@@ -1,0 +1,5 @@
+.hero { text-align: center; padding: 6px 0 12px; }
+.hero .wg-caption { margin-top: 4px; }
+.wg-bar.thick { height: 10px; }
+.wg-bar.thick .wg-fill { transition: width 0.8s ease, background 0.3s; }
+.rows { margin-top: 12px; }

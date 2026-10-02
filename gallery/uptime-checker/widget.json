@@ -1,0 +1,49 @@
+{
+  "id": "uptime-checker",
+  "name": "Uptime Checker",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Checks your websites and TCP services on a schedule and shows status, latency and uptime history for each.",
+  "category": "dev",
+  "tags": ["uptime", "monitoring", "http", "latency"],
+  "icon": "🟢",
+  "legacyIds": [
+    "uptime-checker.widget"
+  ],
+  "width": 300,
+  "height": 320,
+  "config": [
+    {
+      "key": "uc_urls",
+      "label": "Targets (one per line)",
+      "type": "textarea",
+      "required": true,
+      "placeholder": "https://example.com\nMy API | https://api.example.com/health\nmydb.internal:5432",
+      "help": "A web address is fetched over HTTP (up = status below 400, warning = 4xx). host:port is checked with a TCP connect. Optionally prefix a name with \"Name | \". Lines starting with # are ignored."
+    },
+    {
+      "key": "uc_interval",
+      "label": "Check every (seconds)",
+      "type": "number",
+      "default": 60,
+      "min": 15,
+      "max": 3600,
+      "step": 5
+    },
+    {
+      "key": "uc_timeout",
+      "label": "Timeout (seconds)",
+      "type": "number",
+      "default": 8,
+      "min": 1,
+      "max": 30
+    },
+    {
+      "key": "uc_notify",
+      "label": "Desktop notification when a target goes down",
+      "type": "boolean",
+      "default": true,
+      "help": "Sent after two failed checks in a row, and again when it recovers."
+    }
+  ]
+}

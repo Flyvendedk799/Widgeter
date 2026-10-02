@@ -1,0 +1,142 @@
+/* Widgeter base styles and .wg-* components. Injected before the widget CSS when the widget
+   does not set "useBaseStyles": false. A widget's own CSS always wins. */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: var(--wg-pad);
+  font-family: var(--wg-font);
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--wg-fg);
+  background: var(--wg-bg);
+  border: 1px solid var(--wg-border);
+  border-radius: var(--wg-radius);
+}
+
+h1, h2, h3, h4, p { margin: 0; }
+
+/* Layout helpers */
+.wg-stack { display: flex; flex-direction: column; gap: var(--wg-gap); }
+.wg-inline { display: flex; align-items: center; gap: 8px; }
+.wg-spread { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.wg-grow { flex: 1; min-width: 0; }
+.wg-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--wg-gap); }
+.wg-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--wg-gap); }
+.wg-truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+
+/* Header */
+.wg-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+.wg-header-main { display: flex; align-items: center; gap: 9px; min-width: 0; }
+.wg-icon { font-size: 18px; line-height: 1; flex: none; }
+.wg-title { font-size: 13px; font-weight: 700; color: var(--wg-fg); }
+.wg-sub { font-size: 10.5px; color: var(--wg-muted); margin-top: 1px; }
+
+/* Surfaces */
+.wg-card {
+  background: var(--wg-surface);
+  border: 1px solid var(--wg-border);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.wg-stack > .wg-card, .wg-card + .wg-card { margin-top: 0; }
+
+.wg-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 11.5px; }
+.wg-row + .wg-row { margin-top: 6px; }
+.wg-lbl { color: var(--wg-muted); }
+.wg-val { color: var(--wg-fg); font-weight: 600; font-family: var(--wg-mono); font-size: 11.5px; text-align: right; }
+.wg-good { color: var(--wg-good); }
+.wg-bad { color: var(--wg-bad); }
+.wg-warn { color: var(--wg-warn); }
+.wg-muted { color: var(--wg-muted); }
+.wg-mono { font-family: var(--wg-mono); }
+
+/* Big readouts */
+.wg-big { font-size: 34px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.wg-big-sm { font-size: 24px; font-weight: 700; line-height: 1.15; font-variant-numeric: tabular-nums; }
+.wg-caption { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--wg-faint); font-weight: 600; }
+
+/* Lists */
+.wg-list { display: flex; flex-direction: column; gap: 6px; }
+.wg-item {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 8px 10px; border-radius: var(--wg-radius-sm);
+  background: var(--wg-surface); border: 1px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+}
+.wg-item:hover { background: var(--wg-surface-hover); border-color: var(--wg-border); }
+a.wg-item { color: inherit; text-decoration: none; cursor: pointer; }
+
+/* Badges */
+.wg-badge {
+  display: inline-flex; align-items: center; gap: 4px; flex: none;
+  font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px;
+  letter-spacing: 0.02em; color: var(--wg-muted);
+  background: var(--wg-surface); border: 1px solid var(--wg-border);
+}
+.wg-badge.accent { color: var(--wg-accent); background: var(--wg-accent-soft); border-color: transparent; }
+.wg-badge.good { color: var(--wg-good); background: color-mix(in srgb, var(--wg-good) 14%, transparent); border-color: transparent; }
+.wg-badge.bad { color: var(--wg-bad); background: color-mix(in srgb, var(--wg-bad) 14%, transparent); border-color: transparent; }
+.wg-badge.warn { color: var(--wg-warn); background: color-mix(in srgb, var(--wg-warn) 16%, transparent); border-color: transparent; }
+
+/* Status dot */
+.wg-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--wg-faint); flex: none; }
+.wg-dot.good { background: var(--wg-good); box-shadow: 0 0 0 3px color-mix(in srgb, var(--wg-good) 22%, transparent); }
+.wg-dot.bad { background: var(--wg-bad); box-shadow: 0 0 0 3px color-mix(in srgb, var(--wg-bad) 22%, transparent); }
+.wg-dot.warn { background: var(--wg-warn); box-shadow: 0 0 0 3px color-mix(in srgb, var(--wg-warn) 22%, transparent); }
+.wg-dot.pulse { animation: wg-pulse 1.8s ease-in-out infinite; }
+@keyframes wg-pulse { 50% { opacity: 0.35; } }
+
+/* Progress */
+.wg-bar { height: 5px; border-radius: 999px; background: var(--wg-surface-hover); overflow: hidden; }
+.wg-fill {
+  height: 100%; min-width: 2px; border-radius: inherit;
+  background: linear-gradient(90deg, var(--wg-accent), var(--wg-accent-2));
+  transition: width 0.6s ease;
+}
+.wg-fill.good { background: var(--wg-good); }
+.wg-fill.warn { background: var(--wg-warn); }
+.wg-fill.bad { background: var(--wg-bad); }
+
+/* Controls */
+.wg-btn {
+  appearance: none; font: inherit; font-size: 11px; font-weight: 600;
+  padding: 4px 10px; border-radius: 7px; cursor: pointer;
+  color: var(--wg-muted); background: transparent; border: 1px solid var(--wg-border);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.wg-btn:hover { color: var(--wg-fg); background: var(--wg-surface-hover); }
+.wg-btn:active { transform: translateY(1px); }
+.wg-btn.primary { color: var(--wg-accent); border-color: transparent; background: var(--wg-accent-soft); }
+.wg-btn.primary:hover { background: color-mix(in srgb, var(--wg-accent) 24%, transparent); }
+.wg-btn.danger { color: var(--wg-bad); }
+.wg-btn.sm { padding: 2px 7px; font-size: 11px; }
+.wg-btn.icon { padding: 3px 7px; font-size: 13px; line-height: 1; }
+.wg-btn:disabled { opacity: 0.45; cursor: default; }
+
+.wg-input {
+  font: inherit; font-size: 12px; width: 100%; padding: 6px 9px; border-radius: 7px;
+  color: var(--wg-fg); background: var(--wg-surface); border: 1px solid var(--wg-border);
+}
+.wg-input:focus { outline: none; border-color: var(--wg-accent); }
+.wg-input::placeholder { color: var(--wg-faint); }
+
+/* States */
+.wg-empty { text-align: center; padding: 22px 12px; color: var(--wg-faint); font-size: 12px; line-height: 1.5; }
+.wg-err { color: var(--wg-bad); font-size: 11.5px; padding: 6px 0; word-break: break-word; }
+.wg-skeleton {
+  height: 12px; border-radius: 4px;
+  background: linear-gradient(90deg, var(--wg-surface) 25%, var(--wg-surface-hover) 50%, var(--wg-surface) 75%);
+  background-size: 400px 100%; animation: wg-shimmer 1.4s infinite linear;
+}
+@keyframes wg-shimmer { from { background-position: -400px 0; } to { background-position: 400px 0; } }
+
+/* Scrollbars */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-thumb { background: var(--wg-surface-hover); border-radius: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  .wg-dot.pulse, .wg-skeleton { animation: none; }
+}

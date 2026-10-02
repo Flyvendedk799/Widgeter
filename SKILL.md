@@ -1,90 +1,38 @@
-# Widgeter Agent Skill
+# Widgeter agent guide
 
-This file provides context and instructions for AI agents (like Claude or Cursor) on how to interact with, build for, and understand the **Widgeter** ecosystem.
+Instructions for AI agents (Claude, Cursor, ...) that build widgets for or work on **Widgeter**, an Electron desktop widget engine.
 
-## What is Widgeter?
-Widgeter is a lightweight desktop widget engine built on Electron. It allows users to run customizable, frameless widgets on their Windows desktop. Widgets are standalone JSON files (`.widget`) containing HTML, CSS, and JS, meaning they require no compilation or complex setups.
+## Building a widget for a user
 
-## Creating a Widget
-A widget is defined by a single `.widget` JSON file. Here is the schema you should use when generating a widget:
+1. Read [DOCS.md](DOCS.md). It is the contract: manifest, `config` schema, the `window.widgeter` API, `.wg-*` components, rules.
+2. Create a **folder widget**:
+   ```
+   my-widget/
+     widget.json     manifest (id, name, version, description, category, icon, width, height, config[])
+     index.html      body markup
+     style.css       only what is specific to this widget
+     script.js       logic
+   ```
+3. Validate and run it headlessly before handing it over:
+   ```
+   node scripts/widget-cli.js validate my-widget
+   npx electron test/widget-smoke.js --dir <parent-folder> my-widget --shots out
+   ```
+   Read the PNG in `out/` and check it in `--theme light` too.
+4. Install it for the user: copy the folder (or a packed `.widget` file, `node scripts/widget-cli.js pack my-widget`) into the widgets folder, `%APPDATA%\widgeter\widgets`. A running Widgeter notices it within a second. Dropping it on the dashboard works too.
 
-```json
-{
-  "name": "Widget Name",
-  "width": 300,
-  "height": 400,
-  "x": 100, 
-  "y": 100,
-  "alwaysOnTop": false,
-  "draggable_body": true,
-  "transparent": true,
-  "backgroundColor": "#00000000",
-  "html": "<div id='app'>Hello World</div>",
-  "css": "body { color: white; font-family: sans-serif; }",
-  "js": "console.log('Widget loaded!');"
-}
-```
+### Non-negotiables
 
-### Important Design Rules for Widgets:
-1. **Draggability:** If `"draggable_body": true` is set, the entire `body` is draggable across the desktop using `-webkit-app-region: drag;`. 
-2. **Clickable Elements:** To ensure buttons or inputs are clickable, they must have `-webkit-app-region: no-drag;`. The engine automatically applies this to `button, a, input, textarea, select, .no-drag`.
-3. **Node Integration:** Widgets have `nodeIntegration: true` and `contextIsolation: false`. You can safely use `require('fs')`, `require('https')`, or other Node modules directly inside the `"js"` string.
+- Real data only; show honest empty and error states. No `Math.random()` pretend metrics.
+- Anything a user must supply (API key, city, repo) is a `config` field, never hard-coded.
+- Use `widgeter.fetchJson(url, { ttl })` for web APIs, not `https.get`. Use `os`/`fs` rather than shelling out. Windows 11 has no `wmic`.
+- Escape untrusted text before `innerHTML`. No top-level `return` in `script.js`.
+- Use the engine's tokens and components so the widget follows light/dark themes and the accent colour.
 
-## The Widgeter API (`window.widgeter`)
-Widgets have access to a persistent configuration API exposed via `window.widgeter`. This allows widgets to store user preferences (like API keys, cities for weather, or themes) without modifying the `.widget` file.
+## Working on the app
 
-**Note:** The API is asynchronous and returns Promises.
+Architecture is in [CONTRIBUTING.md](CONTRIBUTING.md). Commands: `npm test`, `npm run validate`, `npm run test:widgets`, `npm run test:app`. Do not hard-code server addresses or credentials: the marketplace address is a setting.
 
-- **`await window.widgeter.getConfig(key)`**: Fetches a value from the user's `state.json`.
-- **`await window.widgeter.setConfig(key, value)`**: Saves a value to the user's `state.json`.
-- **Smart resize** is built into the engine. When the user turns it on, Widgeter fits the widget's height to its content. Do not call `autoResize` with `scrollWidth` / `scrollHeight`; that reports the window size and fights the engine. Do not set `min-height: 100vh` on the widget root.
+## Publishing
 
-**Example Usage in a Widget:**
-```javascript
-async function loadApiKey() {
-  const apiKey = await window.widgeter.getConfig('api_key');
-  if (!apiKey) {
-    document.getElementById('status').innerText = 'Please set api_key in Dashboard';
-    return;
-  }
-  // Use the API key...
-}
-loadApiKey();
-```
-
-## Installing Widgets Programmatically
-If you (the agent) are asked to install a widget for the user:
-1. Generate the `.widget` JSON file.
-2. Save it directly to the user's Widgeter data directory: `%APPDATA%/widgeter/widgets/`
-3. The Widgeter engine watches this folder and will automatically pick it up, or the user can toggle it from their Dashboard.
-
-## Publishing to the Marketplace
-The user has a self-hosted Widgeter Marketplace running at `http://85.190.100.23:3055`.
-If you are asked to upload/publish a widget to the marketplace:
-1. Create a `FormData` payload containing the widget file (or pass `json_content`, `name`, `author`, `description`).
-2. Make a `POST` request to `http://85.190.100.23:3055/widgets`.
-3. Use the authorization header `Bearer tobias-secret` (as the user is currently the only one allowed to upload).
-
-Example Node.js request:
-```javascript
-const fetch = require('node-fetch');
-await fetch('http://85.190.100.23:3055/widgets', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer tobias-secret'
-  },
-  body: JSON.stringify({
-    name: 'My Cool Widget',
-    author: 'AI Assistant',
-    description: 'A very cool widget',
-    json_content: JSON.stringify(widgetConfigObject)
-  })
-});
-```
-
-## Architecture & Codebase
-- **`main.js`**: The Electron main process. Handles IPC, State (`state.json`), and launching widgets.
-- **`dashboard.html` / `dashboard.js`**: The management UI where users toggle widgets and edit widget configs.
-- **`preload.js`**: Injects the `window.widgeter` IPC bridge into the widgets.
-- **State Location**: `%APPDATA%/widgeter/state.json` (Stores widget enabled/disabled states, window X/Y coordinates, and config variables).
+Publishing uses a marketplace account created in the app (Discover → Community → Sign in). The app signs in and publishes with the user's own account; do not publish on a user's behalf without them asking for it. The HTTP API is documented in [registry/README.md](registry/README.md).

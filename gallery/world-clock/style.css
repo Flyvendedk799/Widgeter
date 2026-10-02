@@ -1,0 +1,9 @@
+.tz { gap: 10px; padding: 8px 12px; }
+.tz-sun { font-size: 15px; flex: none; width: 20px; text-align: center; }
+.tz-city { font-size: 13px; font-weight: 700; }
+.tz-note { font-size: 10.5px; color: var(--wg-muted); margin-top: 1px; font-variant-numeric: tabular-nums; }
+.tz-right { text-align: right; flex: none; }
+.tz-time { font-size: 19px; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tz-ampm { font-size: 10px; font-weight: 700; color: var(--wg-muted); margin-left: 3px; }
+.tz-date { font-size: 10.5px; color: var(--wg-muted); margin-top: 1px; }
+.tz.bad .tz-note { color: var(--wg-bad); }

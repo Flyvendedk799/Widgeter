@@ -1,0 +1,15 @@
+{
+  "id": "system-info",
+  "name": "System Info",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Static facts about this PC: operating system, processor, memory, graphics card, hostname and uptime.",
+  "category": "system",
+  "tags": ["system", "hardware", "os", "specs"],
+  "icon": "🖥️",
+  "legacyIds": [
+    "system-info.widget"
+  ],
+  "width": 300,
+  "height": 365
+}

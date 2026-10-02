@@ -1,0 +1,26 @@
+.gs-branch { font-family: var(--wg-mono); font-size: 13px; font-weight: 700; color: var(--wg-fg); }
+.gs-upstream { font-size: 10.5px; color: var(--wg-muted); margin-top: 2px; }
+.gs-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--wg-border); }
+.gs-stat { text-align: center; min-width: 0; }
+.gs-stat .wg-big-sm { color: var(--wg-muted); }
+.gs-stat.on-good .wg-big-sm { color: var(--wg-good); }
+.gs-stat.on-warn .wg-big-sm { color: var(--wg-warn); }
+.gs-stat.on-bad .wg-big-sm { color: var(--wg-bad); }
+.gs-section { margin: 12px 0 6px; }
+.gs-file, .gs-commit { display: flex; align-items: baseline; gap: 8px; font-size: 11.5px; padding: 2px 0; min-width: 0; }
+.gs-flag { flex: none; width: 14px; font-family: var(--wg-mono); font-weight: 700; text-align: center; color: var(--wg-muted); }
+.gs-flag.A { color: var(--wg-good); }
+.gs-flag.M { color: var(--wg-warn); }
+.gs-flag.D, .gs-flag.U { color: var(--wg-bad); }
+.gs-flag.R { color: var(--wg-accent); }
+.gs-file .gs-dir { color: var(--wg-faint); }
+.gs-file.staged .gs-fname { font-weight: 600; }
+.gs-hash { flex: none; font-family: var(--wg-mono); font-size: 10.5px; color: var(--wg-accent); }
+.gs-when { flex: none; font-size: 10.5px; color: var(--wg-faint); }
+.gs-more { font-size: 10.5px; color: var(--wg-faint); padding: 2px 0 0 22px; }
+.gs-repo-name { font-weight: 700; font-size: 12.5px; }
+.gs-badges { display: flex; gap: 4px; flex: none; }
+.gs-badge-branch { max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; font-family: var(--wg-mono); }
+.gs-line { display: flex; align-items: baseline; gap: 8px; margin-top: 6px; font-size: 11px; color: var(--wg-muted); min-width: 0; }
+.gs-note { font-size: 11px; color: var(--wg-faint); margin-top: 4px; word-break: break-word; }
+.gs-err { color: var(--wg-bad); font-size: 11.5px; margin-top: 4px; word-break: break-word; }

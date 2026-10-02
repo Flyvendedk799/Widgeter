@@ -1,0 +1,38 @@
+{
+  "id": "crypto-chart",
+  "name": "Crypto Chart",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Price chart, 24h stats and a live top-of-book order book for any Binance spot pair, from Binance's public API (no key needed).",
+  "category": "finance",
+  "tags": ["crypto", "chart", "binance", "orderbook"],
+  "icon": "📈",
+  "legacyIds": [
+    "crypto-ticker.widget"
+  ],
+  "width": 320,
+  "height": 400,
+  "config": [
+    {
+      "key": "symbol",
+      "label": "Trading pair",
+      "type": "text",
+      "default": "BTCUSDT",
+      "placeholder": "BTCUSDT",
+      "help": "Any Binance spot symbol, e.g. BTCUSDT, ETHUSDT, SOLEUR."
+    },
+    {
+      "key": "interval",
+      "label": "Timeframe",
+      "type": "select",
+      "default": "1h",
+      "help": "Candle size for the chart (the last 96 candles are shown). You can also switch it in the widget.",
+      "options": [
+        { "value": "15m", "label": "15 minutes" },
+        { "value": "1h", "label": "1 hour" },
+        { "value": "4h", "label": "4 hours" },
+        { "value": "1d", "label": "1 day" }
+      ]
+    }
+  ]
+}

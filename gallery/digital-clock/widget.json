@@ -1,0 +1,20 @@
+{
+  "id": "digital-clock",
+  "name": "Digital Clock",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "A large desktop clock with the full date and ISO week number, in 12 or 24 hour format.",
+  "category": "time",
+  "tags": ["clock", "time", "date"],
+  "icon": "🕒",
+  "legacyIds": [
+    "digital-clock.widget"
+  ],
+  "width": 260,
+  "height": 140,
+  "config": [
+    { "key": "dc_24h", "label": "24-hour clock", "type": "boolean", "default": true },
+    { "key": "dc_seconds", "label": "Show seconds", "type": "boolean", "default": true },
+    { "key": "dc_date", "label": "Show date and week number", "type": "boolean", "default": true }
+  ]
+}

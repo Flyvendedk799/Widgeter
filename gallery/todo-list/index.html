@@ -1,0 +1,17 @@
+<div class="wg-header">
+  <div class="wg-header-main">
+    <span class="wg-icon">✅</span>
+    <div class="wg-truncate">
+      <div class="wg-title">Todo List</div>
+      <div class="wg-sub" id="todo-count">Loading…</div>
+    </div>
+  </div>
+  <button class="wg-btn sm" id="todo-clear" title="Remove finished tasks" hidden>Clear done</button>
+</div>
+<div class="wg-inline todo-add">
+  <input class="wg-input no-drag" id="todo-inp" placeholder="Add a task…" maxlength="300" autocomplete="off">
+  <button class="wg-btn primary icon no-drag" id="todo-add" title="Add task">+</button>
+</div>
+<div class="wg-bar todo-bar"><div class="wg-fill good" id="todo-fill" style="width:0%"></div></div>
+<div class="todo-list" id="todo-list"></div>
+<div class="todo-status" id="todo-save"></div>

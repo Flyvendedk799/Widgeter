@@ -1,0 +1,14 @@
+.sum { min-height: 20px; margin-bottom: 10px; flex-wrap: wrap; gap: 6px; }
+.sum:empty { display: none; }
+#refresh.spin { animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.run { text-decoration: none; color: inherit; }
+.run .wg-dot { align-self: flex-start; margin-top: 5px; }
+.run-main { min-width: 0; flex: 1; }
+.run-title { font-size: 12px; font-weight: 600; }
+.run-meta { font-size: 10.5px; color: var(--wg-muted); }
+.run-side { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex: none; }
+.run-dur { font-size: 10.5px; color: var(--wg-muted); font-variant-numeric: tabular-nums; }
+#msg .wg-err { margin-bottom: 8px; }
+.wg-dot.live { background: var(--wg-accent); box-shadow: 0 0 0 3px var(--wg-accent-soft); }
