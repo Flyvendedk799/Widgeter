@@ -1,0 +1,24 @@
+{
+  "id": "ip-info",
+  "name": "IP Info",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Your public IP address, approximate location, ISP and timezone, looked up via ipwho.is (this sends your IP to that service).",
+  "category": "info",
+  "tags": ["network", "ip", "geolocation"],
+  "icon": "🌐",
+  "legacyIds": [
+    "ip-info.widget"
+  ],
+  "width": 300,
+  "height": 360,
+  "config": [
+    {
+      "key": "blur_ip",
+      "label": "Blur IP address",
+      "type": "boolean",
+      "default": false,
+      "help": "Hides the address until you hover over it. Handy when screen sharing."
+    }
+  ]
+}

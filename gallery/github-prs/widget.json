@@ -1,0 +1,49 @@
+{
+  "id": "github-prs",
+  "name": "GitHub Pull Requests",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Your open GitHub pull requests across all repos, with merge state and one-click merge, close or mark-ready actions, via the GitHub API.",
+  "category": "dev",
+  "tags": ["github", "pull-requests", "review", "merge"],
+  "icon": "🔀",
+  "legacyIds": [
+    "github-prs.widget"
+  ],
+  "width": 380,
+  "height": 480,
+  "config": [
+    {
+      "key": "github_token",
+      "label": "GitHub personal access token",
+      "type": "password",
+      "required": true,
+      "placeholder": "ghp_... or github_pat_...",
+      "help": "Needed to find pull requests that involve you. Create one at github.com/settings/tokens with the repo scope (classic) or Pull requests: read & write (fine-grained, to merge/close from the widget)."
+    },
+    {
+      "key": "pr_filter",
+      "label": "Show pull requests",
+      "type": "select",
+      "default": "involves",
+      "options": [
+        { "value": "involves", "label": "Involving me (any role)" },
+        { "value": "author", "label": "Opened by me" },
+        { "value": "review-requested", "label": "Waiting for my review" },
+        { "value": "assignee", "label": "Assigned to me" }
+      ]
+    },
+    {
+      "key": "merge_method",
+      "label": "Merge button method",
+      "type": "select",
+      "default": "squash",
+      "options": [
+        { "value": "squash", "label": "Squash and merge" },
+        { "value": "merge", "label": "Create a merge commit" },
+        { "value": "rebase", "label": "Rebase and merge" }
+      ],
+      "help": "Used by the Merge button. The repository must allow the chosen method."
+    }
+  ]
+}

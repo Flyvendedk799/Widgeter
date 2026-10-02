@@ -6,7 +6,7 @@
 //   npx electron test/widget-smoke.js --thumbs           write gallery/<id>/thumbnail.png
 //   npx electron test/widget-smoke.js --shots <dir>      write <dir>/<id>.png (for eyeballing)
 //   npx electron test/widget-smoke.js --dir <path>       widgets in another folder
-//   options: --wait <ms> (default 3500)  --theme light|dark  --size
+//   options: --wait <ms> (default 5000)  --theme light|dark  --size
 const { app, BrowserWindow, ipcMain, net } = require('electron');
 const fs = require('fs');
 const os = require('os');
@@ -24,7 +24,7 @@ const valueArgs = new Set(['--dir', '--wait', '--shots', '--theme']);
 const only = args.filter((a, i) => !a.startsWith('--') && !valueArgs.has(args[i - 1]));
 
 const galleryDir = path.resolve(opt('dir', path.join(__dirname, '..', 'gallery')));
-const waitMs = Number(opt('wait', 3500));
+const waitMs = Number(opt('wait', 5000));
 const theme = opt('theme', 'dark');
 const shotsDir = opt('shots', null);
 const NETWORK_NOISE = /ENOTFOUND|ECONNREFUSED|ECONNRESET|ETIMEDOUT|EAI_AGAIN|Request failed|HTTP \d{3}|NetworkError|Failed to fetch|net::ERR/i;
@@ -95,7 +95,9 @@ async function runOne(item) {
     }
 
     if (flag('thumbs') || shotsDir) {
+      const hideGrip = await win.webContents.insertCSS('#widgeter-resize-grip{display:none !important}');
       const image = await win.webContents.capturePage();
+      await win.webContents.removeInsertedCSS(hideGrip);
       if (image.isEmpty()) result.warnings.push('screenshot was empty');
       else {
         const size = image.getSize();

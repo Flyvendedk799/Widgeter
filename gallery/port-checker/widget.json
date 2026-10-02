@@ -1,0 +1,57 @@
+{
+  "id": "port-checker",
+  "name": "Port Checker",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Shows which TCP ports on localhost or another host are open, with connect latency; checks common dev ports by default.",
+  "category": "dev",
+  "tags": ["ports", "network", "localhost", "dev"],
+  "icon": "🔌",
+  "legacyIds": [
+    "port-checker.widget"
+  ],
+  "width": 280,
+  "height": 470,
+  "config": [
+    {
+      "key": "pc_ports",
+      "label": "Ports (one per line)",
+      "type": "textarea",
+      "required": true,
+      "default": "3000 React / Node\n5173 Vite\n4200 Angular\n8080 HTTP alt\n8000 Django\n5432 PostgreSQL\n3306 MySQL\n27017 MongoDB\n6379 Redis\n11211 Memcached",
+      "placeholder": "3000 My app\n192.168.1.10:22 NAS SSH",
+      "help": "Format: port label, or host:port label to check another machine. Lines starting with # are ignored."
+    },
+    {
+      "key": "pc_host",
+      "label": "Default host",
+      "type": "text",
+      "default": "127.0.0.1",
+      "help": "Used for lines that do not give their own host."
+    },
+    {
+      "key": "pc_interval",
+      "label": "Scan every (seconds)",
+      "type": "number",
+      "default": 15,
+      "min": 5,
+      "max": 600
+    },
+    {
+      "key": "pc_timeout",
+      "label": "Timeout (seconds)",
+      "type": "number",
+      "default": 1.5,
+      "min": 0.3,
+      "max": 10,
+      "step": 0.1,
+      "help": "Closed local ports answer instantly; raise this for remote hosts."
+    },
+    {
+      "key": "pc_hide_closed",
+      "label": "Hide closed ports",
+      "type": "boolean",
+      "default": false
+    }
+  ]
+}

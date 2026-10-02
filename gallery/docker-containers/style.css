@@ -1,0 +1,8 @@
+.dk-item { align-items: center; }
+.dk-item.off { opacity: 0.62; }
+.dk-name { font-size: 12px; font-weight: 600; }
+.dk-meta { font-size: 10.5px; color: var(--wg-muted); }
+.dk-right { flex: 0 1 auto; max-width: 46%; min-width: 0; text-align: right; }
+.dk-status { font-size: 10.5px; color: var(--wg-muted); }
+.dk-ports { font-family: var(--wg-mono); font-size: 10.5px; color: var(--wg-fg); }
+.dk-more { text-align: center; font-size: 10.5px; color: var(--wg-faint); padding-top: 2px; }

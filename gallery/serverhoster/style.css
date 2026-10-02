@@ -1,0 +1,11 @@
+.sv-summary { margin-bottom: 8px; }
+.sv-sum-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+.sv-sum-top .wg-big-sm span { font-size: 13px; font-weight: 600; color: var(--wg-muted); }
+.sv-svc { padding: 6px 10px; gap: 9px; }
+.sv-svc.link { cursor: pointer; }
+.sv-svc.stopped { opacity: 0.6; }
+.sv-name { font-size: 12px; font-weight: 600; }
+.sv-meta { font-size: 10.5px; color: var(--wg-muted); }
+.sv-type { font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.04em; }
+.sv-note { text-align: center; font-size: 10.5px; color: var(--wg-faint); padding-top: 4px; }
+.sv-warn { color: var(--wg-warn); }

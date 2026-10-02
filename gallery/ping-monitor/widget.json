@@ -1,0 +1,22 @@
+{
+  "id": "ping-monitor",
+  "name": "Ping Monitor",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Pings a list of hosts you choose and shows latency, history and packet loss for each, using the system ping.",
+  "category": "system",
+  "tags": ["ping", "latency", "network", "uptime"],
+  "icon": "📡",
+  "legacyIds": [
+    "ping-monitor.widget"
+  ],
+  "width": 310,
+  "height": 280,
+  "config": [
+    { "key": "ping_hosts", "label": "Hosts to ping", "type": "textarea",
+      "default": "1.1.1.1 | Cloudflare DNS\n8.8.8.8 | Google DNS\ngoogle.com | Google\ngithub.com | GitHub",
+      "placeholder": "one host per line, optional label after |",
+      "help": "One host or IP per line. Add a label after a | character, e.g. 192.168.1.1 | Router. Up to 12 hosts." },
+    { "key": "ping_interval", "label": "Ping every (seconds)", "type": "number", "default": 10, "min": 3, "max": 300, "step": 1 }
+  ]
+}

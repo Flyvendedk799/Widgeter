@@ -1,0 +1,21 @@
+{
+  "id": "countdown",
+  "name": "Countdown Timer",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Counts down to an event or date you choose, with a progress bar and a notification when time is up.",
+  "category": "time",
+  "tags": ["countdown", "event", "deadline", "timer"],
+  "icon": "⏳",
+  "legacyIds": [
+    "countdown-event.widget"
+  ],
+  "width": 280,
+  "height": 200,
+  "config": [
+    { "key": "cd_name", "label": "Event name", "type": "text", "placeholder": "Product launch",
+      "help": "Leave empty (together with the date) to count down to the next New Year." },
+    { "key": "cd_date", "label": "Date and time", "type": "text", "placeholder": "2026-12-31 18:00",
+      "help": "Local time, written as YYYY-MM-DD or YYYY-MM-DD HH:MM." }
+  ]
+}

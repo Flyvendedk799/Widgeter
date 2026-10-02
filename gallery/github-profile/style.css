@@ -1,0 +1,35 @@
+#refresh.spin { animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+#msg .wg-err { margin-bottom: 8px; }
+
+.who { display: flex; align-items: center; gap: 12px; }
+.avatar { width: 52px; height: 52px; border-radius: 50%; flex: none; background: var(--wg-surface-hover); border: 1px solid var(--wg-border); object-fit: cover; }
+.who-name { font-size: 14px; font-weight: 700; }
+.who-login { font-size: 11px; color: var(--wg-accent); cursor: pointer; }
+.who-login:hover { text-decoration: underline; }
+.bio { font-size: 11px; color: var(--wg-muted); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; }
+.facts { font-size: 10.5px; color: var(--wg-muted); margin-top: 6px; display: flex; flex-wrap: wrap; gap: 2px 10px; }
+
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.stat { text-align: center; padding: 8px 4px; min-width: 0; }
+.stat .wg-big-sm { font-size: 17px; }
+.stat .wg-caption { margin-top: 2px; font-size: 9px; }
+
+.langbar { display: flex; height: 6px; border-radius: 999px; overflow: hidden; gap: 2px; margin: 8px 0 7px; }
+.langbar span { min-width: 3px; }
+.l0 { background: var(--wg-accent); }
+.l1 { background: var(--wg-accent-2); }
+.l2 { background: var(--wg-good); }
+.l3 { background: var(--wg-warn); }
+.l4 { background: var(--wg-faint); }
+.langs { display: flex; flex-wrap: wrap; gap: 3px 12px; font-size: 10.5px; color: var(--wg-muted); }
+.langs i { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 4px; }
+
+.cal { display: grid; grid-auto-flow: column; grid-template-rows: repeat(7, 1fr); grid-auto-columns: 1fr; gap: 2px; margin-top: 8px; }
+.cal span { aspect-ratio: 1; border-radius: 2px; background: var(--wg-surface-hover); }
+.cal .c1 { background: color-mix(in srgb, var(--wg-accent) 30%, transparent); }
+.cal .c2 { background: color-mix(in srgb, var(--wg-accent) 55%, transparent); }
+.cal .c3 { background: color-mix(in srgb, var(--wg-accent) 80%, transparent); }
+.cal .c4 { background: var(--wg-accent); }
+.cal .none { background: transparent; }
+.hint { font-size: 10.5px; color: var(--wg-faint); line-height: 1.45; }

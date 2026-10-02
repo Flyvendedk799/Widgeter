@@ -1,0 +1,22 @@
+{
+  "id": "world-clock",
+  "name": "World Clock",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Live local times for the cities you pick, with the offset from your own time and a day/night marker.",
+  "category": "time",
+  "tags": ["clock", "time zones", "world"],
+  "icon": "🌍",
+  "legacyIds": [
+    "world-clock.widget"
+  ],
+  "width": 280,
+  "height": 330,
+  "config": [
+    { "key": "wc_zones", "label": "Cities", "type": "textarea",
+      "default": "Copenhagen = Europe/Copenhagen\nLondon = Europe/London\nNew York = America/New_York\nTokyo = Asia/Tokyo",
+      "help": "One per line as Name = IANA time zone, for example Sydney = Australia/Sydney. The name is optional." },
+    { "key": "wc_24h", "label": "24-hour clock", "type": "boolean", "default": true },
+    { "key": "wc_seconds", "label": "Show seconds", "type": "boolean", "default": false }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "weather",
+  "name": "Weather",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Current conditions, the next hours, wind, humidity and sun times for one city, from Open-Meteo. No account or API key needed.",
+  "category": "info",
+  "tags": ["weather", "forecast", "temperature"],
+  "icon": "🌤️",
+  "legacyIds": [
+    "weather-widget.widget"
+  ],
+  "width": 300,
+  "height": 400,
+  "config": [
+    {
+      "key": "owm_city",
+      "label": "City",
+      "type": "text",
+      "required": true,
+      "default": "Copenhagen",
+      "placeholder": "Copenhagen",
+      "help": "City name, optionally with a country to narrow it down: \"Portland, US\" or \"Paris, France\"."
+    },
+    {
+      "key": "units",
+      "label": "Units",
+      "type": "select",
+      "default": "metric",
+      "options": [
+        { "value": "metric", "label": "Metric (°C, km/h)" },
+        { "value": "imperial", "label": "Imperial (°F, mph)" }
+      ]
+    }
+  ]
+}

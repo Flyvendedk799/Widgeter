@@ -1,0 +1,22 @@
+<div class="wg-header">
+  <div class="wg-header-main">
+    <span class="wg-icon">🎚️</span>
+    <div class="wg-grow">
+      <div class="wg-title">Audio Spectrum</div>
+      <div class="wg-sub wg-truncate" id="src">Default audio input</div>
+    </div>
+  </div>
+  <span class="wg-badge" id="state">Starting</span>
+</div>
+
+<div class="stage">
+  <canvas id="spec"></canvas>
+  <div class="wg-empty overlay" id="msg" hidden></div>
+</div>
+<div class="axis" id="axis"></div>
+
+<div class="wg-grid-3 stats">
+  <div class="wg-card stat"><div class="wg-big-sm" id="peak">&mdash;</div><div class="wg-caption">Peak freq</div></div>
+  <div class="wg-card stat"><div class="wg-big-sm" id="level">&mdash;</div><div class="wg-caption">Level</div></div>
+  <div class="wg-card stat"><div class="meter"><div class="wg-bar"><div class="wg-fill" id="vu" style="width:0"></div></div></div><div class="wg-caption">Input meter</div></div>
+</div>

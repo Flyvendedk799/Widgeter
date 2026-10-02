@@ -1,0 +1,65 @@
+{
+  "id": "serverhoster",
+  "name": "ServerHoster",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Live status of every service on your ServerHoster / LocalSURV server, fetched from its API using an SSH-obtained session token.",
+  "category": "dev",
+  "tags": [
+    "serverhoster",
+    "vps",
+    "deploy",
+    "ssh"
+  ],
+  "icon": "🚀",
+  "legacyIds": [
+    "serverhoster.widget"
+  ],
+  "width": 290,
+  "height": 400,
+  "config": [
+    {
+      "key": "vps_user",
+      "label": "SSH login (user@host)",
+      "type": "text",
+      "required": true,
+      "placeholder": "administrator@203.0.113.10",
+      "help": "SSH user and address of the server running ServerHoster. The user needs passwordless sudo to read the session token."
+    },
+    {
+      "key": "ssh_key",
+      "label": "SSH private key file",
+      "type": "text",
+      "required": true,
+      "placeholder": "C:/Users/you/.ssh/id_ed25519",
+      "help": "Local path to the key used to log in (key-based login only, no password prompts)."
+    },
+    {
+      "key": "api_url",
+      "label": "API URL (optional)",
+      "type": "url",
+      "default": "",
+      "placeholder": "http://203.0.113.10:8787",
+      "help": "Leave empty to use http://<host>:8787 from the SSH login. If the API port is not reachable from here, the widget asks the server over SSH instead."
+    },
+    {
+      "key": "api_user",
+      "label": "Dashboard user (optional)",
+      "type": "text",
+      "default": "admin",
+      "help": "Only used together with the dashboard password below."
+    },
+    {
+      "key": "api_password",
+      "label": "Dashboard password (optional)",
+      "type": "password",
+      "help": "ServerHoster sessions expire. With a password the widget logs in itself; without one it reuses the dashboard session it finds over SSH."
+    },
+    {
+      "key": "hide_stopped",
+      "label": "Hide stopped services",
+      "type": "boolean",
+      "default": false
+    }
+  ]
+}

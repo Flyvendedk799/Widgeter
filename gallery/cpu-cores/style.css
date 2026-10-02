@@ -1,0 +1,14 @@
+.chart { padding: 6px; }
+#cpu-canvas { display: block; width: 100%; height: 64px; }
+.cores { display: flex; gap: 3px; align-items: stretch; height: 64px; margin: 10px 0; }
+.core-col { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.core-track { flex: 1; width: 100%; background: var(--wg-surface-hover); border-radius: 3px; display: flex; align-items: flex-end; overflow: hidden; }
+.core-fill { width: 100%; min-height: 2px; border-radius: 3px; background: var(--wg-accent); transition: height 0.5s ease, background 0.3s; }
+.core-fill.warn { background: var(--wg-warn); }
+.core-fill.bad { background: var(--wg-bad); }
+.core-tag { font-size: 8.5px; line-height: 1; color: var(--wg-faint); font-variant-numeric: tabular-nums; }
+.cores.dense .core-tag { display: none; }
+.metrics { gap: 8px; }
+.m { padding: 8px 6px; text-align: center; min-width: 0; }
+.m .wg-big-sm { font-size: 16px; white-space: nowrap; }
+.m .wg-caption { margin-top: 3px; font-size: 9px; }

@@ -23,3 +23,5 @@ jobs:
         run: npm run test:widgets
       - name: End-to-end app smoke test
         run: npm run test:app
+      - name: Upgrade-from-old-release smoke test
+        run: npm run test:migration

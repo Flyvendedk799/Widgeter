@@ -16,7 +16,7 @@ const api = {
   getAllConfig: () => ipcRenderer.invoke('widgeter:getAllConfig'),
   setConfig: (key, value) => ipcRenderer.invoke('widgeter:setConfig', key, value),
 
-  // Shared, cached HTTP. opts: { ttl: seconds, headers, method, body }
+  // Shared, cached HTTP. opts: { ttl: seconds, timeout: ms (default 15000), headers, method, body }
   // Resolves { ok, status, headers, text, json(), cached? }.
   fetch: async (url, opts) => {
     const res = await ipcRenderer.invoke('widgeter:fetch', String(url), opts || {});
@@ -29,6 +29,12 @@ const api = {
     const res = await api.fetch(url, opts);
     if (!res.ok) throw new Error('HTTP ' + res.status + ' from ' + new URL(url).host);
     return res.json();
+  },
+
+  // System clipboard (text). Reads work without the widget being focused.
+  clipboard: {
+    readText: () => ipcRenderer.invoke('widgeter:clipboard-read'),
+    writeText: (text) => ipcRenderer.invoke('widgeter:clipboard-write', String(text))
   },
 
   notify: (title, body) => ipcRenderer.send('widgeter:notify', { title: String(title || ''), body: String(body || '') }),

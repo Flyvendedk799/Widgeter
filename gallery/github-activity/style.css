@@ -1,0 +1,12 @@
+#refresh.spin { animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+#msg .wg-err { margin-bottom: 8px; }
+
+.ev { text-decoration: none; color: inherit; justify-content: flex-start; }
+.ev-ico { flex: none; width: 22px; text-align: center; font-size: 15px; line-height: 1; }
+.ev-main { flex: 1; min-width: 0; }
+.ev-line { font-size: 12px; }
+.ev-line b { font-weight: 700; }
+.ev-detail { color: var(--wg-muted); }
+.ev-meta { font-size: 10.5px; color: var(--wg-muted); }
+.ev-count { margin-left: 5px; }

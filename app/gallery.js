@@ -99,7 +99,9 @@ function migrateLegacy() {
   }
   if (!map.size) return [];
   const moved = [];
-  const have = installedBySlug();
+  // A legacy file derives the same slug as its replacement, so it must not count as "already installed".
+  const have = new Set();
+  for (const item of W.catalog()) if (item.manifest && !map.has(item.id)) have.add(item.manifest.id);
   for (const item of W.catalog()) {
     const target = map.get(item.id);
     if (!target || have.has(target.manifest.id)) continue;
@@ -112,6 +114,7 @@ function migrateLegacy() {
     }
     try {
       install(target.manifest.id);
+      if (oldState && oldState.enabled === false) W.setEnabled(newId, false);
       moved.push({ from: item.id, to: newId });
     } catch (e) {
       console.error('Legacy migration failed for ' + item.id, e);

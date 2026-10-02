@@ -77,6 +77,7 @@ W.init({
   log: (id, entry) => sendDashboard('dash:log', { id, entry }),
   display: (id) => {
     const s = S.getWidgetState(id);
+    changed();
     sendDashboard('dash:display', { id, autoResize: !!s.autoResize, opacity: s.opacity, clickThrough: !!s.clickThrough, minWidth: s.minWidth, maxWidth: s.maxWidth, minHeight: s.minHeight, maxHeight: s.maxHeight });
   },
   openDashboard: () => openDashboard(),

@@ -1,0 +1,14 @@
+.uc-item { flex-direction: column; align-items: stretch; gap: 7px; }
+.uc-top { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.uc-name { font-size: 12px; font-weight: 600; flex: 1; min-width: 0; }
+.uc-ms { font-family: var(--wg-mono); font-size: 10.5px; color: var(--wg-muted); flex: none; min-width: 44px; text-align: right; }
+.uc-code { min-width: 46px; justify-content: center; }
+.uc-bottom { display: flex; align-items: center; gap: 8px; }
+.uc-hist { flex: 1; display: flex; gap: 2px; height: 12px; min-width: 0; }
+.uc-hist i { flex: 1; min-width: 0; border-radius: 2px; background: var(--wg-surface-hover); }
+.uc-hist i.up { background: var(--wg-good); }
+.uc-hist i.warn { background: var(--wg-warn); }
+.uc-hist i.down { background: var(--wg-bad); }
+.uc-pct { flex: none; font-family: var(--wg-mono); font-size: 10.5px; color: var(--wg-muted); min-width: 40px; text-align: right; }
+.uc-item.checking .uc-top { opacity: 0.7; }
+.uc-bad-target { font-size: 11px; color: var(--wg-bad); }

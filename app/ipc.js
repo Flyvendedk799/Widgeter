@@ -2,7 +2,7 @@
 // IPC surface. Two audiences:
 //   widgets    widgeter:* channels, called through preload.js (window.widgeter)
 //   dashboard  dash:* / creator:* / gallery:* / market:* ... via invoke, each reply { ok, data | error }
-const { app, ipcMain, dialog, shell, net, Notification, BrowserWindow } = require('electron');
+const { app, ipcMain, dialog, shell, net, Notification, BrowserWindow, clipboard } = require('electron');
 const fs = require('fs');
 const path = require('path');
 
@@ -20,10 +20,22 @@ const { validateManifest } = require('../engine/manifest');
 
 const fetchCache = createFetchCache((url, opts) => net.fetch(url, opts));
 
+// Handlers receive exactly the arguments the dashboard sent.
 function handle(channel, fn) {
   ipcMain.handle(channel, async (event, ...args) => {
     try {
-      return { ok: true, data: await fn(...args, event) };
+      return { ok: true, data: await fn(...args) };
+    } catch (e) {
+      return { ok: false, error: e.message || String(e), details: e.details };
+    }
+  });
+}
+
+// Same, for the few handlers that need the calling window: fn(event, ...args).
+function handleWithEvent(channel, fn) {
+  ipcMain.handle(channel, async (event, ...args) => {
+    try {
+      return { ok: true, data: await fn(event, ...args) };
     } catch (e) {
       return { ok: false, error: e.message || String(e), details: e.details };
     }
@@ -89,9 +101,11 @@ function register(ctx) {
     try {
       return await fetchCache.fetch(safe, opts || {});
     } catch (e) {
-      return { error: 'Request failed: ' + (e.cause && e.cause.code ? e.cause.code : e.message) };
+      return { error: /timed out/.test(e.message) ? e.message : 'Request failed: ' + (e.cause && e.cause.code ? e.cause.code : e.message) };
     }
   });
+  ipcMain.handle('widgeter:clipboard-read', async () => String(await clipboard.readText()));
+  ipcMain.handle('widgeter:clipboard-write', (event, text) => { clipboard.writeText(String(text).slice(0, 1024 * 1024)); return true; });
   ipcMain.on('widgeter:notify', (event, { title, body }) => {
     if (Notification.isSupported()) new Notification({ title: title || 'Widgeter', body: body || '' }).show();
   });
@@ -122,7 +136,10 @@ function register(ctx) {
   // ---- dashboard ---------------------------------------------------------------
   handle('dash:state', () => dashboardState(ctx));
 
-  handle('widget:toggle', (id, enabled) => { W.setEnabled(id, !!enabled); });
+  handle('widget:toggle', (id, enabled) => {
+    if (!W.entryById(id)) throw new Error('Widget not found: ' + id);
+    W.setEnabled(id, !!enabled);
+  });
   handle('widget:remove', (id) => { W.uninstall(id); });
   handle('widget:reload', (id) => { W.load(id, { force: true }); });
   handle('widget:set-config', (id, values) => { W.saveConfigForm(id, values || {}); });
@@ -139,7 +156,7 @@ function register(ctx) {
     }
     return results;
   });
-  handle('install:pick', async (_arg, event) => {
+  handleWithEvent('install:pick', async (event) => {
     const win = BrowserWindow.fromWebContents(event.sender);
     const { canceled, filePaths } = await dialog.showOpenDialog(win, {
       title: 'Load a widget',
@@ -195,7 +212,7 @@ function register(ctx) {
   handle('creator:save', (draft) => W.saveDraft(draft));
   handle('creator:preview', (draft) => W.openPreview(draft));
   handle('creator:preview-close', () => { W.closePreview(); });
-  handle('creator:export', async (id, event) => {
+  handleWithEvent('creator:export', async (event, id) => {
     const entry = W.entryById(id);
     if (!entry) throw new Error('Widget not found');
     const pkg = format.packWidget(entry.path);

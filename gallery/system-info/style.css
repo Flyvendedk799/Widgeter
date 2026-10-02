@@ -1,0 +1,4 @@
+.wg-card > .wg-caption { margin-bottom: 7px; }
+.wg-row .wg-lbl { flex: none; }
+.wg-row .wg-val { min-width: 0; text-align: right; font-family: var(--wg-font); font-size: 11.5px; overflow-wrap: anywhere; }
+.wg-row.stack { align-items: flex-start; }

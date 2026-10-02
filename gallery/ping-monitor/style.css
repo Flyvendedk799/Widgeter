@@ -1,0 +1,10 @@
+#hosts { gap: 5px; }
+.host { display: flex; align-items: center; gap: 10px; padding: 7px 10px; background: var(--wg-surface); border-radius: var(--wg-radius-sm); }
+.host .who { flex: 1; min-width: 0; }
+.host .addr { font-weight: 600; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.host .meta { font-size: 10px; color: var(--wg-faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.host svg { flex: none; width: 64px; height: 22px; }
+.host svg .ln { fill: none; stroke: var(--wg-accent); stroke-width: 1.5; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.host svg .lost { stroke: var(--wg-bad); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.host .ms { flex: none; width: 56px; text-align: right; font-family: var(--wg-mono); font-weight: 700; font-size: 12px; font-variant-numeric: tabular-nums; }
+.host .ms small { font-size: 10px; font-weight: 600; color: var(--wg-muted); }

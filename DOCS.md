@@ -62,8 +62,9 @@ Everything async returns a Promise.
 | Call | What it does |
 |---|---|
 | `getConfig(key)`, `getAllConfig()`, `setConfig(key, value)` | Settings and persistent per-widget values. |
-| `fetch(url, { ttl, headers, method, body })` | Shared, cached HTTP from the main process. Returns `{ ok, status, headers, text, json(), cached }`. `ttl` is seconds; identical in-flight requests are merged and requests to one host are spaced out. Serves stale data if the network fails. |
+| `fetch(url, { ttl, timeout, headers, method, body })` | Shared, cached HTTP from the main process. Returns `{ ok, status, headers, text, json(), cached }`. `ttl` is seconds, `timeout` is ms (default 15000, then it rejects with "Request timed out"); identical in-flight requests are merged and requests to one host are spaced out. Serves stale data if the network fails. |
 | `fetchJson(url, opts)` | Same, returns parsed JSON, throws on a non-2xx status. **Use this for web APIs** instead of `https.get`. |
+| `clipboard.readText()`, `clipboard.writeText(text)` | System clipboard (text). |
 | `notify(title, body)` | Native desktop notification. |
 | `openExternal(url)` | Open an http(s) link in the default browser. |
 | `dataDir` | A folder this widget can write to (notes, todo lists). Survives updates. |

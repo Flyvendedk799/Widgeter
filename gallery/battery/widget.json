@@ -1,0 +1,15 @@
+{
+  "id": "battery",
+  "name": "Battery Status",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Charge level, charging state and time to full or empty from this device's battery; shows AC power on desktops.",
+  "category": "system",
+  "tags": ["battery", "power", "laptop"],
+  "icon": "🔋",
+  "legacyIds": [
+    "battery-status.widget"
+  ],
+  "width": 260,
+  "height": 240
+}

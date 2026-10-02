@@ -1,0 +1,39 @@
+{
+  "id": "hacker-news",
+  "name": "Hacker News",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Top, new, best, Ask HN or Show HN stories with score, comments and age, from the official Hacker News API. Click to read.",
+  "category": "info",
+  "tags": ["news", "hacker news", "tech"],
+  "icon": "🟧",
+  "legacyIds": [
+    "hacker-news.widget"
+  ],
+  "width": 340,
+  "height": 460,
+  "config": [
+    {
+      "key": "feed",
+      "label": "Feed",
+      "type": "select",
+      "default": "topstories",
+      "options": [
+        { "value": "topstories", "label": "Top" },
+        { "value": "newstories", "label": "New" },
+        { "value": "beststories", "label": "Best" },
+        { "value": "askstories", "label": "Ask HN" },
+        { "value": "showstories", "label": "Show HN" }
+      ]
+    },
+    {
+      "key": "count",
+      "label": "Number of stories",
+      "type": "number",
+      "default": 10,
+      "min": 3,
+      "max": 30,
+      "step": 1
+    }
+  ]
+}

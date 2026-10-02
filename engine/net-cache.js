@@ -7,6 +7,7 @@ function createFetchCache(fetchImpl, options = {}) {
   const maxEntries = options.maxEntries || 200;
   const maxBytes = options.maxBytes || 2 * 1024 * 1024;
   const minHostGapMs = options.minHostGapMs === undefined ? 250 : options.minHostGapMs;
+  const defaultTimeoutMs = options.defaultTimeoutMs || 15000;
   const now = options.now || Date.now;
   const sleep = options.sleep || ((ms) => new Promise((r) => setTimeout(r, ms)));
 
@@ -37,12 +38,25 @@ function createFetchCache(fetchImpl, options = {}) {
 
   async function run(url, opts) {
     await paceHost(hostOf(url));
-    const res = await fetchImpl(url, {
-      method: opts.method || 'GET',
-      headers: Object.assign({ 'User-Agent': 'Widgeter' }, opts.headers || {}),
-      body: opts.body
-    });
-    const text = await res.text();
+    const timeoutMs = Math.min(120000, Math.max(1000, Number(opts.timeout) || defaultTimeoutMs));
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    let res;
+    let text;
+    try {
+      res = await fetchImpl(url, {
+        method: opts.method || 'GET',
+        headers: Object.assign({ 'User-Agent': 'Widgeter' }, opts.headers || {}),
+        body: opts.body,
+        signal: controller.signal
+      });
+      text = await res.text();
+    } catch (e) {
+      if (controller.signal.aborted) throw new Error('Request timed out after ' + Math.round(timeoutMs / 1000) + 's');
+      throw e;
+    } finally {
+      clearTimeout(timer);
+    }
     return {
       ok: res.ok,
       status: res.status,
@@ -52,7 +66,7 @@ function createFetchCache(fetchImpl, options = {}) {
     };
   }
 
-  // opts: { ttl (seconds, default 0 = no cache), staleOnError (default true), method, headers, body }
+  // opts: { ttl (seconds, default 0 = no cache), timeout (ms, default 15000), staleOnError (default true), method, headers, body }
   async function fetchCached(url, opts = {}) {
     const ttlMs = Math.max(0, Number(opts.ttl) || 0) * 1000;
     const cacheable = !opts.method || opts.method === 'GET';

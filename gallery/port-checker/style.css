@@ -1,0 +1,7 @@
+.pc-item { padding: 6px 10px; gap: 8px; }
+.pc-item.closed { opacity: 0.55; }
+.pc-port { flex: none; width: 46px; font-family: var(--wg-mono); font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.pc-host { font-size: 9.5px; font-weight: 500; color: var(--wg-faint); display: block; line-height: 1.1; }
+.pc-label { font-size: 11.5px; color: var(--wg-muted); }
+.pc-ms { flex: none; font-family: var(--wg-mono); font-size: 10.5px; color: var(--wg-muted); min-width: 34px; text-align: right; }
+.pc-badge { flex: none; width: 54px; justify-content: center; }

@@ -1,0 +1,15 @@
+{
+  "id": "audio-spectrum",
+  "name": "Audio Spectrum",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Live 24-band spectrum analyzer with peak frequency and level, listening to the default audio input (microphone or line-in).",
+  "category": "media",
+  "tags": ["audio", "spectrum", "visualizer", "microphone"],
+  "icon": "🎚️",
+  "legacyIds": [
+    "audio-spectrum.widget"
+  ],
+  "width": 300,
+  "height": 262
+}

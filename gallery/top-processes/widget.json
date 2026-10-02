@@ -1,0 +1,21 @@
+{
+  "id": "top-processes",
+  "name": "Top Processes",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "The processes using the most memory right now, grouped by program, read from tasklist (Windows) or ps (macOS/Linux).",
+  "category": "system",
+  "tags": ["processes", "memory", "tasks", "monitor"],
+  "icon": "🔥",
+  "legacyIds": [
+    "top-processes.widget"
+  ],
+  "width": 290,
+  "height": 440,
+  "config": [
+    { "key": "proc_count", "label": "Processes to show", "type": "number", "default": 8, "min": 3, "max": 15, "step": 1 },
+    { "key": "proc_group", "label": "Combine processes with the same name", "type": "boolean", "default": true,
+      "help": "Browsers and apps often run many processes; combining shows their total memory." },
+    { "key": "proc_interval", "label": "Refresh interval (seconds)", "type": "number", "default": 5, "min": 2, "max": 60, "step": 1 }
+  ]
+}

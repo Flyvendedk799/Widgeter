@@ -1,7 +1,7 @@
 'use strict';
 // The per-widget side panel: settings form, display options, logs, about.
 const { h, icon, toast, switchEl, confirmDialog, CATEGORY_LABELS, timeAgo } = require('../ui');
-const { call, store, ipcRenderer, on } = require('../api');
+const { call, store, ipcRenderer, on, subscribe } = require('../api');
 
 let current = null; // { id, tab, close }
 let logSink = null;  // set while the Logs tab is showing
@@ -210,8 +210,16 @@ function openDrawer(id, tab, actions) {
   root.append(scrim, panel);
   const onKey = (e) => { if (e.key === 'Escape') close(); };
   document.addEventListener('keydown', onKey);
-  current = { id, tab, actions, close: () => { document.removeEventListener('keydown', onKey); scrim.remove(); panel.remove(); } };
+  current = { id, tab, actions, show, close: () => { document.removeEventListener('keydown', onKey); scrim.remove(); panel.remove(); } };
   show(tab || (w.config.length || w.setupHtml ? 'Settings' : 'Display'));
 }
 
 module.exports = { openDrawer, closeDrawer: close, healthLook, timeAgo };
+
+// Keep the Display tab honest when the widget is resized by dragging its corner while the panel is open.
+subscribe(() => {
+  if (!current || current.tab !== 'Display') return;
+  const active = document.activeElement;
+  if (active && active.closest && active.closest('.drawer')) return; // user is mid-edit
+  current.show('Display');
+});

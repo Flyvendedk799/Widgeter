@@ -1,0 +1,43 @@
+{
+  "id": "crypto-prices",
+  "name": "Crypto Prices",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Live prices, 24h change and a 7-day sparkline for your chosen coins, from CoinGecko. No account or API key needed.",
+  "category": "finance",
+  "tags": ["crypto", "prices", "bitcoin", "coingecko"],
+  "icon": "🪙",
+  "legacyIds": [
+    "crypto-prices.widget"
+  ],
+  "width": 300,
+  "height": 310,
+  "config": [
+    {
+      "key": "coins",
+      "label": "Coins",
+      "type": "text",
+      "default": "bitcoin, ethereum, solana, cardano",
+      "placeholder": "bitcoin, ethereum, solana",
+      "help": "Comma-separated CoinGecko IDs (the last part of the coin's coingecko.com/en/coins/<id> address). Up to 12."
+    },
+    {
+      "key": "currency",
+      "label": "Fiat currency",
+      "type": "select",
+      "default": "usd",
+      "options": [
+        { "value": "usd", "label": "USD ($)" },
+        { "value": "eur", "label": "EUR (€)" },
+        { "value": "gbp", "label": "GBP (£)" },
+        { "value": "dkk", "label": "DKK (kr)" },
+        { "value": "sek", "label": "SEK (kr)" },
+        { "value": "nok", "label": "NOK (kr)" },
+        { "value": "chf", "label": "CHF" },
+        { "value": "jpy", "label": "JPY (¥)" },
+        { "value": "cad", "label": "CAD ($)" },
+        { "value": "aud", "label": "AUD ($)" }
+      ]
+    }
+  ]
+}

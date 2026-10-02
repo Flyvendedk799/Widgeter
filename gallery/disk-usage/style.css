@@ -1,0 +1,9 @@
+#drives { gap: 8px; }
+.drive { display: block; }
+.drive .top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 7px; }
+.drive .name { font-weight: 700; font-size: 13px; }
+.drive .free { color: var(--wg-muted); font-size: 11px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.drive .bot { display: flex; justify-content: space-between; gap: 8px; margin-top: 6px; font-size: 10.5px; color: var(--wg-faint); font-variant-numeric: tabular-nums; }
+.drive .bot b { color: var(--wg-muted); font-weight: 600; }
+.drive .wg-bar { height: 7px; }
+#refresh.spin { opacity: 0.5; }

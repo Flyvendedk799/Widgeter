@@ -1,0 +1,18 @@
+.sh-banner { display: flex; align-items: center; gap: 12px; padding: 11px 14px; }
+.sh-banner.good { background: color-mix(in srgb, var(--wg-good) 10%, transparent); border-color: color-mix(in srgb, var(--wg-good) 28%, transparent); }
+.sh-banner.warn { background: color-mix(in srgb, var(--wg-warn) 11%, transparent); border-color: color-mix(in srgb, var(--wg-warn) 32%, transparent); }
+.sh-banner.bad { background: color-mix(in srgb, var(--wg-bad) 11%, transparent); border-color: color-mix(in srgb, var(--wg-bad) 32%, transparent); }
+.sh-banner .wg-dot { width: 11px; height: 11px; }
+.sh-banner-title { font-size: 13px; font-weight: 700; }
+.sh-banner-sub { font-size: 10.5px; color: var(--wg-muted); margin-top: 1px; }
+.sh-rows { display: flex; flex-direction: column; }
+.sh-row { display: flex; align-items: center; gap: 9px; padding: 7px 2px; border-bottom: 1px solid var(--wg-border); min-width: 0; }
+.sh-row:last-child { border-bottom: 0; }
+.sh-name { flex: 1; min-width: 0; font-size: 12px; font-weight: 600; }
+.sh-hist { flex: none; display: flex; gap: 2px; height: 12px; width: 52px; }
+.sh-hist i { flex: 1; border-radius: 1.5px; background: var(--wg-surface-hover); }
+.sh-hist i.up { background: var(--wg-good); }
+.sh-hist i.warn { background: var(--wg-warn); }
+.sh-hist i.down { background: var(--wg-bad); }
+.sh-ms { flex: none; width: 46px; text-align: right; font-family: var(--wg-mono); font-size: 10.5px; color: var(--wg-muted); }
+.sh-badge { flex: none; width: 62px; justify-content: center; }

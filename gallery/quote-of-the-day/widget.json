@@ -1,0 +1,28 @@
+{
+  "id": "quote-of-the-day",
+  "name": "Quote of the Day",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "A fresh quote every day (or hourly), from the free DummyJSON quotes API, with a button for another one. Keeps the last quote offline.",
+  "category": "info",
+  "tags": ["quotes", "inspiration"],
+  "icon": "💬",
+  "legacyIds": [
+    "quote-of-day.widget"
+  ],
+  "width": 320,
+  "height": 220,
+  "config": [
+    {
+      "key": "mode",
+      "label": "Change quote",
+      "type": "select",
+      "default": "daily",
+      "options": [
+        { "value": "daily", "label": "Once a day" },
+        { "value": "hourly", "label": "Every hour" }
+      ],
+      "help": "With 'Once a day' everyone sees the same quote on a given date."
+    }
+  ]
+}

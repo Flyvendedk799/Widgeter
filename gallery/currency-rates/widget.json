@@ -1,0 +1,42 @@
+{
+  "id": "currency-rates",
+  "name": "Currency Rates",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Daily exchange rates from a base currency to your chosen currencies with day change and a 30-day trend, from the ECB via Frankfurter.",
+  "category": "finance",
+  "tags": ["currency", "exchange", "forex", "ecb"],
+  "icon": "💱",
+  "legacyIds": [
+    "currency-rates.widget"
+  ],
+  "width": 300,
+  "height": 420,
+  "config": [
+    {
+      "key": "base",
+      "label": "Base currency",
+      "type": "text",
+      "default": "EUR",
+      "placeholder": "EUR",
+      "help": "3-letter ISO code of the currency you convert from, e.g. EUR, USD, DKK."
+    },
+    {
+      "key": "targets",
+      "label": "Convert to",
+      "type": "text",
+      "default": "USD, GBP, DKK, SEK, NOK, JPY, CHF",
+      "placeholder": "USD, GBP, JPY",
+      "help": "Comma-separated 3-letter codes. The ECB publishes about 30 major currencies. Up to 10 are shown."
+    },
+    {
+      "key": "amount",
+      "label": "Amount",
+      "type": "number",
+      "default": 1,
+      "min": 0.01,
+      "step": 1,
+      "help": "How much of the base currency to convert."
+    }
+  ]
+}

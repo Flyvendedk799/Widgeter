@@ -1,0 +1,15 @@
+{
+  "id": "disk-usage",
+  "name": "Disk Usage",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Used, free and total space for every local drive, read directly from the file system.",
+  "category": "system",
+  "tags": ["disk", "storage", "drives", "space"],
+  "icon": "💽",
+  "legacyIds": [
+    "disk-usage.widget"
+  ],
+  "width": 280,
+  "height": 165
+}

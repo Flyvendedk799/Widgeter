@@ -1,0 +1,34 @@
+{
+  "id": "npm-outdated",
+  "name": "NPM Outdated",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Outdated npm dependencies of a project folder, grouped by major, minor and patch updates, from npm outdated.",
+  "category": "dev",
+  "tags": ["npm", "node", "dependencies", "updates"],
+  "icon": "📦",
+  "legacyIds": [
+    "npm-outdated.widget"
+  ],
+  "width": 310,
+  "height": 340,
+  "config": [
+    {
+      "key": "npm_dir",
+      "label": "Project folder",
+      "type": "text",
+      "required": true,
+      "placeholder": "C:/Users/you/projects/my-app",
+      "help": "Folder containing package.json. Run npm install there first so installed versions can be compared."
+    },
+    {
+      "key": "npm_interval_min",
+      "label": "Re-check every (minutes)",
+      "type": "number",
+      "default": 30,
+      "min": 5,
+      "max": 1440,
+      "help": "npm contacts the registry for every check, so keep this reasonably long. The refresh button checks immediately."
+    }
+  ]
+}

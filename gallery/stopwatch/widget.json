@@ -1,0 +1,23 @@
+{
+  "id": "stopwatch",
+  "name": "Stopwatch",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "A precise stopwatch with lap times and best/worst laps that keeps running when the widget reloads.",
+  "category": "time",
+  "tags": ["stopwatch", "timer", "laps"],
+  "icon": "⏱️",
+  "legacyIds": [
+    "stopwatch.widget"
+  ],
+  "width": 260,
+  "height": 300,
+  "config": [
+    { "key": "sw_precision", "label": "Precision", "type": "select", "default": "cs",
+      "options": [
+        { "value": "s", "label": "Seconds" },
+        { "value": "cs", "label": "Hundredths (0.01 s)" },
+        { "value": "ms", "label": "Milliseconds (0.001 s)" }
+      ] }
+  ]
+}

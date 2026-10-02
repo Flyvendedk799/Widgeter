@@ -471,7 +471,10 @@ function setEnabled(id, enabled) {
 async function captureThumbnail(id) {
   const win = getWindow(id);
   if (!win || widgetsHidden) return null;
-  const image = await win.webContents.capturePage();
+  // The resize grip is chrome, not part of the widget; keep it out of preview images.
+  const hideGrip = await win.webContents.insertCSS('#widgeter-resize-grip{display:none !important}');
+  let image;
+  try { image = await win.webContents.capturePage(); } finally { win.webContents.removeInsertedCSS(hideGrip).catch(() => {}); }
   if (image.isEmpty()) return null;
   const size = image.getSize();
   const scaled = size.width > 520 ? image.resize({ width: 520, quality: 'good' }) : image;

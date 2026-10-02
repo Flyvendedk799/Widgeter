@@ -42,8 +42,8 @@ function render(container) {
       setting('Launch on boot', 'Start Widgeter in the tray when you sign in.', switchEl(s.launchOnBoot, async (v) => { await call('settings:launch-on-boot', v); })),
       setting('Snap to edges', 'Widgets align to the screen edge and to each other when you drop them.', switchEl(settings.snap, (v) => update({ snap: v }))),
       setting('Snap to grid', 'Also round positions to a grid.', grid),
-      setting('Hide / show widgets', null, h('div', { class: 'row', style: { alignItems: 'center', flex: 'none' } }, h('kbd', {}, 'Ctrl+Shift+W'), h('span', { class: 'badge ' + (s.shortcuts.boss ? 'good' : 'bad') }, s.shortcuts.boss ? 'Active' : 'Unavailable'))),
-      setting('Exit click-through', 'When a widget is ignoring the mouse.', h('div', { class: 'row', style: { alignItems: 'center', flex: 'none' } }, h('kbd', {}, 'Ctrl+Shift+X'), h('span', { class: 'badge ' + (s.shortcuts.clickThrough ? 'good' : 'bad') }, s.shortcuts.clickThrough ? 'Active' : 'Unavailable')))),
+      setting('Hide / show widgets', null, h('div', { style: { display: 'flex', gap: '10px', alignItems: 'center', flex: 'none' } }, h('kbd', {}, 'Ctrl+Shift+W'), h('span', { class: 'badge ' + (s.shortcuts.boss ? 'good' : 'bad') }, s.shortcuts.boss ? 'Active' : 'Unavailable'))),
+      setting('Exit click-through', 'When a widget is ignoring the mouse.', h('div', { style: { display: 'flex', gap: '10px', alignItems: 'center', flex: 'none' } }, h('kbd', {}, 'Ctrl+Shift+X'), h('span', { class: 'badge ' + (s.shortcuts.clickThrough ? 'good' : 'bad') }, s.shortcuts.clickThrough ? 'Active' : 'Unavailable')))),
     h('div', { class: 'settings-group' }, h('h3', {}, 'Marketplace'),
       setting('Account', s.account ? 'Signed in as ' + s.account.username : 'Sign in to publish and rate widgets.', s.account
         ? h('button', { class: 'btn', onclick: async () => { await call('market:logout'); await refresh(); render(container); } }, 'Sign out')

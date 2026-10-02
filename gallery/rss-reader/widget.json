@@ -1,0 +1,35 @@
+{
+  "id": "rss-reader",
+  "name": "RSS Reader",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Latest headlines merged from your RSS and Atom feeds, newest first, with source names, relative times and unread markers.",
+  "category": "info",
+  "tags": ["rss", "news", "feeds", "atom"],
+  "icon": "📰",
+  "legacyIds": [
+    "rss-reader.widget"
+  ],
+  "width": 340,
+  "height": 440,
+  "config": [
+    {
+      "key": "rss_url",
+      "label": "Feed URLs",
+      "type": "textarea",
+      "required": true,
+      "default": "https://feeds.bbci.co.uk/news/rss.xml\nhttps://www.theverge.com/rss/index.xml\nhttps://feeds.arstechnica.com/arstechnica/index",
+      "placeholder": "https://example.com/feed.xml",
+      "help": "One RSS or Atom feed address per line (up to 10). Headlines from all feeds are merged."
+    },
+    {
+      "key": "max_items",
+      "label": "Headlines to show",
+      "type": "number",
+      "default": 12,
+      "min": 3,
+      "max": 40,
+      "step": 1
+    }
+  ]
+}
