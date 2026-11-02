@@ -34,6 +34,7 @@
   function set(o) {
     $('icon').textContent = o.icon; $('sub').textContent = o.sub;
     const b = $('badge'); b.textContent = o.badge; b.className = 'wg-badge' + (o.cls ? ' ' + o.cls : '');
+    const d = $('dot'); if (d) d.className = 'wg-dot pulse ' + (o.cls ? o.cls : 'good');
     $('pct').textContent = o.pct; $('cap').textContent = o.cap;
     $('fill').style.width = o.width + '%'; $('fill').className = 'wg-fill' + (o.fill ? ' ' + o.fill : '');
     $('src').textContent = o.src; $('tlbl').textContent = o.tlbl; $('time').textContent = o.time;
