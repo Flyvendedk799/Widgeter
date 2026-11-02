@@ -129,7 +129,7 @@
     $('ifaces').innerHTML = active.map((i) => {
       const r = rates[i.name];
       return '<div class="wg-card iface"><div class="head"><span class="nm wg-truncate" title="' + esc(i.name) + '">' + esc(i.name) + '</span>' +
-        '<span class="wg-badge ' + (i.v4 ? 'good' : '') + '">' + (i.v4 ? 'IPv4' : 'IPv6') + '</span></div>' +
+        '<span class="wg-badge ' + (i.v4 ? 'good' : '') + '"><span class="wg-dot ' + (i.v4 ? 'good' : 'warn') + '"></span>' + (i.v4 ? 'IPv4' : 'IPv6') + '</span></div>' +
         (i.v4 ? '<div class="wg-row"><span class="wg-lbl">IPv4</span><span class="wg-val" title="mask ' + esc(i.mask) + '">' + esc(i.v4) + '</span></div>' : '') +
         (i.v6 ? '<div class="wg-row"><span class="wg-lbl">IPv6</span><span class="wg-val" title="' + esc(i.v6) + '">' + esc(i.v6) + '</span></div>' : '') +
         (i.mac ? '<div class="wg-row"><span class="wg-lbl">MAC</span><span class="wg-val">' + esc(i.mac.toUpperCase()) + '</span></div>' : '') +

@@ -55,6 +55,7 @@
   }
 
   $('host').textContent = os.hostname() + ' · ' + os.platform() + ' ' + os.arch();
+  update();
   setTimeout(update, 500);
   setInterval(update, 2000);
 })();
