@@ -42,11 +42,11 @@ function classify(c) {
   const state = String(c.State || '').toLowerCase() || (/^up/i.test(c.Status || '') ? 'running' : 'exited');
   const status = String(c.Status || '');
   if (state === 'running') {
-    if (/unhealthy/i.test(status)) return { cls: 'bad', on: true };
-    if (/starting/i.test(status)) return { cls: 'warn', on: true };
+    if (/unhealthy/i.test(status)) return { cls: 'bad pulse', on: true };
+    if (/starting/i.test(status)) return { cls: 'warn pulse', on: true };
     return { cls: 'good', on: true };
   }
-  if (state === 'paused' || state === 'restarting') return { cls: 'warn', on: true };
+  if (state === 'paused' || state === 'restarting') return { cls: 'warn pulse', on: true };
   if (state === 'dead' || (state === 'exited' && !/\(0\)/.test(status))) return { cls: 'bad', on: false };
   return { cls: '', on: false };
 }
@@ -78,6 +78,7 @@ function render(containers, showAll) {
 async function update() {
   if (busy) return;
   busy = true;
+  if ($('refresh')) $('refresh').classList.add('spin');
   try {
     const showAll = !!(await widgeter.getConfig('dk_all'));
     const r = await run('docker', ['ps'].concat(showAll ? ['-a'] : [], ['--format', '{{json .}}']));
@@ -95,9 +96,10 @@ async function update() {
     render(containers, showAll);
   } finally {
     busy = false;
+    if ($('refresh')) $('refresh').classList.remove('spin');
   }
 }
 
-$('refresh').addEventListener('click', update);
-update();
-setInterval(update, 15000);
+if ($('refresh')) $('refresh').addEventListener('click', () => { update().catch(() => {}); });
+update().catch(() => {});
+setInterval(() => { update().catch(() => {}); }, 15000);

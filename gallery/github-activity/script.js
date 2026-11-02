@@ -131,18 +131,18 @@ function render(events) {
   }
   $('list').innerHTML = group(events).slice(0, SHOWN).map((g) => {
     const detail = g.d.detail ? ' <span class="ev-detail">' + esc(g.d.detail) + '</span>' : '';
-    const count = g.count > 1 ? '<span class="wg-badge ev-count">×' + g.count + '</span>' : '';
+    const count = g.count > 1 ? '<span class="wg-badge accent ev-count">×' + g.count + '</span>' : '';
     return '<a class="wg-item ev" href="' + esc(g.d.url) + '" title="' + esc(g.d.verb + ' ' + g.d.detail + ' · ' + g.repo) + '">' +
       '<span class="ev-ico">' + g.d.icon + '</span>' +
       '<div class="ev-main"><div class="ev-line wg-truncate"><b>' + esc(g.d.verb) + '</b>' + detail + count + '</div>' +
-      '<div class="ev-meta wg-truncate">' + esc(g.repo) + ' · ' + esc(ago(g.at)) + '</div></div></a>';
+      '<div class="ev-meta"><span class="ev-repo wg-truncate">' + esc(g.repo) + '</span><span class="ev-time">' + esc(ago(g.at)) + '</span></div></div></a>';
   }).join('');
 }
 
 async function load(manual) {
   if (busy || !username) return;
   busy = true;
-  $('refresh').classList.add('spin');
+  if ($('refresh')) $('refresh').classList.add('spin');
   try {
     const events = await gh('/users/' + encodeURIComponent(username) + '/events/public?per_page=30', manual ? 0 : 90);
     showMessage('');
@@ -151,7 +151,7 @@ async function load(manual) {
     showMessage(e.message);
   } finally {
     busy = false;
-    $('refresh').classList.remove('spin');
+    if ($('refresh')) $('refresh').classList.remove('spin');
   }
 }
 
@@ -161,7 +161,7 @@ $('list').addEventListener('click', (e) => {
   e.preventDefault();
   wd.openExternal(a.getAttribute('href'));
 });
-$('refresh').addEventListener('click', () => load(true));
+if ($('refresh')) $('refresh').addEventListener('click', () => { load(true).catch(() => {}); });
 
 async function init() {
   username = String((await wd.getConfig('ga2_username')) || '').trim().replace(/^@/, '').replace(/^https?:\/\/github\.com\//i, '').replace(/\/+$/, '');
@@ -175,8 +175,8 @@ async function init() {
     $('list').innerHTML = '<div class="wg-empty">"' + esc(username) + '" is not a valid GitHub username.</div>';
     return;
   }
-  load(false);
-  setInterval(() => load(false), token ? 120000 : 240000);
+  load(false).catch(() => {});
+  setInterval(() => { load(false).catch(() => {}); }, token ? 120000 : 240000);
 }
 
-init();
+init().catch(() => {});

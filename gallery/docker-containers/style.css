@@ -1,8 +1,48 @@
-.dk-item { align-items: center; }
-.dk-item.off { opacity: 0.62; }
-.dk-name { font-size: 12px; font-weight: 600; }
-.dk-meta { font-size: 10.5px; color: var(--wg-muted); }
-.dk-right { flex: 0 1 auto; max-width: 46%; min-width: 0; text-align: right; }
+#refresh.spin { animation: dk-spin 0.8s linear infinite; }
+@keyframes dk-spin { to { transform: rotate(360deg); } }
+
+.dk-item {
+  align-items: center; gap: 10px; padding: 8px 10px;
+  background: var(--wg-surface); border: 1px solid var(--wg-border);
+  border-radius: var(--wg-radius-sm);
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+.dk-item:hover {
+  background: var(--wg-surface-hover);
+  border-color: color-mix(in srgb, var(--wg-accent) 30%, var(--wg-border));
+  transform: translateY(-1px);
+}
+.dk-item.off {
+  opacity: 0.65;
+  background: color-mix(in srgb, var(--wg-surface) 60%, transparent);
+}
+.dk-item.off:hover { opacity: 0.9; }
+
+.dk-item .wg-dot {
+  width: 9px; height: 9px; border-radius: 50%; flex: none;
+  transition: all 0.2s ease;
+}
+.dk-item .wg-dot.good {
+  box-shadow: 0 0 8px color-mix(in srgb, var(--wg-good) 60%, transparent), 0 0 0 2px color-mix(in srgb, var(--wg-good) 25%, transparent);
+}
+.dk-item .wg-dot.warn {
+  box-shadow: 0 0 8px color-mix(in srgb, var(--wg-warn) 60%, transparent), 0 0 0 2px color-mix(in srgb, var(--wg-warn) 25%, transparent);
+}
+.dk-item .wg-dot.bad {
+  box-shadow: 0 0 8px color-mix(in srgb, var(--wg-bad) 60%, transparent), 0 0 0 2px color-mix(in srgb, var(--wg-bad) 25%, transparent);
+}
+
+.dk-name { font-size: 12px; font-weight: 700; color: var(--wg-fg); line-height: 1.3; }
+.dk-meta { font-size: 10.5px; color: var(--wg-muted); font-family: var(--wg-mono); margin-top: 1px; }
+.dk-right {
+  flex: 0 1 auto; max-width: 48%; min-width: 0; text-align: right;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 2px;
+}
 .dk-status { font-size: 10.5px; color: var(--wg-muted); }
-.dk-ports { font-family: var(--wg-mono); font-size: 10.5px; color: var(--wg-fg); }
-.dk-more { text-align: center; font-size: 10.5px; color: var(--wg-faint); padding-top: 2px; }
+.dk-ports {
+  display: inline-flex; font-family: var(--wg-mono); font-size: 10px; font-weight: 600;
+  color: var(--wg-accent); background: var(--wg-accent-soft);
+  padding: 1px 6px; border-radius: 4px;
+  border: 1px solid color-mix(in srgb, var(--wg-accent) 20%, transparent);
+}
+.dk-more { text-align: center; font-size: 10.5px; color: var(--wg-muted); padding: 4px 0 2px; }

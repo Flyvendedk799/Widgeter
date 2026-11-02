@@ -2,11 +2,42 @@
 @keyframes spin { to { transform: rotate(360deg); } }
 #msg .wg-err { margin-bottom: 8px; }
 
-.ev { text-decoration: none; color: inherit; justify-content: flex-start; }
-.ev-ico { flex: none; width: 22px; text-align: center; font-size: 15px; line-height: 1; }
+#user { font-family: var(--wg-mono); font-size: 11px; color: var(--wg-accent); }
+
+.ev {
+  text-decoration: none; color: inherit; justify-content: flex-start;
+  gap: 10px; padding: 9px 11px; border-radius: var(--wg-radius-sm);
+  background: var(--wg-surface); border: 1px solid var(--wg-border);
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+.ev:hover {
+  background: var(--wg-surface-hover);
+  border-color: color-mix(in srgb, var(--wg-accent) 35%, var(--wg-border));
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+}
+.ev:active { transform: translateY(0); }
+
+.ev-ico {
+  flex: none; width: 28px; height: 28px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--wg-surface-hover); border: 1px solid var(--wg-border);
+  font-size: 13.5px; line-height: 1; text-align: center;
+}
 .ev-main { flex: 1; min-width: 0; }
-.ev-line { font-size: 12px; }
+.ev-line { font-size: 12px; line-height: 1.35; color: var(--wg-fg); display: flex; align-items: baseline; gap: 5px; }
 .ev-line b { font-weight: 700; }
-.ev-detail { color: var(--wg-muted); }
-.ev-meta { font-size: 10.5px; color: var(--wg-muted); }
-.ev-count { margin-left: 5px; }
+.ev-detail {
+  color: var(--wg-accent); font-family: var(--wg-mono); font-size: 11px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.ev-meta {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  margin-top: 3px; font-size: 10.5px; color: var(--wg-muted);
+}
+.ev-repo { font-weight: 500; min-width: 0; }
+.ev-time { flex: none; font-variant-numeric: tabular-nums; color: var(--wg-faint); }
+.ev-count {
+  margin-left: auto; flex: none; font-family: var(--wg-mono);
+  font-size: 10px; font-weight: 700; padding: 1px 6px;
+}

@@ -122,16 +122,18 @@ function record(t, r) {
 async function runChecks() {
   if (checking || !targets.length) return;
   checking = true;
-  if (lastRun) $('sub').textContent = 'Checking…';
+  if ($('refresh')) $('refresh').classList.add('spin');
+  if (lastRun && $('sub')) $('sub').textContent = 'Checking…';
   try {
     await Promise.all(targets.map(async (t) => { if (t.kind !== 'bad') record(t, await checkOne(t)); }));
     lastRun = new Date();
     saveHistory();
     render();
   } catch (e) {
-    $('list').innerHTML = '<div class="wg-err">' + esc(e.message || e) + '</div>';
+    if ($('list')) $('list').innerHTML = '<div class="wg-err">' + esc(e.message || e) + '</div>';
   } finally {
     checking = false;
+    if ($('refresh')) $('refresh').classList.remove('spin');
   }
 }
 
@@ -157,15 +159,16 @@ function uptimePct(key) {
 function render() {
   const real = targets.filter((t) => t.kind !== 'bad');
   const up = real.filter((t) => results[t.key] && results[t.key].state !== 'down').length;
-  $('sub').textContent = up + '/' + real.length + ' up' + (lastRun ? ' · ' + lastRun.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '');
-  $('list').innerHTML = targets.map((t) => {
+  if ($('sub')) $('sub').textContent = up + '/' + real.length + ' up' + (lastRun ? ' · ' + lastRun.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '');
+  if ($('list')) $('list').innerHTML = targets.map((t) => {
     if (t.kind === 'bad') return '<div class="wg-item uc-item"><div class="uc-top"><span class="wg-dot"></span><span class="uc-name wg-truncate" title="' + esc(t.raw) + '">' + esc(t.raw) + '</span></div><div class="uc-bad-target">Not a URL or host:port</div></div>';
     const r = results[t.key];
-    const cls = !r ? '' : r.state === 'up' ? 'good' : r.state === 'warn' ? 'warn' : 'bad';
+    const cls = !r ? '' : r.state === 'up' ? 'good' : r.state === 'warn' ? 'warn' : 'bad pulse';
+    const badgeCls = !r ? '' : r.state === 'up' ? 'good' : r.state === 'warn' ? 'warn' : 'bad';
     return '<div class="wg-item uc-item" title="' + esc(t.kind === 'http' ? t.url : t.host + ':' + t.port) + '">' +
       '<div class="uc-top"><span class="wg-dot ' + cls + '"></span><span class="uc-name wg-truncate">' + esc(t.name) + '</span>' +
       '<span class="uc-ms">' + (r ? fmtMs(r.ms) : '') + '</span>' +
-      '<span class="wg-badge uc-code ' + cls + '">' + esc(r ? r.label : '…') + '</span></div>' +
+      '<span class="wg-badge uc-code ' + badgeCls + '">' + esc(r ? r.label : '…') + '</span></div>' +
       '<div class="uc-bottom"><div class="uc-hist">' + histBars(t.key) + '</div><span class="uc-pct" title="Uptime over the last ' + (history[t.key] || []).length + ' checks">' + uptimePct(t.key) + '</span></div></div>';
   }).join('');
 }
@@ -177,13 +180,13 @@ function render() {
   notify = (await widgeter.getConfig('uc_notify')) !== false;
   const every = Math.max(15, Number(await widgeter.getConfig('uc_interval')) || 60);
 
-  $('refresh').addEventListener('click', runChecks);
+  if ($('refresh')) $('refresh').addEventListener('click', () => { runChecks().catch(() => {}); });
   if (!targets.length) {
-    $('sub').textContent = 'Not configured';
-    $('list').innerHTML = '<div class="wg-empty">🟢<br>Add the websites or services to watch in this widget’s settings<br>(“Targets”, one per line).</div>';
+    if ($('sub')) $('sub').textContent = 'Not configured';
+    if ($('list')) $('list').innerHTML = '<div class="wg-empty">🟢<br>Add the websites or services to watch in this widget’s settings<br>(“Targets”, one per line).</div>';
     return;
   }
   render();
-  runChecks();
-  setInterval(runChecks, every * 1000);
-})();
+  runChecks().catch(() => {});
+  setInterval(() => { runChecks().catch(() => {}); }, every * 1000);
+})().catch(() => {});
