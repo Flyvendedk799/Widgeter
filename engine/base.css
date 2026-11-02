@@ -13,8 +13,6 @@ body {
   background: var(--wg-bg);
   border: 1px solid var(--wg-border);
   border-radius: var(--wg-radius);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
 }
 
 h1, h2, h3, h4, p { margin: 0; }
