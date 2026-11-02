@@ -51,8 +51,9 @@
     root.innerHTML = drives.map((d) => {
       const pct = Math.round(d.used / d.total * 100);
       const cls = pct >= 90 ? 'bad' : pct >= 75 ? 'warn' : '';
+      const dotCls = pct >= 90 ? 'bad' : pct >= 75 ? 'warn' : 'good';
       return '<div class="wg-card drive">' +
-        '<div class="top"><span class="name">' + esc(d.label) + '</span><span class="free"><b class="' + (pct >= 90 ? 'wg-bad' : '') + '">' + fmt(d.free) + '</b> free</span></div>' +
+        '<div class="top"><span class="name"><span class="wg-dot ' + dotCls + '"></span>' + esc(d.label) + '</span><span class="free"><b class="' + (pct >= 90 ? 'wg-bad' : '') + '">' + fmt(d.free) + '</b> free</span></div>' +
         '<div class="wg-bar"><div class="wg-fill ' + cls + '" style="width:' + pct + '%"></div></div>' +
         '<div class="bot"><span>' + fmt(d.used) + ' used of ' + fmt(d.total) + '</span><b>' + pct + '%</b></div>' +
         '</div>';

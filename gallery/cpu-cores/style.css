@@ -1,14 +1,131 @@
-.chart { padding: 6px; }
-#cpu-canvas { display: block; width: 100%; height: 64px; }
-.cores { display: flex; gap: 3px; align-items: stretch; height: 64px; margin: 10px 0; }
-.core-col { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 3px; }
-.core-track { flex: 1; width: 100%; background: var(--wg-surface-hover); border-radius: 3px; display: flex; align-items: flex-end; overflow: hidden; }
-.core-fill { width: 100%; min-height: 2px; border-radius: 3px; background: var(--wg-accent); transition: height 0.5s ease, background 0.3s; }
-.core-fill.warn { background: var(--wg-warn); }
-.core-fill.bad { background: var(--wg-bad); }
-.core-tag { font-size: 8.5px; line-height: 1; color: var(--wg-faint); font-variant-numeric: tabular-nums; }
-.cores.dense .core-tag { display: none; }
-.metrics { gap: 8px; }
-.m { padding: 8px 6px; text-align: center; min-width: 0; }
-.m .wg-big-sm { font-size: 16px; white-space: nowrap; }
-.m .wg-caption { margin-top: 3px; font-size: 9px; }
+.chart {
+  padding: 8px 10px;
+  background: var(--wg-surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--wg-border);
+  border-radius: var(--wg-radius-sm, 10px);
+  box-shadow: var(--wg-shadow, 0 4px 16px rgba(0, 0, 0, 0.15));
+  position: relative;
+  overflow: hidden;
+}
+.chart::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--wg-accent-soft), transparent);
+  opacity: 0.6;
+}
+#cpu-canvas {
+  display: block;
+  width: 100%;
+  height: 64px;
+}
+
+.cores {
+  display: flex;
+  gap: 4px;
+  align-items: stretch;
+  height: 68px;
+  margin: 10px 0;
+  padding: 8px 10px;
+  background: var(--wg-surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--wg-border);
+  border-radius: var(--wg-radius-sm, 10px);
+  box-shadow: var(--wg-shadow, 0 4px 16px rgba(0, 0, 0, 0.15));
+}
+.core-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: transform 0.15s ease;
+}
+.core-col:hover {
+  transform: translateY(-2px);
+}
+.core-track {
+  flex: 1;
+  width: 100%;
+  background: var(--wg-surface-hover);
+  border-radius: var(--wg-radius-pill, 9999px);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.core-fill {
+  width: 100%;
+  min-height: 2px;
+  border-radius: inherit;
+  background: linear-gradient(180deg, var(--wg-accent-2), var(--wg-accent));
+  transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+  box-shadow: 0 0 6px var(--wg-accent-soft);
+}
+.core-fill.warn {
+  background: linear-gradient(180deg, #f77f00, var(--wg-warn));
+  box-shadow: 0 0 6px color-mix(in srgb, var(--wg-warn) 40%, transparent);
+}
+.core-fill.bad {
+  background: linear-gradient(180deg, #d90429, var(--wg-bad));
+  box-shadow: 0 0 6px color-mix(in srgb, var(--wg-bad) 40%, transparent);
+}
+.core-tag {
+  font-family: var(--wg-mono);
+  font-size: 8.5px;
+  line-height: 1;
+  color: var(--wg-faint);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+.cores.dense .core-tag {
+  display: none;
+}
+
+#total {
+  font-family: var(--wg-mono);
+  font-size: 11px;
+  font-weight: 700;
+  box-shadow: 0 0 8px var(--wg-accent-soft);
+}
+
+.metrics {
+  gap: 8px;
+}
+.m {
+  padding: 8px 6px;
+  text-align: center;
+  min-width: 0;
+  background: var(--wg-surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--wg-border);
+  border-radius: var(--wg-radius-sm, 10px);
+  box-shadow: var(--wg-shadow, 0 4px 16px rgba(0, 0, 0, 0.15));
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.m:hover {
+  border-color: color-mix(in srgb, var(--wg-accent) 25%, var(--wg-border));
+}
+.m .wg-big-sm {
+  font-family: var(--wg-mono);
+  font-size: 15px;
+  font-weight: 800;
+  white-space: nowrap;
+  color: var(--wg-fg);
+  font-variant-numeric: tabular-nums;
+}
+.m .wg-caption {
+  margin-top: 3px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--wg-muted);
+}

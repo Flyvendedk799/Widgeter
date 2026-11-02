@@ -1,14 +1,74 @@
-.coin { cursor: pointer; padding: 7px 10px; }
-.coin .sym { font-weight: 700; font-size: 12.5px; }
-.coin .nm { font-size: 10.5px; color: var(--wg-muted); }
-.coin .left { min-width: 0; flex: 1; }
-.coin .right { text-align: right; flex: none; }
-.coin .price { font-weight: 700; font-size: 12.5px; font-variant-numeric: tabular-nums; }
-.coin .chg { font-size: 10.5px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.spark { width: 54px; height: 22px; flex: none; }
-.spark polyline { fill: none; stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
-.spark.good polyline { stroke: var(--wg-good); }
-.spark.bad polyline { stroke: var(--wg-bad); }
+.coin {
+  cursor: pointer;
+  padding: 8px 10px;
+  border-radius: var(--wg-radius-sm);
+  border: 1px solid transparent;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.coin:hover {
+  background: var(--wg-surface-hover);
+  border-color: var(--wg-border);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.coin .sym {
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--wg-fg);
+}
+.coin .nm {
+  font-size: 10.5px;
+  color: var(--wg-muted);
+  margin-top: 1px;
+}
+.coin .left {
+  min-width: 0;
+  flex: 1;
+}
+.coin .right {
+  text-align: right;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+.coin .price {
+  font-family: var(--wg-mono);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  color: var(--wg-fg);
+}
+.coin .chg {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 6px;
+  font-variant-numeric: tabular-nums;
+}
+.spark {
+  width: 58px;
+  height: 24px;
+  flex: none;
+  overflow: visible;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+.spark .spark-line, .spark polyline {
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+.spark .spark-area {
+  opacity: 0.18;
+}
+.spark.good .spark-line, .spark.good polyline { stroke: var(--wg-good); }
+.spark.good .spark-area { fill: var(--wg-good); }
+.spark.bad .spark-line, .spark.bad polyline { stroke: var(--wg-bad); }
+.spark.bad .spark-area { fill: var(--wg-bad); }
 .flash-up { animation: flash-up 1s ease-out; }
 .flash-down { animation: flash-down 1s ease-out; }
 @keyframes flash-up { from { background: color-mix(in srgb, var(--wg-good) 25%, transparent); } }

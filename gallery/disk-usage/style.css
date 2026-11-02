@@ -1,9 +1,95 @@
-#drives { gap: 8px; }
-.drive { display: block; }
-.drive .top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 7px; }
-.drive .name { font-weight: 700; font-size: 13px; }
-.drive .free { color: var(--wg-muted); font-size: 11px; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.drive .bot { display: flex; justify-content: space-between; gap: 8px; margin-top: 6px; font-size: 10.5px; color: var(--wg-faint); font-variant-numeric: tabular-nums; }
-.drive .bot b { color: var(--wg-muted); font-weight: 600; }
-.drive .wg-bar { height: 7px; }
-#refresh.spin { opacity: 0.5; }
+#drives {
+  gap: 10px;
+}
+.drive {
+  display: block;
+  background: var(--wg-surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--wg-border);
+  border-radius: var(--wg-radius-sm, 10px);
+  padding: 10px 12px;
+  box-shadow: var(--wg-shadow, 0 4px 16px rgba(0, 0, 0, 0.15));
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.drive:hover {
+  border-color: color-mix(in srgb, var(--wg-accent) 25%, var(--wg-border));
+  transform: translateY(-1px);
+}
+.drive .top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.drive .name {
+  font-weight: 700;
+  font-size: 13px;
+  font-family: var(--wg-mono);
+  letter-spacing: -0.2px;
+  color: var(--wg-fg);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.drive .free {
+  color: var(--wg-muted);
+  font-size: 11px;
+  font-family: var(--wg-mono);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.drive .free b {
+  color: var(--wg-fg);
+  font-weight: 700;
+}
+.drive .free b.wg-bad {
+  color: var(--wg-bad);
+}
+.drive .wg-bar {
+  height: 7px;
+  border-radius: var(--wg-radius-pill, 9999px);
+  background: var(--wg-surface-hover);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+.drive .wg-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--wg-accent), var(--wg-accent-2));
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+  box-shadow: 0 0 6px var(--wg-accent-soft);
+}
+.drive .wg-fill.warn {
+  background: linear-gradient(90deg, var(--wg-warn), #f77f00);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--wg-warn) 40%, transparent);
+}
+.drive .wg-fill.bad {
+  background: linear-gradient(90deg, var(--wg-bad), #d90429);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--wg-bad) 40%, transparent);
+}
+.drive .bot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 7px;
+  font-size: 10.5px;
+  font-family: var(--wg-mono);
+  color: var(--wg-faint);
+  font-variant-numeric: tabular-nums;
+}
+.drive .bot span {
+  color: var(--wg-muted);
+}
+.drive .bot b {
+  color: var(--wg-fg);
+  font-weight: 700;
+}
+#refresh {
+  transition: transform 0.25s ease, background 0.15s ease;
+}
+#refresh:active {
+  transform: rotate(180deg) scale(0.95);
+}

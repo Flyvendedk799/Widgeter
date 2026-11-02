@@ -17,8 +17,13 @@
     const step = Math.max(1, Math.floor(prices.length / 42));
     const pts = prices.filter((_, i) => i % step === 0);
     const min = Math.min.apply(null, pts), max = Math.max.apply(null, pts), range = max - min || 1;
-    const d = pts.map((p, i) => (i / (pts.length - 1) * 60).toFixed(1) + ',' + (20 - ((p - min) / range) * 18).toFixed(1)).join(' ');
-    return '<svg class="spark ' + (up ? 'good' : 'bad') + '" viewBox="0 0 60 22" preserveAspectRatio="none"><polyline points="' + d + '"/></svg>';
+    const coords = pts.map((p, i) => [(i / (pts.length - 1) * 60).toFixed(1), (20 - ((p - min) / range) * 18).toFixed(1)]);
+    const d = coords.map((c) => c[0] + ',' + c[1]).join(' ');
+    const poly = coords[0][0] + ',22 ' + d + ' ' + coords[coords.length - 1][0] + ',22';
+    return '<svg class="spark ' + (up ? 'good' : 'bad') + '" viewBox="0 0 60 22" preserveAspectRatio="none">' +
+      '<polygon points="' + poly + '" class="spark-area"/>' +
+      '<polyline points="' + d + '" class="spark-line"/>' +
+      '</svg>';
   }
 
   function render(stale) {
@@ -34,11 +39,13 @@
         const flash = p !== undefined && p !== c.current_price ? (c.current_price > p ? ' flash-up' : ' flash-down') : '';
         const sp = c.sparkline_in_7d && c.sparkline_in_7d.price;
         const weekUp = sp && sp.length ? sp[sp.length - 1] >= sp[0] : up;
+        const trend = chg == null ? '–' : (up ? '<span class="wg-stat-trend up">↑</span> ' : '<span class="wg-stat-trend down">↓</span> ') + Math.abs(chg).toFixed(2) + '%';
+        const badgeCls = chg == null ? '' : up ? ' good' : ' bad';
         return '<div class="wg-item coin no-drag' + flash + '" data-id="' + esc(c.id) + '" title="Open on CoinGecko">' +
           '<div class="left"><div class="sym">' + esc(String(c.symbol).toUpperCase()) + '</div><div class="nm wg-truncate">' + esc(c.name) + '</div></div>' +
           spark(sp, weekUp) +
           '<div class="right"><div class="price">' + esc(money(c.current_price, d.cur)) + '</div>' +
-          '<div class="chg ' + (chg == null ? 'wg-muted' : up ? 'wg-good' : 'wg-bad') + '">' + (chg == null ? '–' : (up ? '+' : '') + chg.toFixed(2) + '%') + '</div></div></div>';
+          '<div class="chg-wrap"><span class="wg-badge' + badgeCls + ' chg">' + trend + '</span></div></div></div>';
       }).join('');
       d.coins.forEach((c) => { prev[c.id] = c.current_price; });
     }

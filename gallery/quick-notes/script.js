@@ -28,6 +28,11 @@
     countEl.textContent = words + (words === 1 ? ' word' : ' words') + ' · ' + ta.value.length + ' chars';
   }
 
+  function autoGrow() {
+    ta.style.height = 'auto';
+    ta.style.height = Math.max(175, ta.scrollHeight) + 'px';
+  }
+
   function writeNow() {
     clearTimeout(saveTimer);
     if (!dirty) return;
@@ -60,8 +65,9 @@
     setStatus('Could not load notes: ' + e.message, 'err');
   }
   updateCount();
+  autoGrow();
 
-  ta.addEventListener('input', () => { updateCount(); scheduleSave(); });
+  ta.addEventListener('input', () => { updateCount(); autoGrow(); scheduleSave(); });
   window.addEventListener('beforeunload', writeNow);
 
   document.getElementById('qn-copy').addEventListener('click', async () => {
@@ -86,6 +92,7 @@
     clearBtn.textContent = 'Clear';
     ta.value = '';
     updateCount();
+    autoGrow();
     dirty = true;
     writeNow();
     ta.focus();

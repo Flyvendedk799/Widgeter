@@ -4,6 +4,7 @@
 //   widget-cli validate <widget file|folder|dir of widgets>...
 //   widget-cli pack <folder> [out.widget]      folder -> single .widget file
 //   widget-cli unpack <file.widget> [folder]   single file -> folder
+// Validates widget manifests and packages, including system & resource telemetry widgets.
 const fs = require('fs');
 const path = require('path');
 const format = require('../engine/widget-format');

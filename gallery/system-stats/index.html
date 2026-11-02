@@ -27,6 +27,12 @@
 <div class="wg-card spark">
   <div class="wg-spread"><span class="wg-caption">CPU, last 2 min</span><span class="wg-caption" id="peak">&nbsp;</span></div>
   <svg id="spark" viewBox="0 0 120 40" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="spark-grad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="var(--wg-accent)" stop-opacity="0.28"/>
+        <stop offset="100%" stop-color="var(--wg-accent)" stop-opacity="0.0"/>
+      </linearGradient>
+    </defs>
     <path id="spark-area" class="area" d=""/>
     <path id="spark-line" class="line" d=""/>
   </svg>

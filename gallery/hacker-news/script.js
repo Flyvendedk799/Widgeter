@@ -40,7 +40,7 @@
         '<div class="meta"><span class="pts">▲ ' + (s.score || 0) + '</span>' +
         '<span class="cm no-drag" data-cm="1" title="Open discussion">💬 ' + (s.descendants || 0) + '</span>' +
         (dom ? '<span class="dom wg-truncate">' + esc(dom) + '</span>' : '') +
-        '<span>' + esc(s.by || '') + ' · ' + ago(s.time) + '</span></div></div></div>';
+        '<span class="by-time">' + esc(s.by || '') + ' · ' + ago(s.time) + '</span></div></div></div>';
     }).join('');
     $('title').textContent = LABELS[d.feed] || 'Hacker News';
     $('sub').textContent = 'news.ycombinator.com · ' + (stale ? 'offline, showing saved list' : new Date(d.at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
@@ -50,20 +50,27 @@
   async function load() {
     if (busy) return;
     busy = true;
+    if ($('refresh')) $('refresh').classList.add('spin');
     try {
       let feed = await widgeter.getConfig('feed');
       if (!LABELS[feed]) feed = 'topstories';
       const count = Math.max(3, Math.min(30, Number(await widgeter.getConfig('count')) || 10));
-      const ids = (await widgeter.fetchJson(API + '/' + feed + '.json', { ttl: 120 })).slice(0, count);
+      const res = await widgeter.fetchJson(API + '/' + feed + '.json', { ttl: 120 });
+      const ids = (Array.isArray(res) ? res : []).slice(0, count);
       const items = await mapLimit(ids, 5, (id) => widgeter.fetchJson(API + '/item/' + id + '.json', { ttl: 300 }));
       const stories = items.filter((s) => s && !s.dead && !s.deleted && s.title);
       if (!stories.length) throw new Error('Could not load any stories');
       last = { stories, at: Date.now(), feed };
       render(false);
     } catch (e) {
-      if (last) render(true);
-      else $('list').innerHTML = '<div class="wg-err">Could not load Hacker News: ' + esc(e.message) + '</div>';
-    } finally { busy = false; }
+      try {
+        if (last) render(true);
+        else if ($('list')) $('list').innerHTML = '<div class="wg-err">Could not load Hacker News: ' + esc(e.message) + '</div>';
+      } catch (err) { /* ignore render failure */ }
+    } finally {
+      busy = false;
+      if ($('refresh')) $('refresh').classList.remove('spin');
+    }
   }
 
   $('list').addEventListener('click', (e) => {
@@ -72,7 +79,7 @@
     const hn = 'https://news.ycombinator.com/item?id=' + row.dataset.id;
     widgeter.openExternal(e.target.closest('[data-cm]') || !row.dataset.url ? hn : row.dataset.url);
   });
-  $('refresh').addEventListener('click', load);
-  load();
-  setInterval(load, 300000);
+  $('refresh').addEventListener('click', () => { load().catch(() => {}); });
+  load().catch(() => {});
+  setInterval(() => { load().catch(() => {}); }, 300000);
 })();
