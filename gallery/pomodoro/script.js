@@ -46,6 +46,8 @@
     arc.style.strokeDashoffset = String(CIRC * (1 - p));
     arc.style.opacity = p < 0.002 ? '0' : '1';
     ringEl.classList.toggle('break', phase !== 'focus');
+    document.body.classList.toggle('is-break', phase !== 'focus');
+    document.body.classList.toggle('is-running', running);
     $('pt-mode').textContent = NAME[phase];
     $('pt-sub').textContent = running ? (phase === 'focus' ? 'Stay focused' : 'Take a break') : (ms < LENGTH[phase] ? 'Paused' : 'Ready');
     $('pt-cnt').textContent = done + ' today';

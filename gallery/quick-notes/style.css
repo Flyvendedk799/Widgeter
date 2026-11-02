@@ -1,7 +1,89 @@
 #qn-text {
-  display: block; height: 180px; resize: none; line-height: 1.5; padding: 9px 11px;
-  font-family: var(--wg-font); overflow-y: auto;
+  display: block;
+  width: 100%;
+  min-height: 175px;
+  max-height: 520px;
+  resize: vertical;
+  line-height: 1.55;
+  padding: 10px 12px;
+  font-family: var(--wg-font);
+  border-radius: var(--wg-radius-sm, 10px);
+  background: var(--wg-surface);
+  border: 1px solid var(--wg-border);
+  color: var(--wg-fg);
+  box-sizing: border-box;
+  transition: border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              background 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
 }
-.qn-status { margin-top: 7px; font-size: 10.5px; color: var(--wg-faint); min-height: 15px; }
-.qn-status.ok { color: var(--wg-good); }
-.qn-status.err { color: var(--wg-bad); }
+
+#qn-text:focus {
+  outline: none;
+  background: var(--wg-surface-hover);
+  border-color: var(--wg-accent);
+  box-shadow: 0 0 0 3px var(--wg-accent-soft), 0 0 16px var(--wg-accent-soft);
+}
+
+#qn-text::placeholder {
+  color: var(--wg-faint);
+}
+
+.qn-status {
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--wg-faint);
+  min-height: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s ease;
+}
+
+.qn-status::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}
+
+.qn-status.ok {
+  color: var(--wg-good);
+}
+
+.qn-status.err {
+  color: var(--wg-bad);
+}
+
+.wg-inline .wg-btn {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              background 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.wg-inline .wg-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+}
+
+.wg-inline .wg-btn:active {
+  transform: translateY(1px);
+}
+
+#qn-copy:hover {
+  color: var(--wg-accent);
+  border-color: color-mix(in srgb, var(--wg-accent) 30%, transparent);
+  background: var(--wg-accent-soft);
+}
+
+#qn-clear:hover {
+  color: var(--wg-bad);
+  border-color: color-mix(in srgb, var(--wg-bad) 30%, transparent);
+  background: color-mix(in srgb, var(--wg-bad) 12%, transparent);
+}

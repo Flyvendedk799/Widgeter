@@ -55,6 +55,8 @@
     toggleBtn.textContent = running ? '⏸ Pause' : (base > 0 ? '▶ Resume' : '▶ Start');
     lapBtn.disabled = !running;
     timeEl.classList.toggle('running', running);
+    document.body.classList.toggle('sw-running', running);
+    document.body.classList.toggle('sw-paused', !running && base > 0);
     subEl.textContent = laps.length ? laps.length + (laps.length === 1 ? ' lap' : ' laps') : (running ? 'Running' : (base > 0 ? 'Paused' : 'Ready'));
   }
 
