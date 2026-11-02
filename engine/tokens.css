@@ -16,10 +16,14 @@
   --wg-info: #3a86ff;
   --wg-radius: 14px;
   --wg-radius-sm: 8px;
+  --wg-radius-lg: 18px;
+  --wg-radius-pill: 9999px;
+  --wg-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  --wg-glow: 0 0 12px var(--wg-accent-soft);
   --wg-gap: 10px;
   --wg-pad: 14px;
   --wg-font: 'Segoe UI Variable', 'Segoe UI', system-ui, -apple-system, sans-serif;
-  --wg-mono: 'Cascadia Mono', 'Consolas', 'Courier New', monospace;
+  --wg-mono: 'Cascadia Mono', 'Consolas', monospace;
   color-scheme: dark;
 }
 
@@ -33,9 +37,13 @@
   --wg-surface-hover: rgba(20, 26, 50, 0.09);
   --wg-accent: #0a7cff;
   --wg-accent-soft: rgba(10, 124, 255, 0.12);
+  --wg-accent-2: #7048e8;
   --wg-good: #079669;
   --wg-bad: #d62b52;
   --wg-warn: #b97d00;
+  --wg-info: #0284c7;
+  --wg-shadow: 0 4px 16px rgba(20, 26, 50, 0.08);
+  --wg-glow: 0 0 12px var(--wg-accent-soft);
   color-scheme: light;
 }
 
