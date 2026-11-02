@@ -1,15 +1,24 @@
-.stage { position: relative; height: 96px; }
+.stage {
+  position: relative;
+  height: 100px;
+  background: var(--wg-surface);
+  border: 1px solid var(--wg-border);
+  border-radius: var(--wg-radius-sm);
+  padding: 6px 8px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.15);
+}
 #spec { display: block; width: 100%; height: 100%; }
-.overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 6px; }
+.overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 6px; background: var(--wg-bg); }
 .overlay[hidden] { display: none; }
-.axis { position: relative; height: 14px; margin: 3px 0 10px; }
-.axis span { position: absolute; transform: translateX(-50%); font-size: 9.5px; color: var(--wg-faint); font-variant-numeric: tabular-nums; }
+.axis { position: relative; height: 16px; margin: 4px 8px 10px; }
+.axis span { position: absolute; transform: translateX(-50%); font-size: 9.5px; font-family: var(--wg-mono); font-weight: 600; color: var(--wg-faint); font-variant-numeric: tabular-nums; }
 .stats { gap: 8px; }
-.stat { padding: 8px 6px; text-align: center; min-width: 0; }
-.stat .wg-big-sm { font-size: 16px; font-family: var(--wg-mono); white-space: nowrap; }
-.stat .wg-caption { margin-top: 3px; font-size: 9px; }
-.meter { height: 24px; display: flex; align-items: center; }
-.meter .wg-bar { width: 100%; height: 8px; }
-.meter .wg-fill { transition: width 0.08s linear; background: var(--wg-good); }
-.meter .wg-fill.warn { background: var(--wg-warn); }
-.meter .wg-fill.bad { background: var(--wg-bad); }
+.stat { padding: 8px 6px; text-align: center; min-width: 0; border-radius: var(--wg-radius-sm); }
+.stat .wg-big-sm { font-size: 15px; font-family: var(--wg-mono); font-weight: 700; white-space: nowrap; color: var(--wg-fg); }
+.stat .wg-caption { margin-top: 4px; font-size: 9px; letter-spacing: 0.06em; }
+.meter { height: 22px; display: flex; align-items: center; }
+.meter .wg-bar { width: 100%; height: 8px; border-radius: 999px; background: var(--wg-surface-hover); }
+.meter .wg-fill { border-radius: inherit; transition: width 0.08s linear; background: linear-gradient(90deg, var(--wg-accent-2), var(--wg-accent)); }
+.meter .wg-fill.warn { background: linear-gradient(90deg, var(--wg-accent), var(--wg-warn)); }
+.meter .wg-fill.bad { background: linear-gradient(90deg, var(--wg-warn), var(--wg-bad)); }

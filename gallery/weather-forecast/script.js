@@ -46,8 +46,9 @@
       const name = i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : new Date(dl.time[i] + 'T12:00').toLocaleDateString([], { weekday: 'short' });
       const p = dl.precipitation_probability_max[i];
       const left = ((lows[i] - min) / span) * 100, width = Math.max(6, ((highs[i] - lows[i]) / span) * 100);
-      html += '<div class="wg-item day" title="' + esc(w.text) + '"><span class="dn">' + esc(name) + '</span><span class="di">' + w[1] + '</span>' +
-        '<span class="dp">' + (p >= 20 ? p + '%' : '') + '</span><span class="lo">' + deg(lows[i]) + '</span>' +
+      const rain = p >= 20 ? '<span class="rain-chip">💧' + p + '%</span>' : '';
+      html += '<div class="wg-item day' + (i === 0 ? ' today' : '') + '" title="' + esc(w.text) + '"><span class="dn">' + esc(name) + '</span><span class="di">' + w[1] + '</span>' +
+        '<span class="dp">' + rain + '</span><span class="lo">' + deg(lows[i]) + '</span>' +
         '<span class="range"><i style="left:' + left.toFixed(1) + '%;width:' + Math.min(width, 100 - left).toFixed(1) + '%"></i></span>' +
         '<span class="hi">' + deg(highs[i]) + '</span></div>';
     }

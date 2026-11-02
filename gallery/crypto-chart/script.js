@@ -92,8 +92,9 @@
 
     // area
     const grad = ctx.createLinearGradient(0, top, 0, top + ch);
-    grad.addColorStop(0, color.startsWith('#') ? color + '44' : color);
-    grad.addColorStop(1, color.startsWith('#') ? color + '00' : 'transparent');
+    grad.addColorStop(0, color.startsWith('#') ? color + '40' : color);
+    grad.addColorStop(0.7, color.startsWith('#') ? color + '0d' : color);
+    grad.addColorStop(1, 'transparent');
     ctx.beginPath();
     closes.forEach((v, i) => { if (i === 0) ctx.moveTo(x(i), y(v)); else ctx.lineTo(x(i), y(v)); });
     ctx.lineTo(x(closes.length - 1), top + ch);
@@ -102,18 +103,29 @@
     ctx.fillStyle = grad;
     ctx.fill();
 
-    // line
+    // line with subtle glow
+    ctx.save();
+    ctx.shadowColor = color.startsWith('#') ? color + '80' : color;
+    ctx.shadowBlur = 4;
     ctx.beginPath();
     closes.forEach((v, i) => { if (i === 0) ctx.moveTo(x(i), y(v)); else ctx.lineTo(x(i), y(v)); });
     ctx.strokeStyle = color;
-    ctx.lineWidth = 1.6;
+    ctx.lineWidth = 1.8;
     ctx.lineJoin = 'round';
     ctx.stroke();
+    ctx.restore();
 
-    // last price marker
+    // last price marker & reference line
     const li = closes.length - 1;
+    const ly = y(closes[li]);
+    ctx.strokeStyle = color.startsWith('#') ? color + '55' : color;
+    ctx.setLineDash([2, 3]);
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(left, ly); ctx.lineTo(w - right, ly); ctx.stroke();
+    ctx.setLineDash([]);
+
     ctx.fillStyle = color;
-    ctx.beginPath(); ctx.arc(x(li), y(closes[li]), 2.6, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(x(li), ly, 3, 0, Math.PI * 2); ctx.fill();
 
     // hover crosshair
     if (hoverIdx >= 0 && hoverIdx < closes.length) {
@@ -121,9 +133,10 @@
       ctx.strokeStyle = muted;
       ctx.setLineDash([3, 3]);
       ctx.beginPath(); ctx.moveTo(hx, top); ctx.lineTo(hx, top + ch); ctx.stroke();
+      ctx.moveTo(left, hy); ctx.lineTo(w - right, hy); ctx.stroke();
       ctx.setLineDash([]);
       ctx.fillStyle = css('--wg-fg');
-      ctx.beginPath(); ctx.arc(hx, hy, 3, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(hx, hy, 3.5, 0, Math.PI * 2); ctx.fill();
     }
   }
 
@@ -151,8 +164,9 @@
     const last = Number(t.lastPrice), pct = Number(t.priceChangePercent);
     $('price').textContent = price(last);
     const chg = $('chg');
-    chg.textContent = (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
-    chg.className = 'wg-badge ' + (pct >= 0 ? 'good' : 'bad');
+    const up = pct >= 0;
+    chg.innerHTML = (up ? '<span class="wg-stat-trend up">↑</span> ' : '<span class="wg-stat-trend down">↓</span> ') + Math.abs(pct).toFixed(2) + '%';
+    chg.className = 'wg-badge ' + (up ? 'good' : 'bad');
     $('hi').textContent = price(t.highPrice);
     $('lo').textContent = price(t.lowPrice);
     $('vol').textContent = compact(t.quoteVolume);

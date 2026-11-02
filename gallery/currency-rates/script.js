@@ -14,11 +14,17 @@
     return v.toLocaleString(undefined, { minimumFractionDigits: Math.min(d, 4), maximumFractionDigits: d });
   }
 
-  function spark(vals) {
-    if (vals.length < 2) return '<svg class="spark"></svg>';
+  function spark(vals, up) {
+    if (!vals || vals.length < 2) return '<svg class="spark"></svg>';
     const min = Math.min.apply(null, vals), max = Math.max.apply(null, vals), range = max - min || 1;
-    const pts = vals.map((v, i) => (i / (vals.length - 1) * 60).toFixed(1) + ',' + (20 - ((v - min) / range) * 18).toFixed(1)).join(' ');
-    return '<svg class="spark" viewBox="0 0 60 22" preserveAspectRatio="none"><polyline points="' + pts + '"/></svg>';
+    const coords = vals.map((v, i) => [(i / (vals.length - 1) * 60).toFixed(1), (20 - ((v - min) / range) * 18).toFixed(1)]);
+    const d = coords.map((c) => c[0] + ',' + c[1]).join(' ');
+    const poly = coords[0][0] + ',22 ' + d + ' ' + coords[coords.length - 1][0] + ',22';
+    const cls = up ? 'good' : 'bad';
+    return '<svg class="spark ' + cls + '" viewBox="0 0 60 22" preserveAspectRatio="none">' +
+      '<polygon points="' + poly + '" class="spark-area"/>' +
+      '<polyline points="' + d + '" class="spark-line"/>' +
+      '</svg>';
   }
 
   function render(stale) {
@@ -27,11 +33,13 @@
     $('title').textContent = d.amount === 1 ? d.base + ' rates' : d.amount.toLocaleString() + ' ' + d.base;
     $('list').innerHTML = d.rows.map((r) => {
       const up = r.change >= 0;
+      const trend = r.change == null ? '–' : (up ? '<span class="wg-stat-trend up">↑</span> ' : '<span class="wg-stat-trend down">↓</span> ') + Math.abs(r.change).toFixed(2) + '%';
+      const badgeCls = r.change == null ? '' : up ? ' good' : ' bad';
       return '<div class="wg-item rate">' +
-        '<div class="left"><div class="code">' + esc(r.code) + '</div><div class="nm wg-truncate">' + esc(r.name) + '</div></div>' +
-        spark(r.series) +
+        '<div class="left"><span class="code-badge">' + esc(r.code) + '</span><div class="nm wg-truncate">' + esc(r.name) + '</div></div>' +
+        spark(r.series, up) +
         '<div class="right"><div class="val-n">' + esc(fmtRate(r.rate)) + '</div>' +
-        '<div class="chg ' + (r.change == null ? 'wg-muted' : up ? 'wg-good' : 'wg-bad') + '">' + (r.change == null ? '–' : (up ? '+' : '') + r.change.toFixed(2) + '%') + '</div></div></div>';
+        '<div class="chg-wrap"><span class="wg-badge' + badgeCls + ' chg">' + trend + '</span></div></div></div>';
     }).join('');
     $('note').textContent = d.unknown.length ? 'Not available from the ECB: ' + d.unknown.join(', ') : '';
     $('sub').textContent = 'ECB · ' + d.date + (stale ? ' · offline, showing saved rates' : '');

@@ -49,26 +49,26 @@
       const k = i + 1;
       const hour = new Date(t).toLocaleTimeString([], { hour: 'numeric' });
       const p = hr.precipitation_probability ? hr.precipitation_probability[k] : null;
-      return '<div><div class="h">' + esc(hour) + '</div><div class="hi">' + wmo(hr.weather_code[k], 1).icon + '</div><div class="ht">' + deg(hr.temperature_2m[k]) + '</div><div class="hp">' + (p >= 20 ? p + '%' : '') + '</div></div>';
+      return '<div class="hour-col"><div class="h">' + esc(hour) + '</div><div class="hi">' + wmo(hr.weather_code[k], 1).icon + '</div><div class="ht">' + deg(hr.temperature_2m[k]) + '</div><div class="hp">' + (p >= 20 ? '<span class="rain-chip">💧' + p + '%</span>' : '') + '</div></div>';
     }).join('');
 
     const press = imp ? (c.pressure_msl * 0.02953).toFixed(2) + ' inHg' : Math.round(c.pressure_msl) + ' hPa';
-    const stat = (l, v) => '<div><div class="wg-caption">' + l + '</div><div class="wg-val" style="text-align:left">' + esc(v) + '</div></div>';
+    const stat = (l, v) => '<div class="stat-cell"><div class="wg-caption">' + l + '</div><div class="metric-val">' + esc(v) + '</div></div>';
     const time = (s) => (s ? new Date(s).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '–');
 
     $('body').innerHTML =
-      '<div class="now"><div class="ico">' + cond.icon + '</div>' +
-      '<div class="temp"><div class="wg-big">' + Math.round(c.temperature_2m) + tU + '</div><div class="desc wg-truncate">' + esc(cond.text) + '</div><div class="feel">Feels like ' + deg(c.apparent_temperature) + '</div></div>' +
-      '<div class="hl"><div>H <b>' + deg(dl.temperature_2m_max[0]) + '</b></div><div>L <b>' + deg(dl.temperature_2m_min[0]) + '</b></div></div></div>' +
-      '<div class="wg-card hours">' + hours + '</div>' +
-      '<div class="wg-card"><div class="stats">' +
-      stat('Humidity', Math.round(c.relative_humidity_2m) + '%') +
-      stat('Wind', Math.round(c.wind_speed_10m) + ' ' + wU + ' ' + dir(c.wind_direction_10m)) +
-      stat('Pressure', press) +
-      stat('Rain', (dl.precipitation_probability_max[0] != null ? dl.precipitation_probability_max[0] : 0) + '%') +
-      stat('UV', dl.uv_index_max[0] != null ? Math.round(dl.uv_index_max[0]) : '–') +
-      stat('Clouds', Math.round(c.cloud_cover) + '%') +
-      '</div><div class="sun"><span>🌅 ' + time(dl.sunrise[0]) + '</span><span>🌇 ' + time(dl.sunset[0]) + '</span></div></div>';
+      '<div class="now-card"><div class="now"><div class="ico">' + cond.icon + '</div>' +
+      '<div class="temp"><div class="temp-row"><span class="temp-big">' + Math.round(c.temperature_2m) + '°</span><span class="temp-unit">' + tU + '</span></div><div class="desc wg-truncate">' + esc(cond.text) + '</div><div class="feel"><span class="feel-badge">Feels like ' + deg(c.apparent_temperature) + '</span></div></div>' +
+      '<div class="hl"><div class="hl-chip high"><span class="hl-arr">↑</span> <b>' + deg(dl.temperature_2m_max[0]) + '</b></div><div class="hl-chip low"><span class="hl-arr">↓</span> <b>' + deg(dl.temperature_2m_min[0]) + '</b></div></div></div></div>' +
+      '<div class="wg-card hours-card"><div class="hours">' + hours + '</div></div>' +
+      '<div class="wg-card metrics-card"><div class="stats">' +
+      stat('💧 Humidity', Math.round(c.relative_humidity_2m) + '%') +
+      stat('💨 Wind', Math.round(c.wind_speed_10m) + ' ' + wU + ' ' + dir(c.wind_direction_10m)) +
+      stat('🧭 Pressure', press) +
+      stat('🌧️ Rain', (dl.precipitation_probability_max[0] != null ? dl.precipitation_probability_max[0] : 0) + '%') +
+      stat('☀️ UV Index', dl.uv_index_max[0] != null ? Math.round(dl.uv_index_max[0]) : '–') +
+      stat('☁️ Clouds', Math.round(c.cloud_cover) + '%') +
+      '</div><div class="sun-bar"><div class="sun-item"><span>🌅</span> <span>Sunrise <b>' + time(dl.sunrise[0]) + '</b></span></div><div class="sun-item"><span>🌇</span> <span>Sunset <b>' + time(dl.sunset[0]) + '</b></span></div></div></div>';
   }
 
   async function load() {

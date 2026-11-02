@@ -28,6 +28,9 @@
     colors = {
       accent: cs.getPropertyValue('--wg-accent').trim() || '#00f5d4',
       accent2: cs.getPropertyValue('--wg-accent-2').trim() || '#3a86ff',
+      good: cs.getPropertyValue('--wg-good').trim() || '#06d6a0',
+      warn: cs.getPropertyValue('--wg-warn').trim() || '#ffbe0b',
+      bad: cs.getPropertyValue('--wg-bad').trim() || '#ef476f',
       track: cs.getPropertyValue('--wg-surface-hover').trim() || 'rgba(255,255,255,0.1)'
     };
   }
@@ -87,21 +90,43 @@
 
   function draw() {
     ctx2d.clearRect(0, 0, w, h);
-    const gap = 3, bw = (w - gap * (BANDS - 1)) / BANDS;
+    const gap = 3, bw = Math.max(2, (w - gap * (BANDS - 1)) / BANDS);
     const grad = ctx2d.createLinearGradient(0, h, 0, 0);
     grad.addColorStop(0, colors.accent2 || '#3a86ff');
-    grad.addColorStop(1, colors.accent || '#00f5d4');
+    grad.addColorStop(0.55, colors.accent || '#00f5d4');
+    grad.addColorStop(0.85, colors.warn || '#ffbe0b');
+    grad.addColorStop(1, colors.bad || '#ef476f');
+
     for (let b = 0; b < BANDS; b++) {
       const x = b * (bw + gap);
       ctx2d.fillStyle = colors.track;
       ctx2d.fillRect(x, h - 2, bw, 2);
-      const bh = Math.max(0, levels[b] * (h - 6));
+
+      const bh = Math.max(0, levels[b] * (h - 8));
       if (bh > 0.5) {
         ctx2d.fillStyle = grad;
-        ctx2d.fillRect(x, h - 2 - bh, bw, bh);
-        const cy = h - 2 - caps[b] * (h - 6) - 3;
+        const by = h - 2 - bh;
+        if (ctx2d.roundRect) {
+          ctx2d.beginPath();
+          ctx2d.roundRect(x, by, bw, bh, [2, 2, 0, 0]);
+          ctx2d.fill();
+        } else {
+          ctx2d.fillRect(x, by, bw, bh);
+        }
+
+        const cy = Math.max(0, h - 2 - caps[b] * (h - 8) - 3);
+        ctx2d.save();
         ctx2d.fillStyle = colors.accent;
-        ctx2d.fillRect(x, Math.max(0, cy), bw, 2);
+        ctx2d.shadowColor = colors.accent;
+        ctx2d.shadowBlur = 4;
+        if (ctx2d.roundRect) {
+          ctx2d.beginPath();
+          ctx2d.roundRect(x, cy, bw, 2.5, 1);
+          ctx2d.fill();
+        } else {
+          ctx2d.fillRect(x, cy, bw, 2.5);
+        }
+        ctx2d.restore();
       }
     }
   }
@@ -182,6 +207,7 @@
   }
   window.addEventListener('pagehide', stop);
   new ResizeObserver(fit).observe(canvas.parentElement);
+  new MutationObserver(() => { readColors(); draw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'style'] });
 
   readColors();
   fit();

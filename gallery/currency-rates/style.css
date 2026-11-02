@@ -1,9 +1,78 @@
-.rate { padding: 5px 10px; }
-.rate .left { flex: 1; min-width: 0; }
-.rate .code { font-weight: 700; font-size: 12.5px; }
-.rate .nm { font-size: 10.5px; color: var(--wg-muted); }
-.rate .right { text-align: right; flex: none; }
-.rate .val-n { font-weight: 700; font-size: 12.5px; font-variant-numeric: tabular-nums; }
-.rate .chg { font-size: 10.5px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.spark { width: 52px; height: 22px; flex: none; }
-.spark polyline { fill: none; stroke: var(--wg-accent); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.rate {
+  padding: 8px 10px;
+  border-radius: var(--wg-radius-sm);
+  border: 1px solid transparent;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.rate:hover {
+  background: var(--wg-surface-hover);
+  border-color: var(--wg-border);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.rate .left {
+  flex: 1;
+  min-width: 0;
+}
+.rate .code-badge {
+  display: inline-block;
+  font-family: var(--wg-mono);
+  font-weight: 700;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: var(--wg-fg);
+  background: var(--wg-surface);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--wg-border);
+}
+.rate .nm {
+  font-size: 10.5px;
+  color: var(--wg-muted);
+  margin-top: 2px;
+}
+.rate .right {
+  text-align: right;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+.rate .val-n {
+  font-weight: 700;
+  font-family: var(--wg-mono);
+  font-size: 13px;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  color: var(--wg-fg);
+}
+.rate .chg {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 6px;
+  font-variant-numeric: tabular-nums;
+}
+.spark {
+  width: 56px;
+  height: 24px;
+  flex: none;
+  overflow: visible;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+.spark .spark-line, .spark polyline {
+  fill: none;
+  stroke: var(--wg-accent);
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+.spark .spark-area {
+  opacity: 0.18;
+  fill: var(--wg-accent);
+}
+.spark.good .spark-line { stroke: var(--wg-good); }
+.spark.good .spark-area { fill: var(--wg-good); }
+.spark.bad .spark-line { stroke: var(--wg-bad); }
+.spark.bad .spark-area { fill: var(--wg-bad); }
