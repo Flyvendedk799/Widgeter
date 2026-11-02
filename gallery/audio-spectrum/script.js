@@ -36,7 +36,7 @@
   }
 
   function fit() {
-    const r = canvas.parentElement.getBoundingClientRect();
+    const r = canvas.getBoundingClientRect();
     const dpr = window.devicePixelRatio || 1;
     w = Math.max(40, Math.round(r.width)); h = Math.max(40, Math.round(r.height));
     canvas.width = w * dpr; canvas.height = h * dpr;

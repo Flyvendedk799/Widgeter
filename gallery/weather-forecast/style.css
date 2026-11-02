@@ -74,7 +74,7 @@
   bottom: 0;
   border-radius: inherit;
   background: linear-gradient(90deg, var(--wg-accent-2), var(--wg-accent), var(--wg-warn));
-  box-shadow: 0 0 6px rgba(0, 245, 212, 0.25);
+  box-shadow: 0 0 6px var(--wg-accent-soft);
 }
 .today-desc {
   font-size: 10.5px;

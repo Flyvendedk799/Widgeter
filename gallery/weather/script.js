@@ -58,7 +58,7 @@
 
     $('body').innerHTML =
       '<div class="now-card"><div class="now"><div class="ico">' + cond.icon + '</div>' +
-      '<div class="temp"><div class="temp-row"><span class="temp-big">' + Math.round(c.temperature_2m) + '°</span><span class="temp-unit">' + tU + '</span></div><div class="desc wg-truncate">' + esc(cond.text) + '</div><div class="feel"><span class="feel-badge">Feels like ' + deg(c.apparent_temperature) + '</span></div></div>' +
+      '<div class="temp"><div class="temp-row"><span class="temp-big">' + Math.round(c.temperature_2m) + '</span><span class="temp-unit">' + tU + '</span></div><div class="desc wg-truncate">' + esc(cond.text) + '</div><div class="feel"><span class="feel-badge">Feels like ' + deg(c.apparent_temperature) + '</span></div></div>' +
       '<div class="hl"><div class="hl-chip high"><span class="hl-arr">↑</span> <b>' + deg(dl.temperature_2m_max[0]) + '</b></div><div class="hl-chip low"><span class="hl-arr">↓</span> <b>' + deg(dl.temperature_2m_min[0]) + '</b></div></div></div></div>' +
       '<div class="wg-card hours-card"><div class="hours">' + hours + '</div></div>' +
       '<div class="wg-card metrics-card"><div class="stats">' +
