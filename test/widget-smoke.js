@@ -28,6 +28,15 @@ const waitMs = Number(opt('wait', 5000));
 const theme = opt('theme', 'dark');
 const shotsDir = opt('shots', null);
 const FIT_TOLERANCE = 2; // px
+const LOAD_RETRIES = 2;
+// Visible .wg-err = error state; visible .wg-skeleton = still loading; otherwise loaded.
+const LOAD_STATE_PROBE = `(() => {
+  const shown = (el) => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0 && getComputedStyle(el).visibility !== 'hidden'; };
+  const err = Array.from(document.querySelectorAll('.wg-err')).filter(shown);
+  if (err.length) return { kind: 'error', detail: (err[0].innerText || '').trim().slice(0, 120) };
+  if (Array.from(document.querySelectorAll('.wg-skeleton')).some(shown)) return { kind: 'loading', detail: '' };
+  return { kind: 'loaded', detail: '' };
+})()`;
 const NETWORK_NOISE = /ENOTFOUND|ECONNREFUSED|ECONNRESET|ETIMEDOUT|EAI_AGAIN|Request failed|HTTP \d{3}|NetworkError|Failed to fetch|net::ERR/i;
 
 app.on('window-all-closed', () => {});
@@ -43,6 +52,9 @@ ipcMain.handle('widgeter:fetch', async (e, url, opts) => {
   try { return await fetchCache.fetch(url, opts || {}); } catch (err) { return { error: 'Request failed: ' + (err.cause && err.cause.code ? err.cause.code : err.message) }; }
 });
 ipcMain.on('widgeter:notify', () => {});
+// Clipboard is stubbed (deterministic, and the test never reads the real clipboard).
+ipcMain.handle('widgeter:clipboard-read', () => 'Widgeter smoke test clipboard text');
+ipcMain.handle('widgeter:clipboard-write', () => true);
 ipcMain.on('widgeter:open-external', () => {});
 ipcMain.on('widgeter:data-dir', (e) => {
   const s = sessions.get(e.sender.id);
@@ -80,6 +92,20 @@ async function runOne(item) {
   try {
     await win.loadFile(htmlPath);
     await new Promise((r) => setTimeout(r, waitMs));
+    // Data-dependent widgets must be measured in their loaded state, not while a skeleton
+    // or an error (e.g. a failed fetch) is showing. Give a slow load more time, and retry a
+    // failed one with a fresh page load; if it still is not loaded, report the fit as
+    // unverified instead of silently passing it.
+    let state = await win.webContents.executeJavaScript(LOAD_STATE_PROBE);
+    for (let attempt = 1; attempt <= LOAD_RETRIES && state.kind !== 'loaded'; attempt++) {
+      if (state.kind === 'error') { await win.loadFile(htmlPath); session.logs.length = 0; }
+      await new Promise((r) => setTimeout(r, waitMs));
+      state = await win.webContents.executeJavaScript(LOAD_STATE_PROBE);
+    }
+    if (state.kind !== 'loaded') {
+      result.unverified = state.kind + (state.detail ? ': ' + state.detail : '');
+      result.warnings.push('fit not verified, widget is in ' + state.kind + ' state' + (state.detail ? ' (' + state.detail + ')' : ''));
+    }
     const probe = await win.webContents.executeJavaScript(`({
       text: (document.body.innerText || '').trim().length,
       scrollW: document.documentElement.scrollWidth, innerW: window.innerWidth,
@@ -130,17 +156,19 @@ app.whenReady().then(async () => {
   if (!items.length) { console.log('No widgets found in ' + galleryDir); app.exit(2); return; }
 
   let failed = 0;
-  const overflowing = [];
+  const overflowing = [], unverified = [];
   for (const item of items) {
     const r = await runOne(item);
     const ok = r.errors.length === 0;
     if (!ok) failed++;
     if (r.overflow) overflowing.push(r.id);
-    console.log((ok ? 'PASS ' : 'FAIL ') + r.id + (r.info.length ? '  [' + r.info.join(', ') + ']' : ''));
+    if (r.unverified) unverified.push(r.id + ' (' + r.unverified + ')');
+    console.log((!ok ? 'FAIL ' : r.unverified ? 'UNVERIFIED ' : 'PASS ') + r.id + (r.info.length ? '  [' + r.info.join(', ') + ']' : ''));
     for (const e of r.errors) console.log('   error:   ' + e);
     for (const w of r.warnings) console.log('   warning: ' + w);
   }
   console.log('\nfit check (' + theme + ' theme): ' + overflowing.length + ' overflowing' + (overflowing.length ? ': ' + overflowing.join(', ') : ''));
+  if (unverified.length) console.log('fit not verified, not in a loaded state: ' + unverified.join('; '));
   console.log((items.length - failed) + '/' + items.length + ' widgets passed');
   app.exit(failed ? 1 : 0);
 });
