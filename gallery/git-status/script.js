@@ -151,7 +151,7 @@ function renderCompact(r) {
 async function update() {
   if (busy) return;
   busy = true;
-  $('refresh').classList.add('spin');
+  if ($('refresh')) $('refresh').classList.add('spin');
   try {
     const dirs = parseRepoList(await widgeter.getConfig('repo_path'));
     if (!dirs.length) {
@@ -171,13 +171,13 @@ async function update() {
     $('sub').textContent = single ? repos[0].name : repos.length + ' repositories';
     $('content').innerHTML = repos.map((r) => (single ? renderDetailed(r, maxFiles) : renderCompact(r))).join('');
   } catch (e) {
-    $('content').innerHTML = '<div class="wg-err">' + esc(e.message || e) + '</div>';
+    if ($('content')) $('content').innerHTML = '<div class="wg-err">' + esc(e.message || e) + '</div>';
   } finally {
     busy = false;
-    $('refresh').classList.remove('spin');
+    if ($('refresh')) $('refresh').classList.remove('spin');
   }
 }
 
-$('refresh').addEventListener('click', update);
-update();
-setInterval(update, 30000);
+if ($('refresh')) $('refresh').addEventListener('click', () => { update().catch(() => {}); });
+update().catch(() => {});
+setInterval(() => { update().catch(() => {}); }, 30000);

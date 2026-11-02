@@ -142,7 +142,7 @@ function render(events) {
 async function load(manual) {
   if (busy || !username) return;
   busy = true;
-  $('refresh').classList.add('spin');
+  if ($('refresh')) $('refresh').classList.add('spin');
   try {
     const events = await gh('/users/' + encodeURIComponent(username) + '/events/public?per_page=30', manual ? 0 : 90);
     showMessage('');
@@ -151,7 +151,7 @@ async function load(manual) {
     showMessage(e.message);
   } finally {
     busy = false;
-    $('refresh').classList.remove('spin');
+    if ($('refresh')) $('refresh').classList.remove('spin');
   }
 }
 
@@ -161,7 +161,7 @@ $('list').addEventListener('click', (e) => {
   e.preventDefault();
   wd.openExternal(a.getAttribute('href'));
 });
-$('refresh').addEventListener('click', () => load(true));
+if ($('refresh')) $('refresh').addEventListener('click', () => { load(true).catch(() => {}); });
 
 async function init() {
   username = String((await wd.getConfig('ga2_username')) || '').trim().replace(/^@/, '').replace(/^https?:\/\/github\.com\//i, '').replace(/\/+$/, '');
@@ -175,8 +175,8 @@ async function init() {
     $('list').innerHTML = '<div class="wg-empty">"' + esc(username) + '" is not a valid GitHub username.</div>';
     return;
   }
-  load(false);
-  setInterval(() => load(false), token ? 120000 : 240000);
+  load(false).catch(() => {});
+  setInterval(() => { load(false).catch(() => {}); }, token ? 120000 : 240000);
 }
 
-init();
+init().catch(() => {});

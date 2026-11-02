@@ -28,7 +28,7 @@
   async function load(manual) {
     if (busy) return;
     busy = true;
-    if (manual) $('new').classList.add('spin');
+    if (manual && $('new')) $('new').classList.add('spin');
     try {
       const mode = (await widgeter.getConfig('mode')) === 'hourly' ? 'hourly' : 'daily';
       const day = today();
@@ -40,24 +40,30 @@
       store(current);
       render(false);
     } catch (e) {
-      if (current) render(true);
-      else $('q').innerHTML = '<div class="wg-err">Could not load a quote: ' + esc(e.message) + '</div>';
+      try {
+        if (current) render(true);
+        else if ($('q')) $('q').innerHTML = '<div class="wg-err">Could not load a quote: ' + esc(e.message) + '</div>';
+      } catch (err) { /* ignore render failure */ }
     } finally {
       busy = false;
-      $('new').classList.remove('spin');
+      if ($('new')) $('new').classList.remove('spin');
     }
   }
 
-  $('new').addEventListener('click', () => load(true));
+  $('new').addEventListener('click', () => { load(true).catch(() => {}); });
   $('copy').addEventListener('click', () => {
     if (!current) return;
     try {
-      navigator.clipboard.writeText('“' + current.text + '” — ' + (current.author || 'Unknown'));
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText('“' + current.text + '” — ' + (current.author || 'Unknown')).catch(() => {});
+      }
       $('copy').textContent = '✓';
       $('copy').classList.add('copied');
       setTimeout(() => {
-        $('copy').textContent = '⧉';
-        $('copy').classList.remove('copied');
+        if ($('copy')) {
+          $('copy').textContent = '⧉';
+          $('copy').classList.remove('copied');
+        }
       }, 1200);
     } catch (e) { /* ignore */ }
   });
@@ -65,6 +71,6 @@
   // Show the last quote immediately (also the offline fallback), then refresh.
   const saved = restore();
   if (saved && saved.text) { current = saved; render(true); $('sub').textContent = 'Refreshing...'; $('sub').style.color = ''; }
-  load(false);
-  setInterval(() => load(false), 900000);
+  load(false).catch(() => {});
+  setInterval(() => { load(false).catch(() => {}); }, 900000);
 })();

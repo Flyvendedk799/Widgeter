@@ -78,7 +78,7 @@ function render(containers, showAll) {
 async function update() {
   if (busy) return;
   busy = true;
-  $('refresh').classList.add('spin');
+  if ($('refresh')) $('refresh').classList.add('spin');
   try {
     const showAll = !!(await widgeter.getConfig('dk_all'));
     const r = await run('docker', ['ps'].concat(showAll ? ['-a'] : [], ['--format', '{{json .}}']));
@@ -96,10 +96,10 @@ async function update() {
     render(containers, showAll);
   } finally {
     busy = false;
-    $('refresh').classList.remove('spin');
+    if ($('refresh')) $('refresh').classList.remove('spin');
   }
 }
 
-$('refresh').addEventListener('click', update);
-update();
-setInterval(update, 15000);
+if ($('refresh')) $('refresh').addEventListener('click', () => { update().catch(() => {}); });
+update().catch(() => {});
+setInterval(() => { update().catch(() => {}); }, 15000);

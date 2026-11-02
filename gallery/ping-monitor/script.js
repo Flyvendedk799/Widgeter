@@ -97,8 +97,10 @@
   async function run() {
     if (busy || !hosts.length) return;
     busy = true;
-    $('refresh').disabled = true;
-    $('refresh').classList.add('spin');
+    if ($('refresh')) {
+      $('refresh').disabled = true;
+      $('refresh').classList.add('spin');
+    }
     try {
       await Promise.all(hosts.map(async (h) => {
         const ms = await pingOnce(h.host);
@@ -108,8 +110,10 @@
       }));
     } finally {
       busy = false;
-      $('refresh').disabled = false;
-      $('refresh').classList.remove('spin');
+      if ($('refresh')) {
+        $('refresh').disabled = false;
+        $('refresh').classList.remove('spin');
+      }
     }
     render();
   }
@@ -117,10 +121,10 @@
   async function init() {
     hosts = parseHosts(await widgeter.getConfig('ping_hosts'));
     const iv = Math.min(300, Math.max(3, Number(await widgeter.getConfig('ping_interval')) || 10));
-    $('refresh').addEventListener('click', run);
+    if ($('refresh')) $('refresh').addEventListener('click', () => { run().catch(() => {}); });
     render();
-    run();
-    setInterval(run, iv * 1000);
+    run().catch(() => {});
+    setInterval(() => { run().catch(() => {}); }, iv * 1000);
   }
-  init();
+  init().catch(() => {});
 })();
