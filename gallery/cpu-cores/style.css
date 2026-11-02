@@ -70,11 +70,11 @@
   box-shadow: 0 0 6px var(--wg-accent-soft);
 }
 .core-fill.warn {
-  background: linear-gradient(180deg, #f77f00, var(--wg-warn));
+  background: linear-gradient(180deg, color-mix(in srgb, var(--wg-warn) 65%, var(--wg-bad)), var(--wg-warn));
   box-shadow: 0 0 6px color-mix(in srgb, var(--wg-warn) 40%, transparent);
 }
 .core-fill.bad {
-  background: linear-gradient(180deg, #d90429, var(--wg-bad));
+  background: linear-gradient(180deg, color-mix(in srgb, var(--wg-bad) 80%, var(--wg-accent-2)), var(--wg-bad));
   box-shadow: 0 0 6px color-mix(in srgb, var(--wg-bad) 40%, transparent);
 }
 .core-tag {

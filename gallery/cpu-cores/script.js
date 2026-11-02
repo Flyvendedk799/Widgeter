@@ -6,7 +6,9 @@
   const grid = $('core-grid');
   const HISTORY = 60;
   const history = [];
-  let prev = os.cpus().map((c) => Object.assign({}, c.times));
+  // No previous sample yet: the first (immediate) tick shows the average since boot,
+  // so the core meters are filled straight away instead of after the first interval.
+  let prev = null;
   let fills = [], w = 0, h = 0, colors = {};
 
   function readColors() {
@@ -38,12 +40,12 @@
   function sample() {
     const cur = os.cpus();
     const loads = cur.map((c, i) => {
-      const p = prev[i]; if (!p) return 0;
+      const p = prev ? prev[i] : {}; if (!p) return 0;
       let t = 0, pt = 0;
       for (const k in c.times) t += c.times[k];
       for (const k in p) pt += p[k];
       const dt = t - pt;
-      return dt > 0 ? Math.max(0, Math.min(100, 100 * (1 - (c.times.idle - p.idle) / dt))) : 0;
+      return dt > 0 ? Math.max(0, Math.min(100, 100 * (1 - (c.times.idle - (p.idle || 0)) / dt))) : 0;
     });
     prev = cur.map((c) => Object.assign({}, c.times));
     return { loads, cur };
@@ -76,7 +78,9 @@
     draw();
   }
 
-  function tick() {
+  // baseline: the immediate first tick (since-boot average) is shown but kept out of the
+  // live history, so the chart and peak only contain real 1-second samples.
+  function tick(baseline) {
     const { loads, cur } = sample();
     if (loads.length !== fills.length) buildCores(loads.length);
     loads.forEach((v, i) => {
@@ -85,10 +89,9 @@
       fills[i].col.title = 'Thread ' + (i + 1) + ': ' + Math.round(v) + '%';
     });
     const total = loads.length ? loads.reduce((a, b) => a + b, 0) / loads.length : 0;
-    history.push(total);
-    if (history.length > HISTORY) history.shift();
+    if (!baseline) { history.push(total); if (history.length > HISTORY) history.shift(); }
     $('total').textContent = Math.round(total) + '%';
-    $('m-peak').textContent = Math.round(Math.max.apply(null, history)) + '%';
+    if (history.length) $('m-peak').textContent = Math.round(Math.max.apply(null, history)) + '%';
     const mhz = cur[0] && cur[0].speed;
     $('m-clock').textContent = mhz ? (mhz / 1000).toFixed(2) + ' GHz' : '—';
     $('m-cores').textContent = String(cur.length);
@@ -101,6 +104,7 @@
   buildCores(os.cpus().length);
   new ResizeObserver(fit).observe(canvas);
   fit();
-  setTimeout(tick, 400);
-  setInterval(tick, 1000);
+  tick(true);
+  // First live sample after 400 ms, then one steady 1 s interval (scheduled exactly once).
+  setTimeout(() => { tick(); setInterval(tick, 1000); }, 400);
 })();

@@ -11,7 +11,7 @@
     "crypto-ticker.widget"
   ],
   "width": 320,
-  "height": 400,
+  "height": 440,
   "config": [
     {
       "key": "symbol",

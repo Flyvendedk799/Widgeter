@@ -11,7 +11,7 @@
     "port-checker.widget"
   ],
   "width": 280,
-  "height": 470,
+  "height": 480,
   "config": [
     {
       "key": "pc_ports",

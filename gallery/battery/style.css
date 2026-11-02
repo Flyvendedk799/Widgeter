@@ -55,15 +55,15 @@
   box-shadow: 0 0 10px var(--wg-accent-soft);
 }
 .wg-bar.thick .wg-fill.good {
-  background: linear-gradient(90deg, var(--wg-good), #2ec4b6);
+  background: linear-gradient(90deg, var(--wg-good), color-mix(in srgb, var(--wg-good) 60%, var(--wg-accent)));
   box-shadow: 0 0 10px color-mix(in srgb, var(--wg-good) 40%, transparent);
 }
 .wg-bar.thick .wg-fill.warn {
-  background: linear-gradient(90deg, var(--wg-warn), #f77f00);
+  background: linear-gradient(90deg, var(--wg-warn), color-mix(in srgb, var(--wg-warn) 65%, var(--wg-bad)));
   box-shadow: 0 0 10px color-mix(in srgb, var(--wg-warn) 40%, transparent);
 }
 .wg-bar.thick .wg-fill.bad {
-  background: linear-gradient(90deg, var(--wg-bad), #d90429);
+  background: linear-gradient(90deg, var(--wg-bad), color-mix(in srgb, var(--wg-bad) 80%, var(--wg-accent-2)));
   box-shadow: 0 0 10px color-mix(in srgb, var(--wg-bad) 40%, transparent);
 }
 

@@ -66,11 +66,11 @@
   box-shadow: 0 0 8px var(--wg-accent-soft);
 }
 .gauge .wg-fill.warn {
-  background: linear-gradient(90deg, var(--wg-warn), #f77f00);
+  background: linear-gradient(90deg, var(--wg-warn), color-mix(in srgb, var(--wg-warn) 65%, var(--wg-bad)));
   box-shadow: 0 0 8px color-mix(in srgb, var(--wg-warn) 40%, transparent);
 }
 .gauge .wg-fill.bad {
-  background: linear-gradient(90deg, var(--wg-bad), #d90429);
+  background: linear-gradient(90deg, var(--wg-bad), color-mix(in srgb, var(--wg-bad) 80%, var(--wg-accent-2)));
   box-shadow: 0 0 8px color-mix(in srgb, var(--wg-bad) 40%, transparent);
 }
 

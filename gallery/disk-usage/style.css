@@ -62,11 +62,11 @@
   box-shadow: 0 0 6px var(--wg-accent-soft);
 }
 .drive .wg-fill.warn {
-  background: linear-gradient(90deg, var(--wg-warn), #f77f00);
+  background: linear-gradient(90deg, var(--wg-warn), color-mix(in srgb, var(--wg-warn) 65%, var(--wg-bad)));
   box-shadow: 0 0 6px color-mix(in srgb, var(--wg-warn) 40%, transparent);
 }
 .drive .wg-fill.bad {
-  background: linear-gradient(90deg, var(--wg-bad), #d90429);
+  background: linear-gradient(90deg, var(--wg-bad), color-mix(in srgb, var(--wg-bad) 80%, var(--wg-accent-2)));
   box-shadow: 0 0 6px color-mix(in srgb, var(--wg-bad) 40%, transparent);
 }
 .drive .bot {

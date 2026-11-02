@@ -11,7 +11,7 @@
     "crypto-prices.widget"
   ],
   "width": 300,
-  "height": 310,
+  "height": 345,
   "config": [
     {
       "key": "coins",

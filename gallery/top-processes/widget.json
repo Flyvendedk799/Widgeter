@@ -11,7 +11,7 @@
     "top-processes.widget"
   ],
   "width": 290,
-  "height": 440,
+  "height": 490,
   "config": [
     { "key": "proc_count", "label": "Processes to show", "type": "number", "default": 8, "min": 3, "max": 15, "step": 1 },
     { "key": "proc_group", "label": "Combine processes with the same name", "type": "boolean", "default": true,

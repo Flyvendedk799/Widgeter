@@ -11,7 +11,7 @@
     "ping-monitor.widget"
   ],
   "width": 310,
-  "height": 280,
+  "height": 300,
   "config": [
     { "key": "ping_hosts", "label": "Hosts to ping", "type": "textarea",
       "default": "1.1.1.1 | Cloudflare DNS\n8.8.8.8 | Google DNS\ngoogle.com | Google\ngithub.com | GitHub",
