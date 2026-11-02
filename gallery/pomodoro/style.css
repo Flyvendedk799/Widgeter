@@ -1,13 +1,182 @@
-.pt-ring { position: relative; width: 150px; height: 150px; margin: 0 auto 10px; }
-.pt-ring svg { display: block; transform: rotate(-90deg); }
-.pt-track { stroke: var(--wg-surface-hover); }
-.pt-arc { stroke: var(--wg-accent); transition: stroke-dashoffset 0.3s linear, stroke 0.4s; }
-.pt-ring.break .pt-arc { stroke: var(--wg-good); }
-.pt-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-.pt-time { font-size: 32px; font-weight: 800; line-height: 1.1; letter-spacing: -0.5px; font-variant-numeric: tabular-nums; }
-.pt-sub { margin-top: 2px; font-size: 10.5px; color: var(--wg-muted); }
-.pt-dots { display: flex; justify-content: center; gap: 6px; height: 8px; margin-bottom: 12px; }
-.pt-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--wg-surface-hover); }
-.pt-dot.on { background: var(--wg-accent); }
-.pt-actions { display: flex; justify-content: center; gap: 8px; }
-.pt-actions .wg-btn { padding: 5px 11px; }
+#pt-mode {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: var(--wg-radius-pill, 9999px);
+  background: var(--wg-accent-soft);
+  color: var(--wg-accent);
+  border: 1px solid color-mix(in srgb, var(--wg-accent) 25%, transparent);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 2px;
+}
+
+#pt-mode::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  transition: transform 0.2s ease;
+}
+
+body.is-running #pt-mode::before {
+  animation: wg-pulse 1.6s ease-in-out infinite;
+  box-shadow: 0 0 6px currentColor;
+}
+
+body.is-break #pt-mode {
+  background: color-mix(in srgb, var(--wg-good) 15%, transparent);
+  color: var(--wg-good);
+  border-color: color-mix(in srgb, var(--wg-good) 30%, transparent);
+}
+
+.pt-ring {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 10px;
+}
+
+.pt-ring svg {
+  display: block;
+  transform: rotate(-90deg);
+}
+
+.pt-track {
+  stroke: var(--wg-surface-hover);
+  stroke-width: 7;
+  opacity: 0.7;
+}
+
+.pt-arc {
+  stroke: var(--wg-accent);
+  stroke-width: 8;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 8px var(--wg-accent-soft));
+  transition: stroke-dashoffset 0.3s linear, stroke 0.4s ease, filter 0.4s ease;
+}
+
+.pt-ring.break .pt-arc,
+body.is-break .pt-arc {
+  stroke: var(--wg-good);
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--wg-good) 50%, transparent));
+}
+
+.pt-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.pt-time {
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.8px;
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  color: var(--wg-fg);
+  text-shadow: 0 0 16px var(--wg-accent-soft);
+  transition: text-shadow 0.3s ease, color 0.3s ease;
+}
+
+body.is-running .pt-time {
+  text-shadow: 0 0 20px var(--wg-accent-soft), 0 0 2px var(--wg-accent);
+}
+
+body.is-break.is-running .pt-time {
+  text-shadow: 0 0 20px color-mix(in srgb, var(--wg-good) 35%, transparent), 0 0 2px var(--wg-good);
+}
+
+.pt-sub {
+  margin-top: 2px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--wg-muted);
+  letter-spacing: 0.02em;
+}
+
+.pt-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  height: 10px;
+  margin-bottom: 12px;
+}
+
+.pt-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--wg-radius-pill, 9999px);
+  background: var(--wg-surface-hover);
+  border: 1px solid var(--wg-border);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pt-dot.on {
+  background: var(--wg-accent);
+  border-color: var(--wg-accent);
+  width: 18px;
+  box-shadow: 0 0 8px var(--wg-accent-soft);
+}
+
+body.is-break .pt-dot.on {
+  background: var(--wg-good);
+  border-color: var(--wg-good);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--wg-good) 50%, transparent);
+}
+
+.pt-actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pt-actions .wg-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              background 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.pt-actions .wg-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+}
+
+.pt-actions .wg-btn:active {
+  transform: translateY(1px);
+}
+
+.pt-actions .wg-btn.primary {
+  background: var(--wg-accent-soft);
+  color: var(--wg-accent);
+  border: 1px solid color-mix(in srgb, var(--wg-accent) 25%, transparent);
+}
+
+.pt-actions .wg-btn.primary:hover {
+  box-shadow: 0 0 14px var(--wg-accent-soft);
+}
+
+body.is-break .pt-actions .wg-btn.primary {
+  background: color-mix(in srgb, var(--wg-good) 15%, transparent);
+  color: var(--wg-good);
+  border-color: color-mix(in srgb, var(--wg-good) 25%, transparent);
+}
+
+body.is-break .pt-actions .wg-btn.primary:hover {
+  box-shadow: 0 0 14px color-mix(in srgb, var(--wg-good) 40%, transparent);
+}

@@ -1,24 +1,183 @@
-.todo-add { margin-bottom: 10px; }
-.todo-add .wg-btn { padding: 5px 11px; font-size: 15px; }
-.todo-bar { margin-bottom: 8px; }
-.todo-list { display: flex; flex-direction: column; gap: 2px; max-height: 232px; overflow-y: auto; margin-right: -4px; padding-right: 4px; }
-.todo-item { display: flex; align-items: flex-start; gap: 9px; padding: 6px 4px 6px 6px; border-radius: 8px; }
-.todo-item:hover { background: var(--wg-surface); }
+.todo-add {
+  margin-bottom: 10px;
+  display: flex;
+  gap: 6px;
+}
+
+.todo-add .wg-btn {
+  padding: 6px 12px;
+  font-size: 15px;
+  border-radius: 8px;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              background 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.todo-add .wg-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 12px var(--wg-accent-soft);
+}
+
+.todo-add .wg-btn:active {
+  transform: translateY(1px);
+}
+
+.todo-bar {
+  margin-bottom: 10px;
+  height: 5px;
+  border-radius: var(--wg-radius-pill, 9999px);
+  background: var(--wg-surface-hover);
+  overflow: hidden;
+}
+
+.todo-bar .wg-fill {
+  border-radius: inherit;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(90deg, var(--wg-accent), var(--wg-good));
+}
+
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 228px;
+  overflow-y: auto;
+  margin-right: -4px;
+  padding-right: 4px;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--wg-radius-sm, 8px);
+  background: var(--wg-surface);
+  border: 1px solid var(--wg-border);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              background 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.2s ease;
+}
+
+.todo-item:hover {
+  background: var(--wg-surface-hover);
+  border-color: color-mix(in srgb, var(--wg-accent) 30%, var(--wg-border));
+  transform: translateX(2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.todo-item.done {
+  opacity: 0.65;
+  background: color-mix(in srgb, var(--wg-surface) 60%, transparent);
+}
+
+.todo-item.done:hover {
+  opacity: 0.9;
+}
+
 .todo-check {
-  flex: none; width: 17px; height: 17px; margin-top: 1px; border-radius: 5px; cursor: pointer;
-  border: 1.5px solid var(--wg-faint); display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 800; line-height: 1; color: transparent; background: transparent;
-  transition: background 0.15s, border-color 0.15s;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1.5px solid var(--wg-faint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+  color: transparent;
+  background: transparent;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              background 0.2s ease,
+              border-color 0.2s ease,
+              box-shadow 0.2s ease;
 }
-.todo-check:hover { border-color: var(--wg-accent); }
-.todo-item.done .todo-check { background: var(--wg-good); border-color: var(--wg-good); color: var(--wg-bg); }
-.todo-text { flex: 1; min-width: 0; font-size: 12.5px; line-height: 1.4; word-break: break-word; cursor: pointer; }
-.todo-item.done .todo-text { color: var(--wg-faint); text-decoration: line-through; }
+
+.todo-check:hover {
+  border-color: var(--wg-accent);
+  transform: scale(1.12);
+  box-shadow: 0 0 8px var(--wg-accent-soft);
+}
+
+.todo-check:active {
+  transform: scale(0.9);
+}
+
+.todo-item.done .todo-check {
+  background: var(--wg-good);
+  border-color: var(--wg-good);
+  color: #fff;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--wg-good) 40%, transparent);
+  animation: check-bounce 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes check-bounce {
+  0% { transform: scale(0.7); }
+  50% { transform: scale(1.22); }
+  100% { transform: scale(1); }
+}
+
+.todo-text {
+  flex: 1;
+  min-width: 0;
+  font-size: 12.5px;
+  line-height: 1.4;
+  word-break: break-word;
+  cursor: pointer;
+  color: var(--wg-fg);
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.todo-item.done .todo-text {
+  color: var(--wg-muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--wg-faint);
+}
+
 .todo-del {
-  flex: none; width: 20px; height: 20px; border-radius: 5px; border: 0; padding: 0; cursor: pointer;
-  font-size: 15px; line-height: 1; color: var(--wg-muted); background: transparent; opacity: 0;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  color: var(--wg-muted);
+  background: transparent;
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 0.2s ease,
+              transform 0.2s ease,
+              color 0.2s ease,
+              background 0.2s ease;
 }
-.todo-item:hover .todo-del { opacity: 1; }
-.todo-del:hover { color: var(--wg-bad); background: var(--wg-surface-hover); }
-.todo-status { margin-top: 6px; min-height: 14px; font-size: 10px; color: var(--wg-bad); }
-[hidden] { display: none !important; }
+
+.todo-item:hover .todo-del {
+  opacity: 0.8;
+  transform: scale(1);
+}
+
+.todo-del:hover {
+  opacity: 1;
+  color: var(--wg-bad);
+  background: color-mix(in srgb, var(--wg-bad) 15%, transparent);
+}
+
+.todo-status {
+  margin-top: 6px;
+  min-height: 14px;
+  font-size: 10px;
+  color: var(--wg-bad);
+}
+
+[hidden] {
+  display: none !important;
+}
