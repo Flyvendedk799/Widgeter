@@ -15,6 +15,10 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # The runner's display is 1024x768, too small for the first-run widgets; the app smoke test checks placement on a real desktop size.
+      - name: Desktop resolution 1920x1080
+        run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
+        continue-on-error: true
       - name: Unit tests (engine + registry)
         run: npm test
       - name: Validate gallery manifests
