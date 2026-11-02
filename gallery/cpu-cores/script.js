@@ -101,7 +101,6 @@
   buildCores(os.cpus().length);
   new ResizeObserver(fit).observe(canvas);
   fit();
-  tick();
   setTimeout(tick, 400);
   setInterval(tick, 1000);
 })();
