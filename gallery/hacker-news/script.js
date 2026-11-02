@@ -40,7 +40,7 @@
         '<div class="meta"><span class="pts">▲ ' + (s.score || 0) + '</span>' +
         '<span class="cm no-drag" data-cm="1" title="Open discussion">💬 ' + (s.descendants || 0) + '</span>' +
         (dom ? '<span class="dom wg-truncate">' + esc(dom) + '</span>' : '') +
-        '<span>' + esc(s.by || '') + ' · ' + ago(s.time) + '</span></div></div></div>';
+        '<span class="by-time">' + esc(s.by || '') + ' · ' + ago(s.time) + '</span></div></div></div>';
     }).join('');
     $('title').textContent = LABELS[d.feed] || 'Hacker News';
     $('sub').textContent = 'news.ycombinator.com · ' + (stale ? 'offline, showing saved list' : new Date(d.at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
@@ -50,6 +50,7 @@
   async function load() {
     if (busy) return;
     busy = true;
+    $('refresh').classList.add('spin');
     try {
       let feed = await widgeter.getConfig('feed');
       if (!LABELS[feed]) feed = 'topstories';
@@ -63,7 +64,10 @@
     } catch (e) {
       if (last) render(true);
       else $('list').innerHTML = '<div class="wg-err">Could not load Hacker News: ' + esc(e.message) + '</div>';
-    } finally { busy = false; }
+    } finally {
+      busy = false;
+      $('refresh').classList.remove('spin');
+    }
   }
 
   $('list').addEventListener('click', (e) => {

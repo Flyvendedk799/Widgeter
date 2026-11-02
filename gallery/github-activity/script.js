@@ -131,11 +131,11 @@ function render(events) {
   }
   $('list').innerHTML = group(events).slice(0, SHOWN).map((g) => {
     const detail = g.d.detail ? ' <span class="ev-detail">' + esc(g.d.detail) + '</span>' : '';
-    const count = g.count > 1 ? '<span class="wg-badge ev-count">×' + g.count + '</span>' : '';
+    const count = g.count > 1 ? '<span class="wg-badge accent ev-count">×' + g.count + '</span>' : '';
     return '<a class="wg-item ev" href="' + esc(g.d.url) + '" title="' + esc(g.d.verb + ' ' + g.d.detail + ' · ' + g.repo) + '">' +
       '<span class="ev-ico">' + g.d.icon + '</span>' +
       '<div class="ev-main"><div class="ev-line wg-truncate"><b>' + esc(g.d.verb) + '</b>' + detail + count + '</div>' +
-      '<div class="ev-meta wg-truncate">' + esc(g.repo) + ' · ' + esc(ago(g.at)) + '</div></div></a>';
+      '<div class="ev-meta"><span class="ev-repo wg-truncate">' + esc(g.repo) + '</span><span class="ev-time">' + esc(ago(g.at)) + '</span></div></div></a>';
   }).join('');
 }
 

@@ -1,10 +1,63 @@
-#hosts { gap: 5px; }
-.host { display: flex; align-items: center; gap: 10px; padding: 7px 10px; background: var(--wg-surface); border-radius: var(--wg-radius-sm); }
+#refresh.spin { animation: ping-spin 0.8s linear infinite; }
+@keyframes ping-spin { to { transform: rotate(360deg); } }
+
+#hosts { gap: 6px; }
+.host {
+  display: flex; align-items: center; gap: 10px; padding: 8px 11px;
+  background: var(--wg-surface); border: 1px solid var(--wg-border);
+  border-radius: var(--wg-radius-sm);
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+.host:hover {
+  background: var(--wg-surface-hover);
+  border-color: color-mix(in srgb, var(--wg-accent) 30%, var(--wg-border));
+  transform: translateY(-1px);
+}
+
+.host .wg-dot {
+  width: 9px; height: 9px; border-radius: 50%; flex: none;
+  transition: all 0.2s ease;
+}
+.host .wg-dot.good {
+  box-shadow: 0 0 8px color-mix(in srgb, var(--wg-good) 55%, transparent), 0 0 0 2px color-mix(in srgb, var(--wg-good) 25%, transparent);
+}
+.host .wg-dot.warn {
+  box-shadow: 0 0 8px color-mix(in srgb, var(--wg-warn) 55%, transparent), 0 0 0 2px color-mix(in srgb, var(--wg-warn) 25%, transparent);
+}
+.host .wg-dot.bad {
+  box-shadow: 0 0 8px color-mix(in srgb, var(--wg-bad) 55%, transparent), 0 0 0 2px color-mix(in srgb, var(--wg-bad) 25%, transparent);
+}
+
 .host .who { flex: 1; min-width: 0; }
-.host .addr { font-weight: 600; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.host .meta { font-size: 10px; color: var(--wg-faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-variant-numeric: tabular-nums; }
-.host svg { flex: none; width: 64px; height: 22px; }
-.host svg .ln { fill: none; stroke: var(--wg-accent); stroke-width: 1.5; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
-.host svg .lost { stroke: var(--wg-bad); stroke-width: 2; vector-effect: non-scaling-stroke; }
-.host .ms { flex: none; width: 56px; text-align: right; font-family: var(--wg-mono); font-weight: 700; font-size: 12px; font-variant-numeric: tabular-nums; }
-.host .ms small { font-size: 10px; font-weight: 600; color: var(--wg-muted); }
+.host .addr { font-weight: 700; font-size: 12px; color: var(--wg-fg); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.3; }
+.host .meta { font-size: 10px; color: var(--wg-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-variant-numeric: tabular-nums; margin-top: 2px; }
+
+.host svg { flex: none; width: 66px; height: 22px; overflow: visible; }
+.host svg .ln { fill: none; stroke: var(--wg-accent); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.host svg .lost { stroke: var(--wg-bad); stroke-width: 2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+
+/* Latency meter pills */
+.host .ms {
+  flex: none; display: inline-flex; align-items: baseline; justify-content: flex-end; gap: 2px;
+  min-width: 60px; padding: 2px 8px; border-radius: var(--wg-radius-pill);
+  font-family: var(--wg-mono); font-weight: 700; font-size: 11px;
+  background: var(--wg-surface-hover); border: 1px solid var(--wg-border);
+  color: var(--wg-fg); font-variant-numeric: tabular-nums; text-align: right;
+  transition: all 0.2s ease;
+}
+.host .ms small { font-size: 9.5px; font-weight: 600; opacity: 0.85; }
+.host .ms.good {
+  color: var(--wg-good);
+  background: color-mix(in srgb, var(--wg-good) 12%, transparent);
+  border-color: color-mix(in srgb, var(--wg-good) 24%, transparent);
+}
+.host .ms.warn {
+  color: var(--wg-warn);
+  background: color-mix(in srgb, var(--wg-warn) 12%, transparent);
+  border-color: color-mix(in srgb, var(--wg-warn) 24%, transparent);
+}
+.host .ms.bad {
+  color: var(--wg-bad);
+  background: color-mix(in srgb, var(--wg-bad) 12%, transparent);
+  border-color: color-mix(in srgb, var(--wg-bad) 24%, transparent);
+}

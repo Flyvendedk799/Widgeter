@@ -1,26 +1,63 @@
-.gs-branch { font-family: var(--wg-mono); font-size: 13px; font-weight: 700; color: var(--wg-fg); }
-.gs-upstream { font-size: 10.5px; color: var(--wg-muted); margin-top: 2px; }
-.gs-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--wg-border); }
-.gs-stat { text-align: center; min-width: 0; }
-.gs-stat .wg-big-sm { color: var(--wg-muted); }
+#refresh.spin { animation: gs-spin 0.8s linear infinite; }
+@keyframes gs-spin { to { transform: rotate(360deg); } }
+
+.gs-branch { font-family: var(--wg-mono); font-size: 12.5px; font-weight: 700; color: var(--wg-fg); display: inline-flex; align-items: center; gap: 6px; }
+.gs-branch-glyph { color: var(--wg-accent); font-size: 13px; }
+.gs-upstream { font-size: 10.5px; color: var(--wg-muted); margin-top: 3px; }
+.gs-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+.gs-stat {
+  text-align: center; min-width: 0;
+  background: var(--wg-surface); border: 1px solid var(--wg-border);
+  border-radius: var(--wg-radius-sm); padding: 7px 4px;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.gs-stat:hover { background: var(--wg-surface-hover); border-color: var(--wg-border); }
+.gs-stat .wg-big-sm { font-size: 18px; font-weight: 700; color: var(--wg-muted); line-height: 1.2; font-variant-numeric: tabular-nums; }
 .gs-stat.on-good .wg-big-sm { color: var(--wg-good); }
 .gs-stat.on-warn .wg-big-sm { color: var(--wg-warn); }
 .gs-stat.on-bad .wg-big-sm { color: var(--wg-bad); }
+.gs-stat .wg-caption { font-size: 9.5px; margin-top: 2px; }
+
 .gs-section { margin: 12px 0 6px; }
-.gs-file, .gs-commit { display: flex; align-items: baseline; gap: 8px; font-size: 11.5px; padding: 2px 0; min-width: 0; }
-.gs-flag { flex: none; width: 14px; font-family: var(--wg-mono); font-weight: 700; text-align: center; color: var(--wg-muted); }
-.gs-flag.A { color: var(--wg-good); }
-.gs-flag.M { color: var(--wg-warn); }
-.gs-flag.D, .gs-flag.U { color: var(--wg-bad); }
-.gs-flag.R { color: var(--wg-accent); }
+.gs-files, .gs-commits { display: flex; flex-direction: column; gap: 4px; }
+.gs-file, .gs-commit {
+  display: flex; align-items: center; gap: 8px; font-size: 11.5px;
+  padding: 5px 8px; border-radius: var(--wg-radius-sm);
+  background: var(--wg-surface); border: 1px solid transparent;
+  transition: background 0.15s ease, border-color 0.15s ease;
+  min-width: 0;
+}
+.gs-file:hover, .gs-commit:hover {
+  background: var(--wg-surface-hover); border-color: var(--wg-border);
+}
+
+.gs-flag {
+  flex: none; width: 18px; height: 18px; border-radius: 4px;
+  font-family: var(--wg-mono); font-weight: 700; font-size: 10px;
+  line-height: 18px; text-align: center; color: var(--wg-muted);
+  background: var(--wg-surface-hover);
+}
+.gs-flag.A { color: var(--wg-good); background: color-mix(in srgb, var(--wg-good) 16%, transparent); }
+.gs-flag.M { color: var(--wg-warn); background: color-mix(in srgb, var(--wg-warn) 16%, transparent); }
+.gs-flag.D, .gs-flag.U { color: var(--wg-bad); background: color-mix(in srgb, var(--wg-bad) 16%, transparent); }
+.gs-flag.R { color: var(--wg-accent); background: var(--wg-accent-soft); }
+.gs-flag.\? { color: var(--wg-muted); background: color-mix(in srgb, var(--wg-muted) 16%, transparent); }
+
 .gs-file .gs-dir { color: var(--wg-faint); }
-.gs-file.staged .gs-fname { font-weight: 600; }
-.gs-hash { flex: none; font-family: var(--wg-mono); font-size: 10.5px; color: var(--wg-accent); }
-.gs-when { flex: none; font-size: 10.5px; color: var(--wg-faint); }
-.gs-more { font-size: 10.5px; color: var(--wg-faint); padding: 2px 0 0 22px; }
-.gs-repo-name { font-weight: 700; font-size: 12.5px; }
-.gs-badges { display: flex; gap: 4px; flex: none; }
+.gs-file.staged .gs-fname { font-weight: 600; color: var(--wg-fg); }
+.gs-hash {
+  flex: none; font-family: var(--wg-mono); font-size: 10.5px; font-weight: 600;
+  color: var(--wg-accent); background: var(--wg-accent-soft);
+  padding: 1px 6px; border-radius: 4px; border: 1px solid color-mix(in srgb, var(--wg-accent) 22%, transparent);
+}
+.gs-when { flex: none; font-size: 10px; color: var(--wg-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.gs-more { font-size: 10.5px; color: var(--wg-muted); text-align: center; padding: 4px 0 2px; }
+
+.gs-repo-card { transition: border-color 0.15s ease, background 0.15s ease; }
+.gs-repo-card:hover { border-color: color-mix(in srgb, var(--wg-accent) 30%, var(--wg-border)); }
+.gs-repo-name { font-weight: 700; font-size: 12.5px; color: var(--wg-fg); }
+.gs-badges { display: flex; gap: 5px; flex: none; align-items: center; }
 .gs-badge-branch { max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; font-family: var(--wg-mono); }
-.gs-line { display: flex; align-items: baseline; gap: 8px; margin-top: 6px; font-size: 11px; color: var(--wg-muted); min-width: 0; }
+.gs-line { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 11px; color: var(--wg-muted); min-width: 0; }
 .gs-note { font-size: 11px; color: var(--wg-faint); margin-top: 4px; word-break: break-word; }
 .gs-err { color: var(--wg-bad); font-size: 11.5px; margin-top: 4px; word-break: break-word; }

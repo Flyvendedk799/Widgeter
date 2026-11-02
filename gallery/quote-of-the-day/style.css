@@ -1,6 +1,43 @@
-.quote { position: relative; padding: 14px 16px 12px 38px; }
-.quote::before { content: "\201C"; position: absolute; left: 10px; top: 2px; font-size: 44px; line-height: 1; font-family: Georgia, serif; color: var(--wg-accent); opacity: 0.55; }
-.qt-text { font-size: 14px; line-height: 1.5; font-weight: 500; word-break: break-word; }
-.qt-text.long { font-size: 12.5px; }
-.qt-author { margin-top: 10px; font-size: 11.5px; font-weight: 600; color: var(--wg-muted); }
-.qt-author::before { content: "\2014\00a0"; }
+#new.spin { animation: qt-spin 0.8s linear infinite; }
+@keyframes qt-spin { to { transform: rotate(360deg); } }
+
+.quote {
+  position: relative; padding: 18px 18px 16px 42px;
+  background: linear-gradient(145deg, var(--wg-surface), color-mix(in srgb, var(--wg-surface-hover) 70%, transparent));
+  border: 1px solid var(--wg-border);
+  border-left: 3px solid var(--wg-accent);
+  border-radius: var(--wg-radius);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.quote:hover {
+  border-color: color-mix(in srgb, var(--wg-accent) 40%, var(--wg-border));
+  border-left-color: var(--wg-accent);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.quote::before {
+  content: "\201C"; position: absolute; left: 12px; top: 6px;
+  font-size: 52px; line-height: 1; font-family: Georgia, 'Times New Roman', serif;
+  color: var(--wg-accent); opacity: 0.35; pointer-events: none;
+}
+
+.qt-text {
+  font-size: 13.5px; line-height: 1.55; font-weight: 500; font-style: italic;
+  color: var(--wg-fg); word-break: break-word; letter-spacing: -0.01em;
+}
+.qt-text.long { font-size: 12px; line-height: 1.5; }
+
+.qt-author {
+  margin-top: 14px; font-size: 11px; font-weight: 700; font-style: normal;
+  color: var(--wg-accent); display: flex; align-items: center; gap: 6px;
+  letter-spacing: 0.03em;
+}
+.qt-author::before {
+  content: ""; width: 14px; height: 1.5px; background: var(--wg-accent);
+  display: inline-block; flex: none;
+}
+
+#copy.copied {
+  color: var(--wg-good); border-color: color-mix(in srgb, var(--wg-good) 30%, transparent);
+}

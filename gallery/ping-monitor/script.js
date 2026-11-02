@@ -58,7 +58,7 @@
     });
   }
 
-  const tone = (ms) => (ms === null ? 'bad' : ms < 60 ? 'good' : ms < 150 ? 'warn' : 'bad');
+  const tone = (ms) => (ms === null ? 'bad pulse' : ms < 60 ? 'good' : ms < 150 ? 'warn' : 'bad');
 
   function spark(h) {
     const vals = h.samples.filter((v) => v !== null);
@@ -85,11 +85,12 @@
       const n = h.samples.length, lost = h.samples.filter((v) => v === null).length;
       const loss = n ? Math.round(lost / n * 100) : 0;
       const t = h.last === undefined ? '' : tone(h.last);
+      const toneCls = t ? t.split(' ')[0] : '';
       const ms = h.last === undefined ? '…' : h.last === null ? 'DOWN' : (h.last < 10 ? h.last.toFixed(1) : Math.round(h.last)) + '<small> ms</small>';
       return '<div class="host"><span class="wg-dot ' + t + '"></span>' +
         '<div class="who"><div class="addr" title="' + esc(h.host) + '">' + esc(h.label || h.host) + '</div>' +
         '<div class="meta">' + (h.label ? esc(h.host) + ' · ' : '') + loss + '% loss</div></div>' +
-        spark(h) + '<span class="ms ' + (t ? 'wg-' + t : '') + '">' + ms + '</span></div>';
+        spark(h) + '<span class="ms' + (toneCls ? ' ' + toneCls : '') + '">' + ms + '</span></div>';
     }).join('');
   }
 
@@ -97,6 +98,7 @@
     if (busy || !hosts.length) return;
     busy = true;
     $('refresh').disabled = true;
+    $('refresh').classList.add('spin');
     try {
       await Promise.all(hosts.map(async (h) => {
         const ms = await pingOnce(h.host);
@@ -104,7 +106,11 @@
         h.samples.push(ms);
         if (h.samples.length > HISTORY) h.samples.shift();
       }));
-    } finally { busy = false; $('refresh').disabled = false; }
+    } finally {
+      busy = false;
+      $('refresh').disabled = false;
+      $('refresh').classList.remove('spin');
+    }
     render();
   }
 

@@ -108,7 +108,7 @@ function renderDetailed(r, maxFiles) {
   const s = r.s;
   const total = s.files.length;
   const sync = !s.upstream ? 'no upstream branch' : (!s.ahead && !s.behind ? 'in sync with ' + s.upstream : s.upstream);
-  let h = '<div class="wg-card"><div class="wg-spread"><div class="gs-branch wg-truncate" title="' + esc(branchLabel(s)) + '">⎇ ' + esc(branchLabel(s)) + '</div>' +
+  let h = '<div class="wg-card"><div class="wg-spread"><div class="gs-branch wg-truncate" title="' + esc(branchLabel(s)) + '"><span class="gs-branch-glyph">⎇</span> ' + esc(branchLabel(s)) + '</div>' +
     '<div class="gs-badges">' + abBadges(s) + (s.conflicts ? '<span class="wg-badge bad">conflicts</span>' : (total ? '' : '<span class="wg-badge good">clean</span>')) + '</div></div>' +
     '<div class="gs-upstream wg-truncate">' + esc(sync) + '</div>' +
     '<div class="gs-stats">' +
@@ -116,7 +116,7 @@ function renderDetailed(r, maxFiles) {
     '</div></div>';
 
   if (total && maxFiles > 0) {
-    h += '<div><div class="wg-caption gs-section">Changes</div>';
+    h += '<div><div class="wg-caption gs-section">Changes</div><div class="gs-files">';
     const shown = s.files.slice().sort((a, b) => (b.flag === 'U') - (a.flag === 'U') || (b.staged - a.staged)).slice(0, maxFiles);
     h += shown.map((f) => {
       const base = f.file.split('/').pop();
@@ -125,32 +125,33 @@ function renderDetailed(r, maxFiles) {
         '<span class="wg-truncate"><span class="gs-fname">' + esc(base) + '</span> <span class="gs-dir">' + esc(dirPart) + '</span></span></div>';
     }).join('');
     if (total > shown.length) h += '<div class="gs-more">+' + (total - shown.length) + ' more</div>';
-    h += '</div>';
+    h += '</div></div>';
   }
 
-  h += '<div><div class="wg-caption gs-section">Recent commits</div>';
+  h += '<div><div class="wg-caption gs-section">Recent commits</div><div class="gs-commits">';
   h += r.commits.length ? r.commits.map((c) =>
     '<div class="gs-commit" title="' + esc(c.subject) + '"><span class="gs-hash">' + esc(c.hash) + '</span><span class="wg-truncate wg-grow">' + esc(c.subject) + '</span><span class="gs-when">' + esc(c.when) + '</span></div>'
   ).join('') : '<div class="gs-note">No commits yet.</div>';
-  return h + '</div>';
+  return h + '</div></div>';
 }
 
 function renderCompact(r) {
-  if (r.error) return '<div class="wg-card"><div class="gs-repo-name wg-truncate" title="' + esc(r.dir) + '">' + esc(r.name) + '</div><div class="gs-err">' + esc(r.error) + '</div></div>';
+  if (r.error) return '<div class="wg-card gs-repo-card"><div class="gs-repo-name wg-truncate" title="' + esc(r.dir) + '">' + esc(r.name) + '</div><div class="gs-err">' + esc(r.error) + '</div></div>';
   const s = r.s;
   const total = s.files.length;
   const state = s.conflicts ? '<span class="wg-badge bad">' + s.conflicts + ' conflict' + (s.conflicts > 1 ? 's' : '') + '</span>'
     : total ? '<span class="wg-badge warn">' + total + ' changed</span>' : '<span class="wg-badge good">clean</span>';
   const c = r.commits[0];
-  return '<div class="wg-card"><div class="wg-spread"><div class="gs-repo-name wg-truncate" title="' + esc(r.dir) + '">' + esc(r.name) + '</div>' +
+  return '<div class="wg-card gs-repo-card"><div class="wg-spread"><div class="gs-repo-name wg-truncate" title="' + esc(r.dir) + '">' + esc(r.name) + '</div>' +
     '<div class="gs-badges">' + abBadges(s) + state + '</div></div>' +
-    '<div class="gs-line"><span class="wg-badge accent gs-badge-branch" title="' + esc(branchLabel(s)) + '">' + esc(branchLabel(s)) + '</span>' +
-    (c ? '<span class="gs-hash">' + esc(c.hash) + '</span><span class="wg-truncate wg-grow" title="' + esc(c.subject) + '">' + esc(c.subject) + '</span>' : '<span>No commits yet</span>') + '</div></div>';
+    '<div class="gs-line"><span class="wg-badge accent gs-badge-branch" title="' + esc(branchLabel(s)) + '">⎇ ' + esc(branchLabel(s)) + '</span>' +
+    (c ? '<span class="gs-hash">' + esc(c.hash) + '</span><span class="wg-truncate wg-grow" title="' + esc(c.subject) + '">' + esc(c.subject) + '</span>' + (c.when ? '<span class="gs-when">' + esc(c.when) + '</span>' : '') : '<span>No commits yet</span>') + '</div></div>';
 }
 
 async function update() {
   if (busy) return;
   busy = true;
+  $('refresh').classList.add('spin');
   try {
     const dirs = parseRepoList(await widgeter.getConfig('repo_path'));
     if (!dirs.length) {
@@ -173,6 +174,7 @@ async function update() {
     $('content').innerHTML = '<div class="wg-err">' + esc(e.message || e) + '</div>';
   } finally {
     busy = false;
+    $('refresh').classList.remove('spin');
   }
 }
 
