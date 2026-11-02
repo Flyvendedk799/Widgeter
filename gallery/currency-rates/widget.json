@@ -11,7 +11,7 @@
     "currency-rates.widget"
   ],
   "width": 300,
-  "height": 420,
+  "height": 470,
   "config": [
     {
       "key": "base",

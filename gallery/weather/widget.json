@@ -11,7 +11,7 @@
     "weather-widget.widget"
   ],
   "width": 300,
-  "height": 400,
+  "height": 440,
   "config": [
     {
       "key": "owm_city",

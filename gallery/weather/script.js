@@ -49,11 +49,11 @@
       const k = i + 1;
       const hour = new Date(t).toLocaleTimeString([], { hour: 'numeric' });
       const p = hr.precipitation_probability ? hr.precipitation_probability[k] : null;
-      return '<div class="hour-col"><div class="h">' + esc(hour) + '</div><div class="hi">' + wmo(hr.weather_code[k], 1).icon + '</div><div class="ht">' + deg(hr.temperature_2m[k]) + '</div><div class="hp">' + (p >= 20 ? '<span class="rain-chip">💧' + p + '%</span>' : '') + '</div></div>';
+      return '<div class="hour-col"><div class="h">' + esc(hour) + '</div><div class="hi">' + wmo(hr.weather_code[k], 1).icon + '</div><div class="ht">' + deg(hr.temperature_2m[k]) + '</div><div class="hp">' + (p >= 20 ? '<span class="rain-chip" title="Chance of rain">' + p + '%</span>' : '') + '</div></div>';
     }).join('');
 
     const press = imp ? (c.pressure_msl * 0.02953).toFixed(2) + ' inHg' : Math.round(c.pressure_msl) + ' hPa';
-    const stat = (l, v) => '<div class="stat-cell"><div class="wg-caption">' + l + '</div><div class="metric-val">' + esc(v) + '</div></div>';
+    const stat = (l, v) => '<div class="stat-cell"><div class="wg-caption">' + l + '</div><div class="metric-val" title="' + esc(v) + '">' + esc(v) + '</div></div>';
     const time = (s) => (s ? new Date(s).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '–');
 
     $('body').innerHTML =
