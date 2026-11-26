@@ -230,7 +230,7 @@
       vramUsedGB: sharedUsedGB,
       vramTotalGB: sharedPoolGB,
       tempC: null,
-      fan: 0,
+      fan: null,
       isDedicated: false
     };
   }
@@ -249,7 +249,10 @@
 
   // Format fan speed string
   function formatFanSpeed(fan) {
-    if (fan === null || fan === undefined || fan === 0 || fan === '0') {
+    if (fan === null || fan === undefined) {
+      return 'N/A';
+    }
+    if (fan === 0 || fan === '0') {
       return '0 RPM (Passive)';
     }
     if (typeof fan === 'number') {

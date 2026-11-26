@@ -80,7 +80,8 @@ test('gpu-monitor: script initializes and renders fallback telemetry into DOM', 
   assert.ok(elements['vram-val'].textContent.includes('GB'), 'VRAM value should include GB');
   assert.ok(elements['vram-pct'].textContent.endsWith('%'), 'VRAM percentage should end with %');
   assert.ok(elements['gpu-temp'].textContent.length > 0, 'Temperature should be populated');
-  assert.ok(elements['gpu-fan'].textContent.length > 0, 'Fan speed should be populated');
+  assert.equal(elements['gpu-temp'].textContent, 'N/A', 'Unmeasured temperature must read N/A');
+  assert.equal(elements['gpu-fan'].textContent, 'N/A', 'Unmeasured fan speed must read N/A, not 0 RPM');
   assert.ok(elements['gpu-beacon'].className.includes('wg-beacon'), 'Beacon should have wg-beacon class');
 });
 
