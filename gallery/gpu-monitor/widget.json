@@ -1,0 +1,16 @@
+{
+  "id": "gpu-monitor",
+  "name": "GPU Telemetry",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Real-time GPU load, VRAM allocation, temperature, and fan telemetry.",
+  "category": "system",
+  "tags": ["gpu", "hardware", "system"],
+  "icon": "🎮",
+  "width": 280,
+  "height": 220,
+  "config": [
+    { "key": "interval", "label": "Refresh Interval (s)", "type": "number", "default": 2, "min": 1, "max": 60 },
+    { "key": "temp_unit", "label": "Temperature Unit", "type": "select", "default": "c", "options": [{ "value": "c", "label": "°C" }, { "value": "f", "label": "°F" }] }
+  ]
+}

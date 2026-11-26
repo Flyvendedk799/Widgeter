@@ -1,0 +1,280 @@
+/* GPU Monitor widget glassmorphic styling */
+body {
+  padding: 8px 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+.wg-header {
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.wg-header-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+
+.wg-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--wg-fg);
+  line-height: 1.2;
+}
+
+.wg-sub {
+  font-size: 10px;
+  color: var(--wg-muted);
+  line-height: 1.2;
+  margin-top: 1px;
+}
+
+/* Status Beacon */
+.wg-beacon {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 7px;
+  border-radius: var(--wg-radius-pill, 9999px);
+  background: var(--wg-surface);
+  border: 1px solid var(--wg-border);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--wg-muted);
+  flex-shrink: 0;
+}
+
+.wg-beacon.good {
+  color: var(--wg-good);
+  background: color-mix(in srgb, var(--wg-good) 12%, transparent);
+  border-color: color-mix(in srgb, var(--wg-good) 25%, transparent);
+}
+
+.wg-beacon.warn {
+  color: var(--wg-warn);
+  background: color-mix(in srgb, var(--wg-warn) 12%, transparent);
+  border-color: color-mix(in srgb, var(--wg-warn) 25%, transparent);
+}
+
+.wg-beacon.bad {
+  color: var(--wg-bad);
+  background: color-mix(in srgb, var(--wg-bad) 12%, transparent);
+  border-color: color-mix(in srgb, var(--wg-bad) 25%, transparent);
+}
+
+.wg-beacon-text {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* GPU Load Card & LED Meter */
+.gpu-load-card {
+  padding: 4px 8px;
+  background: var(--wg-surface);
+  border: 1px solid var(--wg-border);
+  border-radius: var(--wg-radius-sm, 8px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--wg-shadow, 0 4px 16px rgba(0, 0, 0, 0.15));
+  transition: all 0.2s ease;
+}
+
+.gpu-load-card:hover {
+  background: var(--wg-surface-hover);
+  border-color: color-mix(in srgb, var(--wg-border) 60%, var(--wg-accent));
+}
+
+.load-row {
+  margin-bottom: 3px;
+}
+
+.load-row .wg-lbl {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--wg-muted);
+}
+
+.load-row .wg-val {
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--wg-mono);
+  color: var(--wg-fg);
+}
+
+.wg-led-meter {
+  display: flex;
+  gap: 3px;
+  height: 7px;
+  width: 100%;
+}
+
+.wg-led-seg {
+  flex: 1;
+  height: 100%;
+  border-radius: 2px;
+  background: var(--wg-surface-hover, rgba(255, 255, 255, 0.08));
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.wg-led-seg.on.good {
+  background: var(--wg-good);
+  box-shadow: var(--wg-glow-good, 0 0 6px rgba(6, 214, 160, 0.4));
+}
+
+.wg-led-seg.on.warn {
+  background: var(--wg-warn);
+  box-shadow: var(--wg-glow-warn, 0 0 6px rgba(255, 190, 11, 0.4));
+}
+
+.wg-led-seg.on.bad {
+  background: var(--wg-bad);
+  box-shadow: var(--wg-glow-bad, 0 0 6px rgba(239, 71, 111, 0.4));
+}
+
+/* VRAM KPI Card */
+.wg-kpi-card {
+  padding: 4px 8px;
+  background: var(--wg-surface);
+  border: 1px solid var(--wg-border);
+  border-radius: var(--wg-radius-sm, 8px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--wg-shadow, 0 4px 16px rgba(0, 0, 0, 0.15));
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  transition: all 0.2s ease;
+}
+
+.wg-kpi-card:hover {
+  background: var(--wg-surface-hover);
+  border-color: color-mix(in srgb, var(--wg-border) 60%, var(--wg-accent));
+}
+
+.wg-kpi-lbl {
+  font-size: 10px;
+  color: var(--wg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.wg-kpi-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 9.5px;
+  padding: 1px 6px;
+  border-radius: var(--wg-radius-pill, 9999px);
+  background: var(--wg-accent-soft);
+  color: var(--wg-accent);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.vram-val-row {
+  align-items: baseline;
+}
+
+.wg-kpi-val {
+  font-family: var(--wg-mono);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--wg-fg);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+#vram-pct {
+  font-family: var(--wg-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--wg-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.wg-kpi-card .wg-bar {
+  height: 4px;
+  border-radius: var(--wg-radius-pill, 9999px);
+  background: var(--wg-surface-hover);
+  overflow: hidden;
+  margin-top: 1px;
+}
+
+.wg-kpi-card .wg-fill {
+  height: 100%;
+  min-width: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--wg-accent), var(--wg-accent-2));
+  transition: width 0.3s ease, background 0.3s ease;
+}
+
+.wg-kpi-card .wg-fill.warn {
+  background: linear-gradient(90deg, var(--wg-warn), color-mix(in srgb, var(--wg-warn) 70%, var(--wg-bad)));
+}
+
+.wg-kpi-card .wg-fill.bad {
+  background: linear-gradient(90deg, var(--wg-bad), color-mix(in srgb, var(--wg-bad) 80%, var(--wg-accent-2)));
+}
+
+/* Metrics Card (Temperature & Fan) */
+.gpu-metrics-card {
+  padding: 4px 8px;
+  background: var(--wg-surface);
+  border: 1px solid var(--wg-border);
+  border-radius: var(--wg-radius-sm, 8px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--wg-shadow, 0 4px 16px rgba(0, 0, 0, 0.15));
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  transition: all 0.2s ease;
+}
+
+.gpu-metrics-card:hover {
+  background: var(--wg-surface-hover);
+  border-color: color-mix(in srgb, var(--wg-border) 60%, var(--wg-accent));
+}
+
+.wg-split-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  border-bottom: 1px dotted var(--wg-border);
+  padding-bottom: 2px;
+}
+
+.wg-split-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.wg-split-row .wg-lbl {
+  color: var(--wg-muted);
+  font-size: 10.5px;
+}
+
+.wg-split-row .wg-val {
+  color: var(--wg-fg);
+  font-family: var(--wg-mono);
+  font-weight: 600;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
