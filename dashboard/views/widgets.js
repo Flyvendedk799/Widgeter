@@ -7,6 +7,18 @@ const { openDrawer, healthLook } = require('./drawer');
 const filter = { q: '', category: 'all' };
 let updates = [];
 
+const CATEGORIES = [
+  { id: 'all', label: 'All' },
+  { id: 'system', label: 'System' },
+  { id: 'dev', label: 'Dev' },
+  { id: 'info', label: 'Info' },
+  { id: 'productivity', label: 'Productivity' },
+  { id: 'finance', label: 'Finance' },
+  { id: 'time', label: 'Time' },
+  { id: 'media', label: 'Media' },
+  { id: 'other', label: 'Other' }
+];
+
 async function checkUpdates() {
   try { updates = await call('updates:check'); } catch (e) { updates = []; }
   const badge = document.getElementById('nav-badge-widgets');
@@ -14,10 +26,24 @@ async function checkUpdates() {
 }
 
 function matches(w) {
-  if (filter.category !== 'all' && w.category !== filter.category) return false;
+  if (filter.category !== 'all') {
+    if (filter.category === 'dev') {
+      if (w.category !== 'dev' && w.category !== 'developer') return false;
+    } else if (filter.category === 'other') {
+      const known = ['system', 'dev', 'developer', 'info', 'productivity', 'finance', 'time', 'media'];
+      if (w.category !== 'other' && known.includes(w.category)) return false;
+    } else if (w.category !== filter.category) {
+      return false;
+    }
+  }
   const q = filter.q.trim().toLowerCase();
   if (!q) return true;
-  return [w.name, w.description, w.category, (w.tags || []).join(' ')].join(' ').toLowerCase().includes(q);
+  const name = (w.name || '').toLowerCase();
+  const desc = (w.description || (w.errors ? w.errors.join(' ') : '')).toLowerCase();
+  const tags = (w.tags || []).map((t) => String(t).toLowerCase());
+  const id = (w.id || '').toLowerCase();
+  const cat = (w.category || '').toLowerCase();
+  return name.includes(q) || desc.includes(q) || tags.some((t) => t.includes(q)) || id.includes(q) || cat.includes(q);
 }
 
 function card(w, actions) {
@@ -29,7 +55,7 @@ function card(w, actions) {
       update ? h('span', { class: 'badge accent' }, 'Update ' + update.latestVersion) : null,
       !w.valid ? h('span', { class: 'badge bad' }, 'Invalid') : null));
 
-  const status = h('span', { class: 'badge ' + look.cls.split(' ')[0], title: w.health.lastError || '' }, h('span', { class: 'dot ' + look.cls }), look.text);
+  const status = h('span', { class: 'badge dash-status-beacon ' + look.cls.split(' ')[0], title: w.health.lastError || '' }, h('span', { class: 'dot ' + look.cls }), look.text);
   const open = (tab) => openDrawer(w.id, tab, actions);
 
   return h('div', { class: 'card clickable' + (w.enabled ? '' : ' off'), onclick: () => open() },
@@ -53,10 +79,24 @@ function card(w, actions) {
         ]) }, icon('more')))));
 }
 
+function getCategories(widgets) {
+  const custom = [];
+  const known = new Set(CATEGORIES.map((c) => c.id));
+  known.add('developer');
+  for (const w of widgets) {
+    if (w.category && !known.has(w.category)) {
+      if (!custom.some((c) => c.id === w.category)) {
+        custom.push({ id: w.category, label: CATEGORY_LABELS[w.category] || w.category });
+      }
+    }
+  }
+  return [...CATEGORIES, ...custom];
+}
+
 function render(container, actions) {
   const all = store.state.widgets;
   container.textContent = '';
-  const categories = ['all', ...new Set(all.map((w) => w.category))];
+  const categories = getCategories(all);
 
   const attention = all.filter((w) => w.enabled && (w.health.status === 'error' || w.health.status === 'failed'));
   const needSetup = all.filter((w) => w.enabled && w.health.needsSetup);
@@ -79,16 +119,37 @@ function render(container, actions) {
   else if (needSetup.length) container.appendChild(h('div', { class: 'banner warn' }, needSetup.map((w) => w.name).join(', ') + (needSetup.length > 1 ? ' need' : ' needs') + ' setup before showing data.'));
 
   if (all.length) {
-    const search = h('input', { class: 'input search', type: 'search', placeholder: 'Search installed widgets', value: filter.q });
+    const search = h('input', { class: 'input search dash-search-input', type: 'search', placeholder: 'Search installed widgets...', value: filter.q });
+    const searchWrap = h('div', { class: 'dash-search-wrap' }, icon('search'), search);
+    const pillsWrap = h('div', { class: 'dash-filter-pills chips' });
     const grid = h('div', { class: 'grid' });
+
     const paint = () => {
       grid.textContent = '';
       const list = all.filter(matches);
       if (!list.length) grid.appendChild(h('div', { class: 'empty' }, h('h3', {}, 'No widgets match'), 'Try a different search or category.'));
       list.forEach((w) => grid.appendChild(card(w, actions)));
     };
+
+    categories.forEach((c) => {
+      const pill = h('button', {
+        class: 'dash-filter-pill chip' + (filter.category === c.id ? ' active' : ''),
+        dataset: { category: c.id }
+      }, c.label);
+      pill.addEventListener('click', () => {
+        filter.category = c.id;
+        pillsWrap.querySelectorAll('.dash-filter-pill').forEach((p) => {
+          p.classList.toggle('active', p.dataset.category === c.id);
+        });
+        paint();
+      });
+      pillsWrap.appendChild(pill);
+    });
+
     search.addEventListener('input', () => { filter.q = search.value; paint(); });
-    container.append(h('div', { class: 'toolbar' }, search, h('div', { class: 'chips' }, categories.map((c) => h('button', { class: 'chip' + (filter.category === c ? ' active' : ''), onclick: () => { filter.category = c; render(container, actions); } }, c === 'all' ? 'All' : (CATEGORY_LABELS[c] || c))))), grid);
+
+    const filterBar = h('div', { class: 'dash-filter-bar toolbar' }, searchWrap, pillsWrap);
+    container.append(filterBar, grid);
     paint();
   } else {
     container.appendChild(h('div', { class: 'empty' }, h('h3', {}, 'No widgets yet'), h('p', {}, 'Pick some from the built-in gallery, browse community widgets, or drop a .widget file anywhere in this window.'),
@@ -103,4 +164,4 @@ function reportInstall(results) {
   }
 }
 
-module.exports = { render, checkUpdates, reportInstall, getUpdates: () => updates };
+module.exports = { render, checkUpdates, reportInstall, getUpdates: () => updates, filter, matches, CATEGORIES, getCategories };
