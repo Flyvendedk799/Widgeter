@@ -109,13 +109,12 @@ async function applyPreset(preset, displayId, data, repaint) {
 
   let targetIds = (preset.widgets || []).filter((id) => installedIds.has(id));
   if (!targetIds.length && preset.category) {
-    targetIds = allWidgets.filter((w) => w.category === preset.category).map((w) => w.id);
-  }
-  if (!targetIds.length && data && data.active && data.active.length) {
-    targetIds = data.active.slice(0, 4);
-  }
-  if (!targetIds.length && allWidgets.length) {
-    targetIds = allWidgets.slice(0, 3).map((w) => w.id);
+    const isCatMatch = (w) => {
+      if (preset.category === 'dev') return w.category === 'dev' || w.category === 'developer';
+      return w.category === preset.category;
+    };
+    const maxCount = preset.widgets ? preset.widgets.length : 4;
+    targetIds = allWidgets.filter(isCatMatch).slice(0, maxCount).map((w) => w.id);
   }
 
   if (!targetIds.length) {
@@ -132,12 +131,22 @@ async function applyPreset(preset, displayId, data, repaint) {
 
   const positions = preset.generate(targetIds);
   const r = await call('layout:apply-template', positions, displayId);
-  toast('Arranged ' + ((r && r.applied) || targetIds.length) + ' widget(s) with ' + preset.name);
+  const count = (r && r.applied) || targetIds.length;
+  toast('Arranged ' + count + ' widget' + (count === 1 ? '' : 's') + ' with ' + preset.name);
   if (repaint) setTimeout(repaint, 100);
   return { targetIds, positions, result: r };
 }
 
 async function duplicateLayout(entry, index, data, repaint) {
+  const isProfile = entry.kind === 'profile';
+  const promptTitle = isProfile ? 'Duplicate profile "' + entry.name + '"?' : 'Duplicate layout "' + entry.name + '"?';
+  const promptMsg = isProfile
+    ? 'Duplicating will apply this profile to your desktop to save a copy. Widgets not in the profile will be closed, and your current arrangement will change.'
+    : 'Duplicating will apply this layout to your desktop to save a copy. Your current widget positions will change.';
+
+  const confirmed = await confirmDialog(promptTitle, promptMsg, 'Duplicate & Apply', false);
+  if (!confirmed) return null;
+
   let newName = entry.name + ' (Copy)';
   let count = 2;
   const saved = (data && data.saved) || [];

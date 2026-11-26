@@ -96,7 +96,7 @@ textarea.input { resize: vertical; min-height: 70px; font-family: var(--mono); f
 .search { max-width: 260px; }
 .dash-search-wrap { position: relative; display: flex; align-items: center; flex: none; }
 .dash-search-wrap svg { position: absolute; left: 10px; width: 15px; height: 15px; color: var(--faint); pointer-events: none; }
-.dash-search-input { padding-left: 32px !important; }
+.input.dash-search-input { padding-left: 32px; }
 
 .dash-filter-bar {
   display: flex;

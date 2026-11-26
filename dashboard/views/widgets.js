@@ -81,8 +81,10 @@ function card(w, actions) {
 
 function getCategories(widgets) {
   const custom = [];
+  const known = new Set(CATEGORIES.map((c) => c.id));
+  known.add('developer');
   for (const w of widgets) {
-    if (w.category && !CATEGORIES.some((c) => c.id === w.category)) {
+    if (w.category && !known.has(w.category)) {
       if (!custom.some((c) => c.id === w.category)) {
         custom.push({ id: w.category, label: CATEGORY_LABELS[w.category] || w.category });
       }
@@ -162,4 +164,4 @@ function reportInstall(results) {
   }
 }
 
-module.exports = { render, checkUpdates, reportInstall, getUpdates: () => updates, filter, matches, CATEGORIES };
+module.exports = { render, checkUpdates, reportInstall, getUpdates: () => updates, filter, matches, CATEGORIES, getCategories };
