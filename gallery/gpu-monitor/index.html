@@ -1,0 +1,57 @@
+<div class="wg-header">
+  <div class="wg-header-main">
+    <span class="wg-icon">🎮</span>
+    <div class="wg-grow">
+      <div class="wg-title">GPU Telemetry</div>
+      <div class="wg-sub wg-truncate" id="gpu-model">Detecting GPU...</div>
+    </div>
+  </div>
+  <div class="wg-beacon good" id="gpu-beacon" title="GPU telemetry status">
+    <span class="wg-dot good pulse" id="gpu-dot"></span>
+    <span class="wg-beacon-text" id="beacon-status">ACTIVE</span>
+  </div>
+</div>
+
+<div class="gpu-load-card">
+  <div class="wg-spread load-row">
+    <span class="wg-lbl">GPU LOAD</span>
+    <span class="wg-val" id="gpu-load-val">0%</span>
+  </div>
+  <div class="wg-led-meter" id="gpu-load-meter" aria-label="GPU Load">
+    <div class="wg-led-seg"></div>
+    <div class="wg-led-seg"></div>
+    <div class="wg-led-seg"></div>
+    <div class="wg-led-seg"></div>
+    <div class="wg-led-seg"></div>
+    <div class="wg-led-seg"></div>
+    <div class="wg-led-seg"></div>
+    <div class="wg-led-seg"></div>
+    <div class="wg-led-seg"></div>
+    <div class="wg-led-seg"></div>
+  </div>
+</div>
+
+<div class="wg-kpi-card" id="vram-kpi-card">
+  <div class="wg-spread">
+    <span class="wg-kpi-lbl">VRAM USAGE</span>
+    <span class="wg-kpi-badge" id="vram-badge">DEDICATED</span>
+  </div>
+  <div class="wg-spread vram-val-row">
+    <span class="wg-kpi-val" id="vram-val">0.0 / 0.0 GB</span>
+    <span class="wg-val wg-muted" id="vram-pct">0%</span>
+  </div>
+  <div class="wg-bar">
+    <div class="wg-fill" id="vram-bar" style="width: 0%"></div>
+  </div>
+</div>
+
+<div class="gpu-metrics-card">
+  <div class="wg-split-row">
+    <span class="wg-lbl">Temperature</span>
+    <span class="wg-val" id="gpu-temp">&mdash;</span>
+  </div>
+  <div class="wg-split-row">
+    <span class="wg-lbl">Fan Speed</span>
+    <span class="wg-val" id="gpu-fan">&mdash;</span>
+  </div>
+</div>

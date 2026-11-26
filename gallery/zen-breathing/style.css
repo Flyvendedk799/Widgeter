@@ -1,0 +1,224 @@
+html, body {
+  height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px 14px;
+  margin: 0;
+  user-select: none;
+}
+
+.wg-header {
+  margin-bottom: 2px;
+}
+
+.zb-icon-svg {
+  display: block;
+  color: var(--wg-accent);
+}
+
+#zb-pattern {
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+#zb-pattern:hover {
+  color: var(--wg-accent);
+}
+
+.zb-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.zb-ring-wrap {
+  position: relative;
+  width: 136px;
+  height: 136px;
+  margin: 2px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.zb-halo {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.45;
+  filter: blur(14px);
+  transform: scale(0.85);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.4s ease,
+              background 0.4s ease;
+  background: radial-gradient(circle, var(--wg-accent) 0%, var(--wg-accent-soft) 55%, transparent 75%);
+}
+
+.zb-svg {
+  display: block;
+  transform: rotate(-90deg);
+  overflow: visible;
+}
+
+.zb-track {
+  stroke: var(--wg-surface-hover);
+  opacity: 0.6;
+}
+
+.zb-arc {
+  stroke: var(--wg-accent);
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 8px var(--wg-accent-soft));
+  transition: stroke 0.4s ease, filter 0.4s ease;
+}
+
+.zb-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  text-align: center;
+}
+
+.zb-phase {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--wg-fg);
+  text-shadow: 0 0 12px var(--wg-accent-soft);
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.zb-time {
+  font-family: var(--wg-mono);
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 2px 0 1px;
+  color: var(--wg-fg);
+  font-variant-numeric: tabular-nums;
+}
+
+.zb-guide {
+  font-size: 10px;
+  color: var(--wg-muted);
+  letter-spacing: 0.02em;
+  max-width: 110px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Phase themes */
+.phase-inhale .zb-arc {
+  stroke: var(--wg-accent);
+  filter: drop-shadow(0 0 10px var(--wg-accent-soft));
+}
+.phase-inhale .zb-halo {
+  background: radial-gradient(circle, var(--wg-accent) 10%, var(--wg-accent-soft) 55%, transparent 75%);
+}
+.phase-inhale .zb-phase {
+  color: var(--wg-accent);
+  text-shadow: 0 0 14px var(--wg-accent-soft);
+}
+
+.phase-hold .zb-arc {
+  stroke: var(--wg-accent-2);
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--wg-accent-2) 40%, transparent));
+}
+.phase-hold .zb-halo {
+  background: radial-gradient(circle, var(--wg-accent-2) 10%, color-mix(in srgb, var(--wg-accent-2) 30%, transparent) 55%, transparent 75%);
+  animation: zb-hold-pulse 2s ease-in-out infinite alternate;
+}
+.phase-hold-empty .zb-halo {
+  animation: none;
+  opacity: 0.35;
+}
+.phase-hold .zb-phase {
+  color: var(--wg-accent-2);
+  text-shadow: 0 0 14px color-mix(in srgb, var(--wg-accent-2) 40%, transparent);
+}
+
+.phase-exhale .zb-arc {
+  stroke: var(--wg-good);
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--wg-good) 40%, transparent));
+}
+.phase-exhale .zb-halo {
+  background: radial-gradient(circle, var(--wg-good) 10%, color-mix(in srgb, var(--wg-good) 30%, transparent) 55%, transparent 75%);
+}
+.phase-exhale .zb-phase {
+  color: var(--wg-good);
+  text-shadow: 0 0 14px color-mix(in srgb, var(--wg-good) 40%, transparent);
+}
+
+/* Paused State */
+body.is-paused .zb-arc {
+  opacity: 0.6;
+  filter: none;
+}
+body.is-paused .zb-halo {
+  opacity: 0.2;
+  animation: none;
+  transform: scale(1) !important;
+}
+body.is-paused .zb-phase {
+  color: var(--wg-muted);
+  text-shadow: none;
+}
+
+/* Actions */
+.zb-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.zb-actions .wg-btn {
+  min-width: 58px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 11px;
+}
+
+.zb-actions .wg-btn.icon {
+  min-width: 28px;
+  padding: 0 6px;
+}
+
+.zb-btn-icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex: none;
+}
+
+@keyframes zb-hold-pulse {
+  0% { transform: scale(1.12); opacity: 0.65; }
+  100% { transform: scale(1.18); opacity: 0.85; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zb-halo { animation: none !important; transition: none !important; }
+  .zb-arc { transition: none !important; }
+}

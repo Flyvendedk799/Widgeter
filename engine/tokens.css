@@ -20,6 +20,9 @@
   --wg-radius-pill: 9999px;
   --wg-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   --wg-glow: 0 0 12px var(--wg-accent-soft);
+  --wg-glow-good: 0 0 10px rgba(74, 222, 128, 0.4);
+  --wg-glow-bad: 0 0 10px rgba(248, 113, 113, 0.4);
+  --wg-glow-warn: 0 0 10px rgba(251, 191, 36, 0.4);
   --wg-gap: 10px;
   --wg-pad: 14px;
   --wg-font: 'Segoe UI Variable', 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -42,8 +45,12 @@
   --wg-bad: #d62b52;
   --wg-warn: #b97d00;
   --wg-info: #0284c7;
+  --wg-radius-pill: 9999px;
   --wg-shadow: 0 4px 16px rgba(20, 26, 50, 0.08);
   --wg-glow: 0 0 12px var(--wg-accent-soft);
+  --wg-glow-good: 0 0 10px rgba(74, 222, 128, 0.4);
+  --wg-glow-bad: 0 0 10px rgba(248, 113, 113, 0.4);
+  --wg-glow-warn: 0 0 10px rgba(251, 191, 36, 0.4);
   color-scheme: light;
 }
 

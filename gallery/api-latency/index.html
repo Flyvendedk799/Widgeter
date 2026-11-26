@@ -1,0 +1,57 @@
+<div class="wg-header">
+  <div class="wg-header-main">
+    <span class="wg-icon">⚡</span>
+    <div class="header-titles">
+      <div class="wg-title">API Latency</div>
+      <div class="wg-sub wg-truncate" id="endpoint-sub" title="Target endpoint">https://1.1.1.1</div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <div class="wg-beacon good" id="beacon" title="Endpoint status">
+      <span class="wg-dot good pulse" id="beacon-dot"></span>
+      <span class="beacon-label" id="beacon-label">ONLINE</span>
+    </div>
+    <button class="wg-btn icon sm no-drag" id="refresh-btn" title="Ping now">⟳</button>
+  </div>
+</div>
+
+<div class="wg-kpi-card" id="kpi-card">
+  <div class="wg-spread">
+    <span class="wg-kpi-lbl">Latest Latency</span>
+    <span class="wg-kpi-badge good" id="status-badge">200 OK</span>
+  </div>
+  <div class="wg-spread" style="align-items: baseline;">
+    <div class="wg-kpi-val" id="latency-val">-- <small class="unit">ms</small></div>
+    <div class="wg-stat-trend" id="jitter-stat">±0 ms jitter</div>
+  </div>
+</div>
+
+<div class="wg-spark-box" id="spark-box">
+  <svg id="sparkline-svg" viewBox="0 0 272 36" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="latency-grad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="var(--wg-accent)" stop-opacity="0.3"/>
+        <stop offset="100%" stop-color="var(--wg-accent)" stop-opacity="0.0"/>
+      </linearGradient>
+    </defs>
+    <path class="spark-area" id="spark-area" d="" fill="url(#latency-grad)"></path>
+    <path class="spark-line" id="spark-line" d="" fill="none"></path>
+    <g id="spark-lost"></g>
+    <circle id="spark-dot" cx="-10" cy="-10" r="3" class="spark-dot"></circle>
+  </svg>
+</div>
+
+<div class="wg-grid-3 stats-grid">
+  <div class="wg-split-row">
+    <span class="wg-lbl">P50</span>
+    <span class="wg-val" id="p50-val">-- ms</span>
+  </div>
+  <div class="wg-split-row">
+    <span class="wg-lbl">P95</span>
+    <span class="wg-val" id="p95-val">-- ms</span>
+  </div>
+  <div class="wg-split-row">
+    <span class="wg-lbl">P99</span>
+    <span class="wg-val" id="p99-val">-- ms</span>
+  </div>
+</div>

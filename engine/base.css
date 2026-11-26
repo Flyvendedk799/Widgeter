@@ -209,7 +209,316 @@ a.wg-item { color: inherit; text-decoration: none; cursor: pointer; }
 ::-webkit-scrollbar-thumb { background: var(--wg-surface-hover); border-radius: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 
+/* Generational UI Primitives */
+
+/* KPI Card & Metrics */
+.wg-kpi-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px;
+  background: var(--wg-surface);
+  border: 1px solid var(--wg-border);
+  border-radius: var(--wg-radius-sm);
+  box-shadow: var(--wg-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.2s ease;
+}
+:root[data-theme='light'] .wg-kpi-card {
+  box-shadow: var(--wg-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.wg-kpi-card:hover {
+  background: var(--wg-surface-hover);
+  border-color: color-mix(in srgb, var(--wg-border) 60%, var(--wg-accent));
+}
+
+.wg-kpi-val {
+  font-family: var(--wg-mono);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--wg-fg);
+  line-height: 1.2;
+}
+
+.wg-kpi-lbl {
+  font-size: 11px;
+  color: var(--wg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.wg-kpi-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: var(--wg-radius-pill);
+  font-weight: 700;
+  color: var(--wg-muted);
+  background: var(--wg-surface);
+  border: 1px solid var(--wg-border);
+}
+.wg-kpi-badge.good { color: var(--wg-good); background: color-mix(in srgb, var(--wg-good) 14%, transparent); border-color: transparent; }
+.wg-kpi-badge.bad { color: var(--wg-bad); background: color-mix(in srgb, var(--wg-bad) 14%, transparent); border-color: transparent; }
+.wg-kpi-badge.warn { color: var(--wg-warn); background: color-mix(in srgb, var(--wg-warn) 16%, transparent); border-color: transparent; }
+.wg-kpi-badge.accent { color: var(--wg-accent); background: var(--wg-accent-soft); border-color: transparent; }
+
+/* Status Beacon */
+.wg-beacon {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: var(--wg-radius-pill);
+  background: var(--wg-surface);
+  border: 1px solid var(--wg-border);
+  color: var(--wg-fg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+}
+.wg-beacon::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--wg-faint);
+  flex: none;
+  animation: wg-pulse 1.8s ease-in-out infinite;
+}
+.wg-beacon:has(.wg-dot)::before {
+  display: none;
+}
+.wg-beacon.good {
+  color: var(--wg-good);
+  background: color-mix(in srgb, var(--wg-good) 10%, transparent);
+  border-color: color-mix(in srgb, var(--wg-good) 25%, transparent);
+}
+.wg-beacon.good::before,
+.wg-beacon.good .wg-dot {
+  background: var(--wg-good);
+  box-shadow: var(--wg-glow-good);
+}
+.wg-beacon.bad {
+  color: var(--wg-bad);
+  background: color-mix(in srgb, var(--wg-bad) 10%, transparent);
+  border-color: color-mix(in srgb, var(--wg-bad) 25%, transparent);
+}
+.wg-beacon.bad::before,
+.wg-beacon.bad .wg-dot {
+  background: var(--wg-bad);
+  box-shadow: var(--wg-glow-bad);
+}
+.wg-beacon.warn {
+  color: var(--wg-warn);
+  background: color-mix(in srgb, var(--wg-warn) 10%, transparent);
+  border-color: color-mix(in srgb, var(--wg-warn) 25%, transparent);
+}
+.wg-beacon.warn::before,
+.wg-beacon.warn .wg-dot {
+  background: var(--wg-warn);
+  box-shadow: var(--wg-glow-warn);
+}
+
+/* Segmented Tabs */
+.wg-segmented-tabs {
+  display: inline-flex;
+  align-items: center;
+  background: var(--wg-surface);
+  border: 1px solid var(--wg-border);
+  border-radius: var(--wg-radius-pill);
+  padding: 3px;
+  gap: 2px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.wg-segmented-tab {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--wg-muted);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--wg-radius-pill);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s ease;
+  white-space: nowrap;
+}
+.wg-segmented-tab:hover {
+  color: var(--wg-fg);
+  background: var(--wg-surface-hover);
+}
+.wg-segmented-tab.active {
+  background: var(--wg-accent-soft);
+  color: var(--wg-accent);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+:root[data-theme='light'] .wg-segmented-tab.active {
+  background: var(--wg-accent-soft);
+  color: var(--wg-accent);
+  box-shadow: 0 1px 4px rgba(20, 26, 50, 0.1);
+}
+
+/* Vector Sparkline Box */
+.wg-spark-box {
+  width: 100%;
+  height: 36px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.wg-spark-box svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* LED Meter */
+.wg-led-meter {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+.wg-led-seg {
+  flex: 1;
+  height: 16px;
+  border-radius: 2px;
+  background: var(--wg-surface-hover);
+  border: 1px solid var(--wg-border);
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+:root[data-theme='light'] .wg-led-seg {
+  background: rgba(20, 26, 50, 0.08);
+}
+.wg-led-seg.on.good, .wg-led-seg.good.on {
+  background: var(--wg-good);
+  border-color: transparent;
+  box-shadow: var(--wg-glow-good);
+}
+.wg-led-seg.on.warn, .wg-led-seg.warn.on {
+  background: var(--wg-warn);
+  border-color: transparent;
+  box-shadow: var(--wg-glow-warn);
+}
+.wg-led-seg.on.bad, .wg-led-seg.bad.on {
+  background: var(--wg-bad);
+  border-color: transparent;
+  box-shadow: var(--wg-glow-bad);
+}
+.wg-led-seg.on:not(.good):not(.warn):not(.bad) {
+  background: var(--wg-accent);
+  border-color: transparent;
+  box-shadow: var(--wg-glow);
+}
+
+/* Split Row with Dotted Divider */
+.wg-split-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  font-size: 11.5px;
+}
+.wg-split-row + .wg-split-row {
+  margin-top: 6px;
+}
+.wg-split-row .wg-lbl {
+  order: 1;
+  color: var(--wg-muted);
+  white-space: nowrap;
+}
+.wg-split-row .wg-val {
+  order: 3;
+  color: var(--wg-fg);
+  font-weight: 600;
+  font-family: var(--wg-mono);
+  white-space: nowrap;
+  text-align: right;
+  margin-left: auto;
+}
+.wg-split-row::after {
+  content: '';
+  order: 2;
+  flex: 1;
+  border-bottom: 1px dotted var(--wg-border);
+  min-width: 12px;
+  margin: 0 4px;
+}
+.wg-split-row:has(.wg-split-divider)::after,
+.wg-split-row:has(.wg-split-line)::after {
+  display: none;
+}
+.wg-split-row .wg-split-divider,
+.wg-split-row .wg-split-line {
+  order: 2;
+  flex: 1;
+  border-bottom: 1px dotted var(--wg-border);
+  min-width: 12px;
+  margin: 0 4px;
+}
+
+/* Radial Gauge / Progress */
+.wg-radial-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 76px;
+  height: 76px;
+  flex: none;
+}
+.wg-radial-wrap svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  display: block;
+}
+.wg-radial-wrap .wg-radial-bg {
+  fill: none;
+  stroke: var(--wg-surface-hover);
+  stroke-width: 6;
+}
+:root[data-theme='light'] .wg-radial-wrap .wg-radial-bg {
+  stroke: rgba(20, 26, 50, 0.08);
+}
+.wg-radial-wrap .wg-radial-fill {
+  fill: none;
+  stroke: var(--wg-accent);
+  stroke-width: 6;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.4s ease;
+}
+.wg-radial-wrap .wg-radial-fill.good { stroke: var(--wg-good); filter: drop-shadow(var(--wg-glow-good)); }
+.wg-radial-wrap .wg-radial-fill.bad { stroke: var(--wg-bad); filter: drop-shadow(var(--wg-glow-bad)); }
+.wg-radial-wrap .wg-radial-fill.warn { stroke: var(--wg-warn); filter: drop-shadow(var(--wg-glow-warn)); }
+.wg-radial-wrap > *:not(svg),
+.wg-radial-wrap .wg-radial-val,
+.wg-radial-wrap .wg-radial-center {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--wg-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--wg-fg);
+  line-height: 1;
+  text-align: center;
+  pointer-events: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .wg-dot.pulse, .wg-skeleton, .wg-fade-in { animation: none; }
-  .wg-btn, .wg-item, .wg-fill, .wg-card { transition: none; transform: none !important; }
+  .wg-dot.pulse, .wg-beacon::before, .wg-skeleton, .wg-fade-in { animation: none; }
+  .wg-btn, .wg-item, .wg-fill, .wg-card, .wg-kpi-card, .wg-segmented-tab { transition: none; transform: none !important; }
 }

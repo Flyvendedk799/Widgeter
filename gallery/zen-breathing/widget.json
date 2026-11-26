@@ -1,0 +1,16 @@
+{
+  "id": "zen-breathing",
+  "name": "Zen Breathing",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Guided 4-7-8 respiration ring for relaxation, focus, and mindfulness.",
+  "category": "productivity",
+  "tags": ["zen", "breathing", "focus", "health"],
+  "icon": "🧘",
+  "width": 260,
+  "height": 260,
+  "config": [
+    { "key": "technique", "label": "Pattern", "type": "select", "default": "4-7-8", "options": [{ "value": "4-7-8", "label": "Relax (4-7-8)" }, { "value": "box", "label": "Box (4-4-4-4)" }, { "value": "energize", "label": "Awake (4-2-4-2)" }] },
+    { "key": "sound_cue", "label": "Chime Audio Cue", "type": "boolean", "default": false }
+  ]
+}
