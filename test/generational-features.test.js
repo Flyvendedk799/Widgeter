@@ -64,6 +64,27 @@ const GENERATIONAL_MANIFESTS = {
 
 const tmp = () => fs.mkdtempSync(path.join(os.tmpdir(), 'widgeter-gen-test-'));
 
+// Declarations of the first rule in `css` whose selector list contains exactly `selector`
+// (so `.wg-kpi-card` does not match `.wg-kpi-card:hover` or `:root[...] .wg-kpi-card`).
+// The first rule is the component's own definition; later ones are overrides such as the
+// prefers-reduced-motion block.
+function ruleBlock(css, selector) {
+  const stripped = css.replace(/\/\*[\s\S]*?\*\//g, '');
+  const re = /([^{}]+)\{([^{}]*)\}/g;
+  let m;
+  while ((m = re.exec(stripped))) {
+    const selectors = m[1].split(',').map((s) => s.trim().replace(/\s+/g, ' '));
+    if (selectors.includes(selector)) return m[2];
+  }
+  assert.fail(`base.css must have a rule for ${selector}`);
+}
+
+function assertDecls(block, selector, patterns) {
+  for (const [re, what] of patterns) {
+    assert.ok(re.test(block), `${selector} must declare ${what}`);
+  }
+}
+
 test('tokens: engine/tokens.css defines generational tokens in dark mode', () => {
   const dummy = manifest.validateManifest({
     id: 'tokens-dark-test',
@@ -137,34 +158,45 @@ test('base styles: .wg-kpi-card, .wg-kpi-val, .wg-kpi-lbl and .wg-kpi-badge layo
   const html = composePage('kpi-test', dummy, {}, themeAttrs('dark'));
   const baseCss = fs.readFileSync(path.join(__dirname, '../engine/base.css'), 'utf8');
 
-  // .wg-kpi-card
-  assert.ok(baseCss.includes('.wg-kpi-card'), '.wg-kpi-card selector must exist in base.css');
-  assert.ok(/padding:\s*10px/.test(baseCss), '.wg-kpi-card must specify padding 10px');
-  assert.ok(/gap:\s*4px/.test(baseCss), '.wg-kpi-card must specify gap 4px');
-  assert.ok(/flex-direction:\s*column/.test(baseCss), '.wg-kpi-card must specify flex-direction column');
+  const card = ruleBlock(baseCss, '.wg-kpi-card');
+  assertDecls(card, '.wg-kpi-card', [
+    [/(^|[;\s])padding:\s*10px\s*;/, 'padding 10px'],
+    [/(^|[;\s])display:\s*flex\s*;/, 'display flex'],
+    [/flex-direction:\s*column\s*;/, 'flex-direction column'],
+    [/(^|[;\s])gap:\s*4px\s*;/, 'gap 4px']
+  ]);
 
-  // .wg-kpi-val
-  assert.ok(baseCss.includes('.wg-kpi-val'), '.wg-kpi-val selector must exist in base.css');
-  assert.ok(/font-family:\s*var\(--wg-mono\)/.test(baseCss), '.wg-kpi-val must use var(--wg-mono)');
-  assert.ok(/font-size:\s*20px/.test(baseCss), '.wg-kpi-val must use font-size 20px');
-  assert.ok(/font-weight:\s*700/.test(baseCss), '.wg-kpi-val must use font-weight 700');
+  const val = ruleBlock(baseCss, '.wg-kpi-val');
+  assertDecls(val, '.wg-kpi-val', [
+    [/font-family:\s*var\(--wg-mono\)\s*;/, 'font-family var(--wg-mono)'],
+    [/font-size:\s*20px\s*;/, 'font-size 20px'],
+    [/font-weight:\s*700\s*;/, 'font-weight 700'],
+    [/(^|[;\s])color:\s*var\(--wg-fg\)\s*;/, 'color var(--wg-fg)']
+  ]);
 
-  // .wg-kpi-lbl
-  assert.ok(baseCss.includes('.wg-kpi-lbl'), '.wg-kpi-lbl selector must exist in base.css');
-  assert.ok(/font-size:\s*11px/.test(baseCss), '.wg-kpi-lbl must use font-size 11px');
-  assert.ok(/text-transform:\s*uppercase/.test(baseCss), '.wg-kpi-lbl must use uppercase text');
-  assert.ok(/letter-spacing:\s*0\.05em/.test(baseCss), '.wg-kpi-lbl must specify letter-spacing 0.05em');
+  const lbl = ruleBlock(baseCss, '.wg-kpi-lbl');
+  assertDecls(lbl, '.wg-kpi-lbl', [
+    [/font-size:\s*11px\s*;/, 'font-size 11px'],
+    [/(^|[;\s])color:\s*var\(--wg-muted\)\s*;/, 'color var(--wg-muted)'],
+    [/text-transform:\s*uppercase\s*;/, 'text-transform uppercase'],
+    [/letter-spacing:\s*0\.05em\s*;/, 'letter-spacing 0.05em']
+  ]);
 
-  // .wg-kpi-badge
-  assert.ok(baseCss.includes('.wg-kpi-badge'), '.wg-kpi-badge selector must exist in base.css');
-  assert.ok(/border-radius:\s*var\(--wg-radius-pill\)/.test(baseCss), '.wg-kpi-badge must use var(--wg-radius-pill)');
-  assert.ok(/padding:\s*2px\s+6px/.test(baseCss), '.wg-kpi-badge must use padding 2px 6px');
-  assert.ok(baseCss.includes('.wg-kpi-badge.good'), '.wg-kpi-badge.good state must exist');
-  assert.ok(baseCss.includes('.wg-kpi-badge.bad'), '.wg-kpi-badge.bad state must exist');
-  assert.ok(baseCss.includes('.wg-kpi-badge.warn'), '.wg-kpi-badge.warn state must exist');
-  assert.ok(baseCss.includes('.wg-kpi-badge.accent'), '.wg-kpi-badge.accent state must exist');
+  const badge = ruleBlock(baseCss, '.wg-kpi-badge');
+  assertDecls(badge, '.wg-kpi-badge', [
+    [/display:\s*inline-flex\s*;/, 'display inline-flex'],
+    [/align-items:\s*center\s*;/, 'align-items center'],
+    [/font-size:\s*10px\s*;/, 'font-size 10px'],
+    [/(^|[;\s])padding:\s*2px\s+6px\s*;/, 'padding 2px 6px'],
+    [/border-radius:\s*var\(--wg-radius-pill\)\s*;/, 'border-radius var(--wg-radius-pill)']
+  ]);
+  for (const state of ['good', 'bad', 'warn', 'accent']) {
+    ruleBlock(baseCss, `.wg-kpi-badge.${state}`);
+  }
 
-  assert.ok(html.includes('.wg-kpi-card'), 'composed widget HTML must include .wg-kpi-card');
+  for (const block of [card, val, lbl, badge]) {
+    assert.ok(html.includes(block), 'composed widget HTML must inject the base.css rule');
+  }
 });
 
 test('base styles: .wg-beacon status beacon pill and pulsing indicator', () => {
@@ -180,17 +212,27 @@ test('base styles: .wg-beacon status beacon pill and pulsing indicator', () => {
   const html = composePage('beacon-test', dummy, {}, themeAttrs('dark'));
   const baseCss = fs.readFileSync(path.join(__dirname, '../engine/base.css'), 'utf8');
 
-  assert.ok(baseCss.includes('.wg-beacon'), '.wg-beacon selector must exist in base.css');
-  assert.ok(baseCss.includes('.wg-beacon.good'), '.wg-beacon.good state must exist');
-  assert.ok(baseCss.includes('.wg-beacon.bad'), '.wg-beacon.bad state must exist');
-  assert.ok(baseCss.includes('.wg-beacon.warn'), '.wg-beacon.warn state must exist');
-  assert.ok(baseCss.includes('.wg-beacon::before'), '.wg-beacon::before status dot must exist');
-  assert.ok(baseCss.includes('var(--wg-glow-good)'), '.wg-beacon.good must utilize var(--wg-glow-good)');
-  assert.ok(baseCss.includes('var(--wg-glow-bad)'), '.wg-beacon.bad must utilize var(--wg-glow-bad)');
-  assert.ok(baseCss.includes('var(--wg-glow-warn)'), '.wg-beacon.warn must utilize var(--wg-glow-warn)');
-  assert.ok(baseCss.includes('wg-pulse'), '.wg-beacon must feature pulsing dot animation');
+  const beacon = ruleBlock(baseCss, '.wg-beacon');
+  assertDecls(beacon, '.wg-beacon', [
+    [/display:\s*inline-flex\s*;/, 'display inline-flex'],
+    [/border-radius:\s*var\(--wg-radius-pill\)\s*;/, 'border-radius var(--wg-radius-pill)']
+  ]);
 
-  assert.ok(html.includes('.wg-beacon'), 'composed widget HTML must include .wg-beacon');
+  const dot = ruleBlock(baseCss, '.wg-beacon::before');
+  assert.match(dot, /animation:\s*wg-pulse\b/, '.wg-beacon::before must use the wg-pulse animation');
+  assert.match(baseCss, /@keyframes\s+wg-pulse\b/, '@keyframes wg-pulse must be defined');
+
+  const blocks = [beacon, dot];
+  for (const state of ['good', 'bad', 'warn']) {
+    ruleBlock(baseCss, `.wg-beacon.${state}`);
+    const glow = ruleBlock(baseCss, `.wg-beacon.${state}::before`);
+    assert.match(glow, new RegExp(`box-shadow:\\s*var\\(--wg-glow-${state}\\)\\s*;`), `.wg-beacon.${state}::before must use var(--wg-glow-${state})`);
+    blocks.push(glow);
+  }
+
+  for (const block of blocks) {
+    assert.ok(html.includes(block), 'composed widget HTML must inject the base.css rule');
+  }
 });
 
 test('base styles: .wg-segmented-tabs compact pill tab group and active states', () => {
@@ -206,13 +248,24 @@ test('base styles: .wg-segmented-tabs compact pill tab group and active states',
   const html = composePage('tabs-test', dummy, {}, themeAttrs('dark'));
   const baseCss = fs.readFileSync(path.join(__dirname, '../engine/base.css'), 'utf8');
 
-  assert.ok(baseCss.includes('.wg-segmented-tabs'), '.wg-segmented-tabs selector must exist');
-  assert.ok(baseCss.includes('.wg-segmented-tab'), '.wg-segmented-tab selector must exist');
-  assert.ok(baseCss.includes('.wg-segmented-tab.active'), '.wg-segmented-tab.active state must exist');
-  assert.ok(baseCss.includes('var(--wg-accent-soft)'), '.wg-segmented-tab.active must use var(--wg-accent-soft)');
-  assert.ok(baseCss.includes('var(--wg-accent)'), '.wg-segmented-tab.active must use var(--wg-accent)');
+  const group = ruleBlock(baseCss, '.wg-segmented-tabs');
+  assertDecls(group, '.wg-segmented-tabs', [
+    [/display:\s*inline-flex\s*;/, 'display inline-flex'],
+    [/border-radius:\s*var\(--wg-radius-pill\)\s*;/, 'border-radius var(--wg-radius-pill)']
+  ]);
+  const tab = ruleBlock(baseCss, '.wg-segmented-tab');
+  assertDecls(tab, '.wg-segmented-tab', [
+    [/border-radius:\s*var\(--wg-radius-pill\)\s*;/, 'border-radius var(--wg-radius-pill)']
+  ]);
+  const active = ruleBlock(baseCss, '.wg-segmented-tab.active');
+  assertDecls(active, '.wg-segmented-tab.active', [
+    [/background:\s*var\(--wg-accent-soft\)\s*;/, 'background var(--wg-accent-soft)'],
+    [/(^|[;\s])color:\s*var\(--wg-accent\)\s*;/, 'color var(--wg-accent)']
+  ]);
 
-  assert.ok(html.includes('.wg-segmented-tabs'), 'composed widget HTML must include .wg-segmented-tabs');
+  for (const block of [group, tab, active]) {
+    assert.ok(html.includes(block), 'composed widget HTML must inject the base.css rule');
+  }
 });
 
 test('base styles: .wg-spark-box vector sparkline wrapper dimensions and overflow', () => {
@@ -228,12 +281,17 @@ test('base styles: .wg-spark-box vector sparkline wrapper dimensions and overflo
   const html = composePage('spark-test', dummy, {}, themeAttrs('dark'));
   const baseCss = fs.readFileSync(path.join(__dirname, '../engine/base.css'), 'utf8');
 
-  assert.ok(baseCss.includes('.wg-spark-box'), '.wg-spark-box selector must exist');
-  assert.ok(/height:\s*36px/.test(baseCss), '.wg-spark-box must specify height 36px');
-  assert.ok(/overflow:\s*hidden/.test(baseCss), '.wg-spark-box must specify overflow: hidden');
-  assert.ok(baseCss.includes('.wg-spark-box svg'), '.wg-spark-box svg selector must exist');
+  const box = ruleBlock(baseCss, '.wg-spark-box');
+  assertDecls(box, '.wg-spark-box', [
+    [/(^|[;\s])width:\s*100%\s*;/, 'width 100%'],
+    [/(^|[;\s])height:\s*36px\s*;/, 'height 36px'],
+    [/overflow:\s*hidden\s*;/, 'overflow hidden']
+  ]);
+  const svg = ruleBlock(baseCss, '.wg-spark-box svg');
 
-  assert.ok(html.includes('.wg-spark-box'), 'composed widget HTML must include .wg-spark-box');
+  for (const block of [box, svg]) {
+    assert.ok(html.includes(block), 'composed widget HTML must inject the base.css rule');
+  }
 });
 
 test('base styles: .wg-led-meter 10-segment container and status styles', () => {
@@ -249,14 +307,21 @@ test('base styles: .wg-led-meter 10-segment container and status styles', () => 
   const html = composePage('led-test', dummy, {}, themeAttrs('dark'));
   const baseCss = fs.readFileSync(path.join(__dirname, '../engine/base.css'), 'utf8');
 
-  assert.ok(baseCss.includes('.wg-led-meter'), '.wg-led-meter selector must exist');
-  assert.ok(baseCss.includes('.wg-led-seg'), '.wg-led-seg selector must exist');
-  assert.ok(/height:\s*16px/.test(baseCss), '.wg-led-seg must specify height 16px');
-  assert.ok(baseCss.includes('.wg-led-seg.on.good') || baseCss.includes('.wg-led-seg.good.on'), '.wg-led-seg good state must exist');
-  assert.ok(baseCss.includes('.wg-led-seg.on.warn') || baseCss.includes('.wg-led-seg.warn.on'), '.wg-led-seg warn state must exist');
-  assert.ok(baseCss.includes('.wg-led-seg.on.bad') || baseCss.includes('.wg-led-seg.bad.on'), '.wg-led-seg bad state must exist');
+  const meter = ruleBlock(baseCss, '.wg-led-meter');
+  assertDecls(meter, '.wg-led-meter', [[/display:\s*flex\s*;/, 'display flex']]);
+  const seg = ruleBlock(baseCss, '.wg-led-seg');
+  assertDecls(seg, '.wg-led-seg', [[/(^|[;\s])height:\s*16px\s*;/, 'height 16px']]);
 
-  assert.ok(html.includes('.wg-led-meter'), 'composed widget HTML must include .wg-led-meter');
+  const blocks = [meter, seg];
+  for (const state of ['good', 'warn', 'bad']) {
+    const on = ruleBlock(baseCss, `.wg-led-seg.on.${state}`);
+    assert.match(on, new RegExp(`box-shadow:\\s*var\\(--wg-glow-${state}\\)\\s*;`), `.wg-led-seg.on.${state} must use var(--wg-glow-${state})`);
+    blocks.push(on);
+  }
+
+  for (const block of blocks) {
+    assert.ok(html.includes(block), 'composed widget HTML must inject the base.css rule');
+  }
 });
 
 test('base styles: .wg-split-row flex row with dotted divider', () => {
@@ -272,12 +337,18 @@ test('base styles: .wg-split-row flex row with dotted divider', () => {
   const html = composePage('split-row-test', dummy, {}, themeAttrs('dark'));
   const baseCss = fs.readFileSync(path.join(__dirname, '../engine/base.css'), 'utf8');
 
-  assert.ok(baseCss.includes('.wg-split-row'), '.wg-split-row selector must exist');
-  assert.ok(baseCss.includes('.wg-split-row .wg-lbl') || baseCss.includes('.wg-split-row > .wg-lbl'), '.wg-split-row .wg-lbl selector must exist');
-  assert.ok(baseCss.includes('.wg-split-row .wg-val') || baseCss.includes('.wg-split-row > .wg-val'), '.wg-split-row .wg-val selector must exist');
-  assert.ok(baseCss.includes('border-bottom: 1px dotted var(--wg-border)'), '.wg-split-row must include dotted divider border');
+  const row = ruleBlock(baseCss, '.wg-split-row');
+  assertDecls(row, '.wg-split-row', [[/display:\s*flex\s*;/, 'display flex']]);
+  const lbl = ruleBlock(baseCss, '.wg-split-row .wg-lbl');
+  const val = ruleBlock(baseCss, '.wg-split-row .wg-val');
+  const divider = ruleBlock(baseCss, '.wg-split-row::after');
+  assertDecls(divider, '.wg-split-row::after', [[/border-bottom:\s*1px dotted var\(--wg-border\)\s*;/, 'border-bottom 1px dotted var(--wg-border)']]);
+  const explicit = ruleBlock(baseCss, '.wg-split-row .wg-split-divider');
+  assertDecls(explicit, '.wg-split-row .wg-split-divider', [[/border-bottom:\s*1px dotted var\(--wg-border\)\s*;/, 'border-bottom 1px dotted var(--wg-border)']]);
 
-  assert.ok(html.includes('.wg-split-row'), 'composed widget HTML must include .wg-split-row');
+  for (const block of [row, lbl, val, divider, explicit]) {
+    assert.ok(html.includes(block), 'composed widget HTML must inject the base.css rule');
+  }
 });
 
 test('base styles: .wg-radial-wrap circular progress container and centered label', () => {
@@ -293,13 +364,25 @@ test('base styles: .wg-radial-wrap circular progress container and centered labe
   const html = composePage('radial-test', dummy, {}, themeAttrs('dark'));
   const baseCss = fs.readFileSync(path.join(__dirname, '../engine/base.css'), 'utf8');
 
-  assert.ok(baseCss.includes('.wg-radial-wrap'), '.wg-radial-wrap selector must exist');
-  assert.ok(baseCss.includes('.wg-radial-wrap svg'), '.wg-radial-wrap svg selector must exist');
-  assert.ok(baseCss.includes('.wg-radial-bg'), '.wg-radial-bg selector must exist');
-  assert.ok(baseCss.includes('.wg-radial-fill'), '.wg-radial-fill selector must exist');
-  assert.ok(baseCss.includes('.wg-radial-val') || baseCss.includes('.wg-radial-center'), '.wg-radial-val centered text selector must exist');
+  const wrap = ruleBlock(baseCss, '.wg-radial-wrap');
+  assertDecls(wrap, '.wg-radial-wrap', [
+    [/position:\s*relative\s*;/, 'position relative'],
+    [/align-items:\s*center\s*;/, 'align-items center'],
+    [/justify-content:\s*center\s*;/, 'justify-content center']
+  ]);
+  const svg = ruleBlock(baseCss, '.wg-radial-wrap svg');
+  const bg = ruleBlock(baseCss, '.wg-radial-wrap .wg-radial-bg');
+  const fill = ruleBlock(baseCss, '.wg-radial-wrap .wg-radial-fill');
+  const center = ruleBlock(baseCss, '.wg-radial-wrap .wg-radial-val');
+  assertDecls(center, '.wg-radial-wrap .wg-radial-val', [
+    [/position:\s*absolute\s*;/, 'position absolute'],
+    [/align-items:\s*center\s*;/, 'align-items center'],
+    [/justify-content:\s*center\s*;/, 'justify-content center']
+  ]);
 
-  assert.ok(html.includes('.wg-radial-wrap'), 'composed widget HTML must include .wg-radial-wrap');
+  for (const block of [wrap, svg, bg, fill, center]) {
+    assert.ok(html.includes(block), 'composed widget HTML must inject the base.css rule');
+  }
 });
 
 test('base styles: useBaseStyles toggles inclusion of generational component library', () => {
