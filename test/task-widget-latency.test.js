@@ -186,3 +186,61 @@ test('api-latency: HTTP health check handles 2xx, non-2xx, and timeout responses
   delete global.document;
   delete global.widgeter;
 });
+
+function makeSparkDom() {
+  const elements = {};
+  global.document = {
+    getElementById(id) {
+      if (!elements[id]) {
+        elements[id] = {
+          attrs: {},
+          setAttribute(k, v) { this.attrs[k] = String(v); },
+          getAttribute(k) { return this.attrs[k]; },
+          innerHTML: ''
+        };
+      }
+      return elements[id];
+    }
+  };
+  return elements;
+}
+
+test('api-latency: sparkline dot is parked off-canvas and flagged bad when the newest ping was lost', () => {
+  makeSparkDom();
+  const dot = global.document.getElementById('spark-dot');
+  const line = global.document.getElementById('spark-line');
+
+  widgetScript.renderSparkline([{ latency: 20, ok: true }, { latency: 30, ok: true }, { latency: null, ok: false }]);
+  assert.equal(dot.getAttribute('cx'), '-10');
+  assert.equal(dot.getAttribute('cy'), '-10');
+  assert.equal(dot.getAttribute('class'), 'spark-dot bad');
+  assert.equal(line.getAttribute('class'), 'spark-line bad');
+
+  // Recovery: a good newest sample puts the dot back on the line with a neutral class.
+  widgetScript.renderSparkline([{ latency: null, ok: false }, { latency: 20, ok: true }]);
+  assert.equal(dot.getAttribute('cx'), '272');
+  assert.equal(dot.getAttribute('class'), 'spark-dot');
+  assert.equal(line.getAttribute('class'), 'spark-line');
+
+  // Every sample failed: the old class is replaced, never left stale.
+  widgetScript.renderSparkline([{ latency: null, ok: false }, { latency: null, ok: false }]);
+  assert.equal(dot.getAttribute('cx'), '-10');
+  assert.equal(dot.getAttribute('class'), 'spark-dot bad');
+  assert.equal(line.getAttribute('class'), 'spark-line bad');
+  delete global.document;
+});
+
+test('api-latency: ping without widgeter.fetch reports OFFLINE instead of inventing a result', async () => {
+  const ids = ['beacon', 'beacon-dot', 'beacon-label', 'status-badge', 'latency-val', 'jitter-stat', 'p50-val', 'p95-val', 'p99-val'];
+  const dom = {};
+  ids.forEach((id) => { dom[id] = { className: '', textContent: '', innerHTML: '' }; });
+  global.document = { getElementById: (id) => dom[id] || null };
+  delete global.widgeter;
+
+  await widgetScript.ping();
+  assert.ok(dom['beacon'].className.includes('bad'));
+  assert.equal(dom['beacon-label'].textContent, 'OFFLINE');
+  assert.equal(dom['status-badge'].textContent, 'Offline');
+  assert.ok(dom['latency-val'].innerHTML.includes('--'));
+  delete global.document;
+});

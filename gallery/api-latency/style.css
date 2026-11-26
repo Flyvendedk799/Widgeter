@@ -85,7 +85,7 @@ body {
 
 /* KPI Card */
 .wg-kpi-card {
-  padding: 8px 10px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -113,7 +113,7 @@ body {
 }
 
 .wg-kpi-lbl {
-  font-size: 10.5px;
+  font-size: 11px;
   color: var(--wg-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -228,7 +228,7 @@ body {
   justify-content: space-between;
   gap: 4px;
   min-width: 0;
-  position: relative;
+  border-bottom: 1px dotted var(--wg-border);
 }
 
 .wg-split-row .wg-lbl {
@@ -241,17 +241,8 @@ body {
   flex-shrink: 0;
 }
 
-.wg-split-row::after {
-  content: '';
-  order: 2;
-  flex: 1 1 auto;
-  border-bottom: 1px dotted var(--wg-border);
-  margin-bottom: 3px;
-  min-width: 4px;
-}
-
 .wg-split-row .wg-val {
-  order: 3;
+  order: 2;
   font-family: var(--wg-mono);
   font-size: 11px;
   font-weight: 600;

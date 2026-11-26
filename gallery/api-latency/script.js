@@ -119,17 +119,17 @@
     if (sparkLost) sparkLost.innerHTML = lostLines;
 
     if (sparkDot) {
-      if (lastX >= 0) {
-        sparkDot.setAttribute('cx', String(lastX));
-        sparkDot.setAttribute('cy', String(lastY));
-        const latest = samples[samples.length - 1];
-        const dotState = !latest.ok ? 'bad' : latest.latency > slaWarnMs ? 'warn' : '';
-        sparkDot.setAttribute('class', 'spark-dot' + (dotState ? ' ' + dotState : ''));
-        sparkLine.setAttribute('class', 'spark-line' + (dotState ? ' ' + dotState : ''));
-      } else {
+      const latest = samples[samples.length - 1];
+      const dotState = !latest.ok ? 'bad' : latest.latency > slaWarnMs ? 'warn' : '';
+      if (latest.latency === null) {
         sparkDot.setAttribute('cx', '-10');
         sparkDot.setAttribute('cy', '-10');
+      } else {
+        sparkDot.setAttribute('cx', String(lastX));
+        sparkDot.setAttribute('cy', String(lastY));
       }
+      sparkDot.setAttribute('class', 'spark-dot' + (dotState ? ' ' + dotState : ''));
+      sparkLine.setAttribute('class', 'spark-line' + (dotState ? ' ' + dotState : ''));
     }
   }
 
@@ -210,43 +210,22 @@
     const timeoutMs = Math.min(10000, Math.max(1500, pingInterval * 1000 - 500));
 
     try {
-      if (typeof widgeter !== 'undefined' && widgeter.fetch) {
-        const res = await widgeter.fetch(targetUrl, {
-          ttl: 0,
-          timeout: timeoutMs,
-          staleOnError: false,
-          method: 'GET'
-        });
-        const elapsed = Math.round(performance.now() - t0);
-        result = {
-          latency: elapsed,
-          ok: res.ok,
-          status: res.status,
-          statusText: String(res.status)
-        };
-      } else if (typeof fetch !== 'undefined') {
-        const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), timeoutMs);
-        try {
-          const res = await fetch(targetUrl, { signal: controller.signal });
-          const elapsed = Math.round(performance.now() - t0);
-          result = {
-            latency: elapsed,
-            ok: res.ok,
-            status: res.status,
-            statusText: String(res.status)
-          };
-        } finally {
-          clearTimeout(timer);
-        }
-      } else {
-        result = {
-          latency: 25,
-          ok: true,
-          status: 200,
-          statusText: '200 OK'
-        };
+      if (typeof widgeter === 'undefined' || !widgeter.fetch) {
+        throw new Error('No network transport available');
       }
+      const res = await widgeter.fetch(targetUrl, {
+        ttl: 0,
+        timeout: timeoutMs,
+        staleOnError: false,
+        method: 'GET'
+      });
+      const elapsed = Math.round(performance.now() - t0);
+      result = {
+        latency: elapsed,
+        ok: res.ok,
+        status: res.status,
+        statusText: String(res.status)
+      };
     } catch (err) {
       const msg = String((err && err.message) || err);
       const isTimeout = /timeout|timed[-_ ]?out|etimedout/i.test(msg);
