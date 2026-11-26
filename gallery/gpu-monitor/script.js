@@ -8,7 +8,7 @@
 
   const $ = (id) => document.getElementById(id);
   const widgeter = window.widgeter || { getConfig: async () => undefined };
-  const currentPlatform = (typeof process !== 'undefined' && currentPlatform) || (os.platform ? os.platform() : 'linux');
+  const currentPlatform = (typeof process !== 'undefined' && process.platform) || (os.platform ? os.platform() : 'linux');
 
   let pollInterval = 2000;
   let tempUnit = 'c';
@@ -348,6 +348,9 @@
 
   // Initialization lifecycle
   async function init() {
+    // Immediate synchronous first sample from hardware indicators
+    render(getFallbackMetrics(null));
+
     try {
       const intervalSec = Number(await widgeter.getConfig('interval'));
       if (intervalSec && intervalSec >= 1 && intervalSec <= 60) {
@@ -360,9 +363,6 @@
     } catch (e) {
       // Keep sensible defaults if getConfig is unavailable
     }
-
-    // Immediate synchronous first sample from hardware indicators
-    render(getFallbackMetrics(null));
 
     // First async hardware query followed by regular polling
     poll();
