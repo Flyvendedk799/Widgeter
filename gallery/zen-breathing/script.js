@@ -200,8 +200,13 @@
     timeEl.textContent = remainingSec + 's';
     if (running) guideEl.textContent = phase.guide;
 
-    ringWrap.classList.remove('phase-inhale', 'phase-hold', 'phase-exhale');
+    // A hold that follows an exhale is "lungs empty": contracted halo, empty arc.
+    const prevPhase = tech.phases[(phaseIdx - 1 + tech.phases.length) % tech.phases.length];
+    const holdEmpty = phase.action === 'hold' && prevPhase.action === 'exhale';
+
+    ringWrap.classList.remove('phase-inhale', 'phase-hold', 'phase-exhale', 'phase-hold-empty');
     ringWrap.classList.add('phase-' + phase.action);
+    if (holdEmpty) ringWrap.classList.add('phase-hold-empty');
 
     // Halo expansion / contraction
     let scale = 1.0;
@@ -210,7 +215,7 @@
     } else if (phase.action === 'exhale') {
       scale = 1.15 - (0.30 * progress);
     } else if (phase.action === 'hold') {
-      scale = 1.15;
+      scale = holdEmpty ? 0.85 : 1.15;
     }
     haloEl.style.transform = `scale(${scale.toFixed(3)})`;
 
@@ -221,7 +226,7 @@
     } else if (phase.action === 'exhale') {
       offset = CIRC * progress;
     } else {
-      offset = 0;
+      offset = holdEmpty ? CIRC : 0;
     }
     arcEl.style.strokeDashoffset = String(Math.max(0, Math.min(CIRC, offset)));
   }

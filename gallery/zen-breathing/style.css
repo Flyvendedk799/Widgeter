@@ -17,10 +17,6 @@ body {
   margin-bottom: 2px;
 }
 
-.zb-emoji {
-  display: none;
-}
-
 .zb-icon-svg {
   display: block;
   color: var(--wg-accent);
@@ -149,6 +145,10 @@ body {
 .phase-hold .zb-halo {
   background: radial-gradient(circle, var(--wg-accent-2) 10%, color-mix(in srgb, var(--wg-accent-2) 30%, transparent) 55%, transparent 75%);
   animation: zb-hold-pulse 2s ease-in-out infinite alternate;
+}
+.phase-hold-empty .zb-halo {
+  animation: none;
+  opacity: 0.35;
 }
 .phase-hold .zb-phase {
   color: var(--wg-accent-2);
