@@ -131,8 +131,15 @@ async function applyPreset(preset, displayId, data, repaint) {
 
   const positions = preset.generate(targetIds);
   const r = await call('layout:apply-template', positions, displayId);
-  const count = (r && r.applied) || targetIds.length;
-  toast('Arranged ' + count + ' widget' + (count === 1 ? '' : 's') + ' with ' + preset.name);
+  const count = (r && r.applied) || 0;
+  const skipped = (r && r.skipped) || [];
+  if (!count) {
+    toast('No widgets were arranged with ' + preset.name + (skipped.length ? ' (' + skipped.length + ' not open)' : ''), 'warn');
+  } else if (skipped.length) {
+    toast('Arranged ' + count + ' of ' + (count + skipped.length) + ' widgets with ' + preset.name + ' (' + skipped.length + ' not open)');
+  } else {
+    toast('Arranged ' + count + ' widget' + (count === 1 ? '' : 's') + ' with ' + preset.name);
+  }
   if (repaint) setTimeout(repaint, 100);
   return { targetIds, positions, result: r };
 }
@@ -142,7 +149,7 @@ async function duplicateLayout(entry, index, data, repaint) {
   const promptTitle = isProfile ? 'Duplicate profile "' + entry.name + '"?' : 'Duplicate layout "' + entry.name + '"?';
   const promptMsg = isProfile
     ? 'Duplicating will apply this profile to your desktop to save a copy. Widgets not in the profile will be closed, and your current arrangement will change.'
-    : 'Duplicating will apply this layout to your desktop to save a copy. Your current widget positions will change.';
+    : 'Duplicating will apply this layout to your desktop to save a copy. Widgets in this layout will be opened and your current widget positions will change. The copy captures everything currently open on the desktop, including widgets that are not in the original layout.';
 
   const confirmed = await confirmDialog(promptTitle, promptMsg, 'Duplicate & Apply', false);
   if (!confirmed) return null;

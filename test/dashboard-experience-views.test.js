@@ -200,6 +200,11 @@ let mockIpcState = {
 };
 
 let lastConfirmResponse = true;
+let lastConfirmArgs = null;
+// IPC calls made by the views, in order: [channel, ...args].
+const calls = [];
+// When set, replaces the reply of layout:apply-template.
+let applyTemplateReply = null;
 
 const origRequire = Module.prototype.require;
 Module.prototype.require = function (id) {
@@ -207,9 +212,10 @@ Module.prototype.require = function (id) {
     return {
       ipcRenderer: {
         invoke: async (channel, ...args) => {
+          calls.push([channel, ...args]);
           if (channel === 'dash:state') return { ok: true, data: mockIpcState };
           if (channel === 'layout:list') return { ok: true, data: mockIpcState };
-          if (channel === 'layout:apply-template') return { ok: true, data: { applied: args[0].length } };
+          if (channel === 'layout:apply-template') return { ok: true, data: applyTemplateReply || { applied: args[0].length, skipped: [] } };
           if (channel === 'layout:activate') return { ok: true, data: { skipped: [] } };
           if (channel === 'layout:save') {
             mockIpcState.saved.push({ name: args[0], kind: args[1] });
@@ -230,6 +236,7 @@ Module.prototype.require = function (id) {
 const ui = require('../dashboard/ui');
 // Mock confirmDialog and toast before requiring views that destructure them
 ui.confirmDialog = async (title, message, confirmLabel, danger) => {
+  lastConfirmArgs = { title, message, confirmLabel, danger };
   return lastConfirmResponse;
 };
 ui.toast = (message, kind) => {
@@ -345,10 +352,18 @@ test('widgets view: interactive pill clicking toggles active pill without destro
   const devPill = pills.find((p) => p.dataset.category === 'dev');
   assert.ok(devPill, 'Dev pill exists');
 
+  const cardTitles = () => container.querySelectorAll('.grow').map((el) => el.getAttribute('title'));
+  assert.deepEqual(cardTitles(), ['System Stats', 'Dev Stats'], 'both cards match before filtering');
+
   // Click dev pill
   devPill.dispatchEvent({ type: 'click' });
   assert.equal(widgetsView.filter.category, 'dev');
   assert.ok(devPill.classList.contains('active'), 'Dev pill should become active');
+
+  // Search state survives the click and the grid is re-filtered
+  assert.equal(searchInput.value, 'stats', 'search input value is unchanged by a pill click');
+  assert.equal(widgetsView.filter.q, 'stats', 'filter.q is unchanged by a pill click');
+  assert.deepEqual(cardTitles(), ['Dev Stats'], 'system card is gone after clicking Dev');
 
   // Verify only dev pill has active class among pills
   const activePills = pills.filter((p) => p.classList.contains('active'));
@@ -375,6 +390,14 @@ test('layouts view: defines presets with valid layout coordinate generators', ()
   }
 });
 
+const toggledIds = () => calls.filter((c) => c[0] === 'widget:toggle').map((c) => c[1]);
+const toastTexts = () => toastWrap.children.map((el) => el.textContent);
+function resetRecording() {
+  calls.length = 0;
+  toastWrap.textContent = '';
+  applyTemplateReply = null;
+}
+
 test('layouts view: applyPreset bounded category fallback and honest count', async () => {
   const api = require('../dashboard/api');
   api.store.state = {
@@ -389,6 +412,82 @@ test('layouts view: applyPreset bounded category fallback and honest count', asy
   assert.ok(res, 'Preset should apply');
   assert.deepEqual(res.targetIds, ['git-status', 'docker-containers']);
   assert.equal(res.positions.length, 2);
+});
+
+test('layouts view: applyPreset does not enable unrelated disabled widgets', async () => {
+  resetRecording();
+  const api = require('../dashboard/api');
+  api.store.state = {
+    widgets: [
+      { id: 'git-status', category: 'dev', enabled: false },
+      { id: 'docker-containers', category: 'dev', enabled: false },
+      { id: 'audio-spectrum', category: 'media', enabled: false }
+    ]
+  };
+
+  const devPreset = layoutsView.PRESETS.find((p) => p.id === 'developer-focus');
+  const res = await layoutsView.applyPreset(devPreset, 1, { active: [] });
+  assert.deepEqual(res.targetIds, ['git-status', 'docker-containers']);
+  assert.deepEqual(toggledIds(), ['git-status', 'docker-containers'], 'the disabled unrelated widget is not toggled');
+});
+
+test('layouts view: applyPreset category fallback is capped at preset.widgets.length and skips other categories', async () => {
+  resetRecording();
+  const api = require('../dashboard/api');
+  // None of the preset's named widgets are installed; six dev-category widgets are.
+  api.store.state = {
+    widgets: [
+      { id: 'audio-spectrum', category: 'media', enabled: false },
+      { id: 'dev-1', category: 'dev', enabled: false },
+      { id: 'dev-2', category: 'developer', enabled: false },
+      { id: 'dev-3', category: 'dev', enabled: false },
+      { id: 'dev-4', category: 'dev', enabled: false },
+      { id: 'dev-5', category: 'dev', enabled: false },
+      { id: 'dev-6', category: 'dev', enabled: false }
+    ]
+  };
+
+  const devPreset = layoutsView.PRESETS.find((p) => p.id === 'developer-focus');
+  const res = await layoutsView.applyPreset(devPreset, 1, { active: [] });
+  assert.ok(res, 'Preset should apply through the category fallback');
+  assert.equal(res.targetIds.length, devPreset.widgets.length);
+  assert.deepEqual(res.targetIds, ['dev-1', 'dev-2', 'dev-3', 'dev-4']);
+  assert.deepEqual(toggledIds(), ['dev-1', 'dev-2', 'dev-3', 'dev-4'], 'only the capped dev widgets are toggled');
+});
+
+test('layouts view: applyPreset toast reports what was actually arranged', async () => {
+  const api = require('../dashboard/api');
+  api.store.state = {
+    widgets: [
+      { id: 'git-status', category: 'dev', enabled: true },
+      { id: 'docker-containers', category: 'dev', enabled: true }
+    ]
+  };
+  const devPreset = layoutsView.PRESETS.find((p) => p.id === 'developer-focus');
+
+  // Nothing arranged: the backend skipped every widget because none has a window yet.
+  resetRecording();
+  applyTemplateReply = { applied: 0, skipped: ['git-status', 'docker-containers'] };
+  await layoutsView.applyPreset(devPreset, 1, { active: [] });
+  let texts = toastTexts();
+  assert.equal(texts.length, 1);
+  assert.doesNotMatch(texts[0], /Arranged/, 'must not claim widgets were arranged');
+  assert.match(texts[0], /No widgets were arranged/);
+  assert.match(texts[0], /2 not open/);
+
+  // Partly arranged
+  resetRecording();
+  applyTemplateReply = { applied: 1, skipped: ['docker-containers'] };
+  await layoutsView.applyPreset(devPreset, 1, { active: [] });
+  texts = toastTexts();
+  assert.match(texts[0], /^Arranged 1 of 2 widgets with Developer Focus \(1 not open\)$/);
+
+  // Fully arranged
+  resetRecording();
+  applyTemplateReply = { applied: 2, skipped: [] };
+  await layoutsView.applyPreset(devPreset, 1, { active: [] });
+  assert.equal(toastTexts()[0], 'Arranged 2 widgets with Developer Focus');
+  applyTemplateReply = null;
 });
 
 test('layouts view: applyPreset safely returns null and warns when no matching widgets installed', async () => {
@@ -410,16 +509,40 @@ test('layouts view: duplicateLayout prompts confirmDialog and prevents live chan
   const data = { saved: [savedEntry] };
 
   // Case 1: user cancels confirmation dialog
+  resetRecording();
   lastConfirmResponse = false;
   const cancelRes = await layoutsView.duplicateLayout(savedEntry, 0, data);
   assert.equal(cancelRes, null, 'Should return null and not duplicate when cancelled');
-  assert.equal(data.saved.length, 1, 'No entry added when cancelled');
+  assert.ok(lastConfirmArgs, 'confirmDialog was shown');
+  assert.deepEqual(
+    calls.filter((c) => ['widget:toggle', 'layout:activate', 'layout:save'].includes(c[0])),
+    [],
+    'no widget is opened, no layout activated and nothing saved when cancelled'
+  );
 
   // Case 2: user confirms dialog
+  resetRecording();
   lastConfirmResponse = true;
   const confirmRes = await layoutsView.duplicateLayout(savedEntry, 0, data);
   assert.equal(confirmRes, 'My Profile (Copy)');
-  assert.equal(mockIpcState.saved.some((e) => e.name === 'My Profile (Copy)'), true);
+  assert.deepEqual(calls, [
+    ['widget:toggle', 'git-status', true],
+    ['layout:activate', 0],
+    ['layout:save', 'My Profile (Copy)', 'profile']
+  ], 'toggle, then activate, then save');
+});
+
+test('layouts view: duplicateLayout confirmation text tells the user what will happen', async () => {
+  resetRecording();
+  lastConfirmResponse = false;
+
+  await layoutsView.duplicateLayout({ name: 'Work', kind: 'layout', widgetIds: ['git-status'] }, 0, { saved: [] });
+  assert.match(lastConfirmArgs.message, /will be opened/);
+  assert.match(lastConfirmArgs.message, /captures everything currently open/);
+
+  await layoutsView.duplicateLayout({ name: 'Work', kind: 'profile', widgetIds: ['git-status'] }, 0, { saved: [] });
+  assert.match(lastConfirmArgs.message, /Widgets not in the profile will be closed/);
+  lastConfirmResponse = true;
 });
 
 test('drawer: healthLook and modernized status indicators operate properly', () => {
