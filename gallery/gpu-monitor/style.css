@@ -1,6 +1,6 @@
 /* GPU Monitor widget glassmorphic styling */
 body {
-  padding: 8px 12px;
+  padding: 8px 10px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -81,7 +81,7 @@ body {
 
 /* GPU Load Card & LED Meter */
 .gpu-load-card {
-  padding: 6px 10px;
+  padding: 4px 8px;
   background: var(--wg-surface);
   border: 1px solid var(--wg-border);
   border-radius: var(--wg-radius-sm, 8px);
@@ -147,7 +147,7 @@ body {
 
 /* VRAM KPI Card */
 .wg-kpi-card {
-  padding: 6px 10px;
+  padding: 4px 8px;
   background: var(--wg-surface);
   border: 1px solid var(--wg-border);
   border-radius: var(--wg-radius-sm, 8px);
@@ -156,7 +156,7 @@ body {
   box-shadow: var(--wg-shadow, 0 4px 16px rgba(0, 0, 0, 0.15));
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
   transition: all 0.2s ease;
 }
 
@@ -211,7 +211,7 @@ body {
   border-radius: var(--wg-radius-pill, 9999px);
   background: var(--wg-surface-hover);
   overflow: hidden;
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
 .wg-kpi-card .wg-fill {
@@ -232,7 +232,7 @@ body {
 
 /* Metrics Card (Temperature & Fan) */
 .gpu-metrics-card {
-  padding: 6px 10px;
+  padding: 4px 8px;
   background: var(--wg-surface);
   border: 1px solid var(--wg-border);
   border-radius: var(--wg-radius-sm, 8px);
@@ -241,7 +241,7 @@ body {
   box-shadow: var(--wg-shadow, 0 4px 16px rgba(0, 0, 0, 0.15));
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
   transition: all 0.2s ease;
 }
 
@@ -257,7 +257,7 @@ body {
   gap: 8px;
   font-size: 11px;
   border-bottom: 1px dotted var(--wg-border);
-  padding-bottom: 3px;
+  padding-bottom: 2px;
 }
 
 .wg-split-row:last-child {

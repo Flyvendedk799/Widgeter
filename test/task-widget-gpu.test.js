@@ -147,3 +147,39 @@ test('gpu-monitor: supports Fahrenheit and custom intervals via getConfig', asyn
   assert.equal(intervalConfigured, 5000, 'Configured interval should be 5000ms');
   assert.ok(elements['gpu-model'].textContent.length > 0, 'Model should be set');
 });
+
+test('gpu-monitor: probes hardware once and does not respawn subprocesses on later polls', async () => {
+  const scriptCode = fs.readFileSync(path.join(__dirname, '..', 'gallery', 'gpu-monitor', 'script.js'), 'utf8');
+  const spawned = [];
+  const stubRequire = (name) => {
+    if (name === 'child_process') {
+      return { execFile: (file, args, opts, cb) => { spawned.push(file); cb(new Error('not found')); } };
+    }
+    return require(name);
+  };
+  const elements = {};
+  const el = (id) => elements[id] || (elements[id] = {
+    textContent: '', className: '', style: {},
+    querySelectorAll: () => Array.from({ length: 10 }, () => ({ className: '' }))
+  });
+  let tick = null;
+  const ctx = vm.createContext({
+    require: stubRequire,
+    process,
+    console,
+    document: { getElementById: el },
+    window: { widgeter: { getConfig: async () => undefined } },
+    setInterval: (fn) => { tick = fn; return 1; },
+    clearInterval: () => {}
+  });
+  vm.runInContext(scriptCode, ctx);
+  await new Promise((r) => setTimeout(r, 50));
+  const afterProbe = spawned.length;
+  for (let i = 0; i < 5; i++) {
+    tick();
+    await new Promise((r) => setTimeout(r, 10));
+  }
+  assert.equal(spawned.length, afterProbe, 'later polls must not spawn processes without a discrete GPU');
+  assert.ok(afterProbe <= 2, 'probe spawns at most nvidia-smi and powershell once');
+  assert.ok(elements['gpu-load-val'].textContent.endsWith('%'));
+});

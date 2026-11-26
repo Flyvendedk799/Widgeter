@@ -16,6 +16,10 @@
   let prevCpus = null;
   let lastLoad = 0;
   let intervalTimer = null;
+  let isPolling = false;
+  let hardwareProbed = false;
+  let discreteSource = null;
+  let cachedHw = null;
 
   // Execute external command safely with a strict timeout
   function runCommand(file, args, timeoutMs = 1200) {
@@ -332,21 +336,40 @@
     if (fanEl) fanEl.textContent = formatFanSpeed(metrics.fan);
   }
 
+  // Probe discrete hardware once. Later ticks never spawn nvidia-smi or powershell again
+  // unless a discrete GPU was found (then only nvidia-smi is re-queried for live values).
+  async function probeHardware() {
+    hardwareProbed = true;
+    if (await queryNvidia()) {
+      discreteSource = 'nvidia';
+      return;
+    }
+    if (queryLinuxSysfs()) {
+      discreteSource = 'sysfs';
+      return;
+    }
+    if (currentPlatform === 'win32') {
+      cachedHw = await queryWindowsHardware();
+      if (cachedHw && cachedHw.model) cachedModel = cachedHw.model;
+    }
+  }
+
   // Hardware polling tick
   async function poll() {
-    let metrics = await queryNvidia();
-    if (!metrics) {
-      metrics = queryLinuxSysfs();
+    if (isPolling) return;
+    isPolling = true;
+    try {
+      if (!hardwareProbed) await probeHardware();
+      let metrics = null;
+      if (discreteSource === 'nvidia') metrics = await queryNvidia();
+      else if (discreteSource === 'sysfs') metrics = queryLinuxSysfs();
+      if (!metrics) metrics = getFallbackMetrics(cachedHw);
+      render(metrics);
+    } catch (err) {
+      render(getFallbackMetrics(null));
+    } finally {
+      isPolling = false;
     }
-    if (!metrics) {
-      let hw = null;
-      if (currentPlatform === 'win32' && !cachedModel) {
-        hw = await queryWindowsHardware();
-        if (hw && hw.model) cachedModel = hw.model;
-      }
-      metrics = getFallbackMetrics(hw);
-    }
-    render(metrics);
   }
 
   // Initialization lifecycle
