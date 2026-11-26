@@ -1,0 +1,252 @@
+body {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 220px;
+  box-sizing: border-box;
+  overflow: hidden;
+  gap: 6px;
+}
+
+.wg-header {
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.header-titles {
+  min-width: 0;
+  max-width: 140px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+}
+
+#refresh-btn.spin {
+  animation: ping-spin 0.8s linear infinite;
+}
+
+@keyframes ping-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Status Beacon */
+.wg-beacon {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: var(--wg-radius-pill, 9999px);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: 1px solid var(--wg-border);
+  background: var(--wg-surface);
+  color: var(--wg-muted);
+  font-family: var(--wg-mono);
+  transition: all 0.2s ease;
+}
+
+.wg-beacon .wg-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.wg-beacon.good {
+  color: var(--wg-good);
+  background: color-mix(in srgb, var(--wg-good) 12%, transparent);
+  border-color: color-mix(in srgb, var(--wg-good) 28%, transparent);
+  box-shadow: var(--wg-glow-good, 0 0 10px rgba(74, 222, 128, 0.4));
+}
+
+.wg-beacon.warn {
+  color: var(--wg-warn);
+  background: color-mix(in srgb, var(--wg-warn) 12%, transparent);
+  border-color: color-mix(in srgb, var(--wg-warn) 28%, transparent);
+  box-shadow: var(--wg-glow-warn, 0 0 10px rgba(251, 191, 36, 0.4));
+}
+
+.wg-beacon.bad {
+  color: var(--wg-bad);
+  background: color-mix(in srgb, var(--wg-bad) 12%, transparent);
+  border-color: color-mix(in srgb, var(--wg-bad) 28%, transparent);
+  box-shadow: var(--wg-glow-bad, 0 0 10px rgba(248, 113, 113, 0.4));
+}
+
+/* KPI Card */
+.wg-kpi-card {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: var(--wg-surface);
+  border: 1px solid var(--wg-border);
+  border-radius: var(--wg-radius-sm, 8px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.wg-kpi-val {
+  font-family: var(--wg-mono);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--wg-fg);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.wg-kpi-val .unit {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--wg-muted);
+}
+
+.wg-kpi-lbl {
+  font-size: 11px;
+  color: var(--wg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.wg-kpi-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--wg-mono);
+  padding: 2px 6px;
+  border-radius: var(--wg-radius-pill, 9999px);
+  border: 1px solid transparent;
+}
+
+.wg-kpi-badge.good {
+  color: var(--wg-good);
+  background: color-mix(in srgb, var(--wg-good) 14%, transparent);
+  border-color: color-mix(in srgb, var(--wg-good) 24%, transparent);
+}
+
+.wg-kpi-badge.warn {
+  color: var(--wg-warn);
+  background: color-mix(in srgb, var(--wg-warn) 14%, transparent);
+  border-color: color-mix(in srgb, var(--wg-warn) 24%, transparent);
+}
+
+.wg-kpi-badge.bad {
+  color: var(--wg-bad);
+  background: color-mix(in srgb, var(--wg-bad) 14%, transparent);
+  border-color: color-mix(in srgb, var(--wg-bad) 24%, transparent);
+}
+
+#jitter-stat {
+  font-family: var(--wg-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--wg-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Vector Sparkline */
+.wg-spark-box {
+  width: 100%;
+  height: 36px;
+  overflow: hidden;
+  border-radius: var(--wg-radius-sm, 6px);
+  background: var(--wg-surface);
+  border: 1px solid var(--wg-border);
+  position: relative;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.wg-spark-box svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.spark-line {
+  stroke: var(--wg-accent);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  transition: stroke 0.2s ease;
+}
+
+.spark-line.warn {
+  stroke: var(--wg-warn);
+}
+
+.spark-line.bad {
+  stroke: var(--wg-bad);
+}
+
+.spark-dot {
+  fill: var(--wg-accent);
+  stroke: var(--wg-bg);
+  stroke-width: 1.5;
+  transition: all 0.2s ease;
+}
+
+.spark-dot.warn {
+  fill: var(--wg-warn);
+}
+
+.spark-dot.bad {
+  fill: var(--wg-bad);
+}
+
+.spark-lost line {
+  stroke: var(--wg-bad);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+/* Percentile Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 2px;
+}
+
+/* Split Rows */
+.wg-split-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px;
+  min-width: 0;
+  border-bottom: 1px dotted var(--wg-border);
+}
+
+.wg-split-row .wg-lbl {
+  order: 1;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--wg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.wg-split-row .wg-val {
+  order: 2;
+  font-family: var(--wg-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--wg-fg);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
