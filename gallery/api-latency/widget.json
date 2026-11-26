@@ -1,0 +1,17 @@
+{
+  "id": "api-latency",
+  "name": "API Latency Monitor",
+  "version": "1.0.0",
+  "author": "Widgeter",
+  "description": "Real-time HTTP endpoint ping telemetry, jitter sparkline, and P99 latency percentiles.",
+  "category": "dev",
+  "tags": ["api", "latency", "dev", "network"],
+  "icon": "⚡",
+  "width": 300,
+  "height": 220,
+  "config": [
+    { "key": "target_url", "label": "Target URL", "type": "url", "default": "https://1.1.1.1" },
+    { "key": "ping_interval", "label": "Ping Interval (s)", "type": "number", "default": 5, "min": 2, "max": 60 },
+    { "key": "sla_warn_ms", "label": "Warning Threshold (ms)", "type": "number", "default": 200 }
+  ]
+}
